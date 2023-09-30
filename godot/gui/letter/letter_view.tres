@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://bpgsdw6mshxrl"]
 
-[ext_resource type="FontFile" uid="uid://dhooi7avsl81h" path="res://gui/letter/architex.ttf" id="1_4ir5w"]
+[ext_resource type="FontFile" uid="uid://dhooi7avsl81h" path="res://gui/architex.ttf" id="1_4ir5w"]
 
 [resource]
 default_font = ExtResource("1_4ir5w")

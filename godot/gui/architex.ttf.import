@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://dhooi7avsl81h"
-path="res://.godot/imported/architex.ttf-882e5a83f95e82a34c0fa3bd68ed93b1.fontdata"
+path="res://.godot/imported/architex.ttf-f7dbf281a6491123ba44007c91df25f2.fontdata"
 
 [deps]
 
-source_file="res://gui/letter/architex.ttf"
-dest_files=["res://.godot/imported/architex.ttf-882e5a83f95e82a34c0fa3bd68ed93b1.fontdata"]
+source_file="res://gui/architex.ttf"
+dest_files=["res://.godot/imported/architex.ttf-f7dbf281a6491123ba44007c91df25f2.fontdata"]
 
 [params]
 
