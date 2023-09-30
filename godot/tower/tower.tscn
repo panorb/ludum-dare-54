@@ -1,12 +1,64 @@
-[gd_scene load_steps=7 format=3 uid="uid://btl27tf157rs5"]
+[gd_scene load_steps=8 format=3 uid="uid://btl27tf157rs5"]
 
 [ext_resource type="Script" path="res://tower/tower.gd" id="1_lgnhb"]
 [ext_resource type="Script" path="res://tower/building_manager.gd" id="2_qc6mu"]
 [ext_resource type="Script" path="res://tower/building.gd" id="3_51hqr"]
+[ext_resource type="Texture2D" uid="uid://d2kkwimpiek7x" path="res://tower/tower.png" id="4_7ut6r"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_o1ukj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pgu1h"]
+texture = ExtResource("4_7ut6r")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+0:5/0 = 0
+2:5/0 = 0
+0:6/0 = 0
+2:6/0 = 0
+0:7/0 = 0
+2:7/0 = 0
+0:8/0 = 0
+2:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+0:12/0 = 0
+2:12/0 = 0
+0:13/0 = 0
+2:13/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_15ouh"]
 sources/0 = SubResource("TileSetAtlasSource_pgu1h")

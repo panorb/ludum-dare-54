@@ -4,15 +4,21 @@ extends Node
 var size : Vector2i
 var graphical_tiles : TileMap
 var tile_info = []
+var offset : Vector2i
 
 const SUPPORTS_BUILDING : int = 1
 const NEEDS_SUPPORT : int = 2
 const DOOR : int = 4
 const WINDOW : int = 8
+const SLOPE : int = 16
 
-func _init(size:Vector2i):
+func _init(size:Vector2i, tile_map:TileMap = null, offset = Vector2i(0, 0)):
 	self.size = size
-	self.graphical_tiles = TileMap.new()
+	self.offset = offset
+	if tile_map == null:
+		self.graphical_tiles = TileMap.new()
+	else:
+		self.graphical_tiles = tile_map
 	for y in range(size.y):
 		self.tile_info.append([])
 		for x in range(size.x):
@@ -24,15 +30,16 @@ func stamp(pos:Vector2i, building):
 		for x in range(building.size.x):
 			var pos_in = Vector2i(x, y)
 			var pos_tl = pos + pos_in
-			self.graphical_tiles.set_cell(0, pos_tl, building.graphical_tiles.get_cell_source_id(0, pos_in))
+			self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
 			self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
 
 func set_tile(pos:Vector2i, tile):
-	# self.graphical_tiles.set_cell(0, pos, tile.graphic_id)
+	# self.graphical_tiles.set_cell(0, pos, tile.graphic_source_id, tile.graphic_coords)
 	# self.set_supports(pos, tile.supports)
 	# self.set_needs_support(pos, tile.needs_support)
 	# self.set_window_property(pos, tile.window)
 	# self.set_door(pos, tile.door)
+	# self.set_slope(pos, tile.slope)
 	pass
 
 func _get_flag(pos:Vector2i, flag:int):
@@ -67,3 +74,9 @@ func get_door(pos:Vector2i):
 
 func set_door(pos:Vector2i, value:bool = true):
 	self._set_flag(pos, value, DOOR)
+
+func get_slope(pos:Vector2i):
+	return self._get_flag(pos, SLOPE)
+
+func set_slope(pos:Vector2i, value:bool = true):
+	self._set_flag(pos, value, SLOPE)
