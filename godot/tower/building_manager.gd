@@ -24,7 +24,7 @@ func _ready():
 #	b.set_needs_suppot(Vector2i(2, 4))
 #	b.set_needs_suppot(Vector2i(0, 4))
 #	var res = self.place_building(Vector2i(10, MAP_SIZE.y-7), b)
-	print(res)
+#	print(res)
 
 func init_foundation(width):
 	var foundation = TBuilding.new(Vector2i(FOUNDATION_WIDTH, 1))
