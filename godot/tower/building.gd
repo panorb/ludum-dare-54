@@ -30,8 +30,9 @@ func stamp(pos:Vector2i, building):
 		for x in range(building.size.x):
 			var pos_in = Vector2i(x, y)
 			var pos_tl = pos + pos_in
-			self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
-			self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
+			if self.graphical_tiles.get_cell_source_id(0, pos_tl-offset) == -1:
+				self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
+				self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
 
 static func from_building(building):
 #	var b = TBuilding.new(Vector2i(3, 5))

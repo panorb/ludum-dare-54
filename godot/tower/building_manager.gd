@@ -14,21 +14,23 @@ func _ready():
 	self.map = TBuilding.new(MAP_SIZE, get_node("TemplateMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y))
 	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
 	self.init_foundation(FOUNDATION_WIDTH)
-	var b = Building.new()
-	b.generate_building()
-	print("here")
-	print(b)
-	var tb = TBuilding.from_building(b)
-#	var b = Building.new(Vector2i(3, 5))
-#	b.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(0, 1), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(1, 0), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(2, 0), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(2, 4), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(0, 4), 0, Vector2i(0, 0))
-#	b.set_needs_suppot(Vector2i(2, 4))
-#	b.set_needs_suppot(Vector2i(0, 4))
-	var res = self.place_building(Vector2i(10, MAP_SIZE.y-11), tb)
+#	var b = Building.new()
+#	b.generate_building()
+#	print("here")
+#	print(b)
+#	var tb = TBuilding.from_building(b)
+	var b = TBuilding.new(Vector2i(3, 5))
+	b.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
+	b.graphical_tiles.set_cell(0, Vector2i(0, 1), 0, Vector2i(0, 0))
+	b.graphical_tiles.set_cell(0, Vector2i(1, 0), 0, Vector2i(0, 0))
+	b.graphical_tiles.set_cell(0, Vector2i(2, 0), 0, Vector2i(0, 0))
+	b.graphical_tiles.set_cell(0, Vector2i(2, 4), 0, Vector2i(0, 0))
+	b.graphical_tiles.set_cell(0, Vector2i(0, 4), 0, Vector2i(0, 0))
+	var res = self.place_building(Vector2i(10, MAP_SIZE.y-9), b)
+	b.set_needs_suppot(Vector2i(2, 4))
+	b.set_needs_suppot(Vector2i(0, 4))
+	print(res)
+	res = self.place_building(Vector2i(10, MAP_SIZE.y-6), b)
 	print(res)
 
 func init_foundation(width):
@@ -54,15 +56,23 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 	print("testing2")
 	for y in range(building.size.y):
 		for x in range(building.size.x):
-			var here = Vector2i(x, y)
+			var here_in = Vector2i(x, y)
+			var here_tl = position + here_in - self.map.offset
+#			print(here_tl)
+#			print(self.map.graphical_tiles.get_cell_source_id(0, here_tl))
+			#print(building.graphical_tiles.get_cell_source_id(0, here_in))
+#			print()
+			if self.map.graphical_tiles.get_cell_source_id(0, here_tl) != -1 and building.graphical_tiles.get_cell_source_id(0, here_in) != -1:
+				print("overlap")
+				return false
 #			print(here)
 #			if x > 0 and x < MAP_SIZE.x-1:
 #				if building.get_window(here) and self.map.graphical_tiles.get_cell_source_id(0, position+here) != -1:
-			if building.get_needs_suppot(here):
+			if building.get_needs_suppot(here_in):
 				if x < support_left.x:
-					support_left = here
+					support_left = here_in
 				if x > support_right.x:
-					support_right = here
+					support_right = here_in
 	if support_left.x > size.x or support_right.x < 0:
 		# building needs no support
 		return true
