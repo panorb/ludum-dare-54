@@ -13,11 +13,29 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_g6uru")
 
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "X"
+
 [node name="MenuVBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
-offset_left = 137.0
-offset_right = 230.0
-offset_bottom = 151.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -75.5
+offset_right = 48.0
+offset_bottom = 75.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="MenuVBoxContainer"]
 layout_mode = 2

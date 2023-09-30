@@ -15,5 +15,6 @@ script = ExtResource("1_xbc8j")
 
 [node name="game" parent="." instance=ExtResource("2_ln6u2")]
 
-[node name="MainMenu" parent="." instance=ExtResource("3_2l1vb")]
-layout_mode = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("3_2l1vb")]
