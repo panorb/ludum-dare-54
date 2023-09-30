@@ -24,7 +24,6 @@ func _process(delta):
 	if Input.is_action_just_released("primary_action"):
 		if current_state == MOUSE_STATE.CLICKING:
 			primary_interaction_just_pressed_sig.emit()
-			print_debug("clicked")
 		current_state = MOUSE_STATE.INACTIVE
 		starting_position = null
 		primary_pressed = false
@@ -48,7 +47,6 @@ func _input(event):
 			if starting_position != null: 
 				if starting_position.distance_to(event.position) > 5:
 					current_state = MOUSE_STATE.DRAGGING
-					print_debug("dragging")
 			else:
 				starting_position = event.position
 	if event is InputEventMouseMotion:
