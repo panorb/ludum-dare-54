@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://btl27tf157rs5"]
+[gd_scene load_steps=9 format=3 uid="uid://btl27tf157rs5"]
 
 [ext_resource type="Script" path="res://tower/tower.gd" id="1_lgnhb"]
 [ext_resource type="Script" path="res://tower/building_manager.gd" id="2_qc6mu"]
 [ext_resource type="Script" path="res://tower/building.gd" id="3_51hqr"]
 [ext_resource type="Texture2D" uid="uid://d2kkwimpiek7x" path="res://tower/tower.png" id="4_7ut6r"]
+[ext_resource type="Script" path="res://tower/InteractionManager.gd" id="5_imlof"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_o1ukj"]
 
@@ -80,3 +81,7 @@ script = ExtResource("3_51hqr")
 [node name="TemplateMap" type="TileMap" parent="BuildingManager"]
 tile_set = SubResource("TileSet_15ouh")
 format = 2
+
+[node name="InteractionManager" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
+script = ExtResource("5_imlof")
+tilemap = NodePath("../BuildingManager/TemplateMap")
