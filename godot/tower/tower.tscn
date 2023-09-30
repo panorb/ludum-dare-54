@@ -8,6 +8,6 @@
 script = ExtResource("1_lgnhb")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-position = Vector2(9.09495e-13, -90)
-scale = Vector2(74.5, 179.5)
+position = Vector2(1.29247e-26, -89.875)
+scale = Vector2(74.5, 179.75)
 mesh = SubResource("BoxMesh_o1ukj")
