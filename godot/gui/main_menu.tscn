@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dqex7rpn30vkp"]
 
 [ext_resource type="Script" path="res://gui/main_menu.gd" id="1_g6uru"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ix1ce"]
+[ext_resource type="Texture2D" uid="uid://lwfjxln88rc7" path="res://gui/volume.png" id="2_5tiu0"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -54,8 +53,8 @@ layout_mode = 2
 
 [node name="SoundImage" type="TextureRect" parent="MenuVBoxContainer/SoundHBoxContainer"]
 layout_mode = 2
-texture = SubResource("NoiseTexture2D_ix1ce")
-expand_mode = 2
+texture = ExtResource("2_5tiu0")
+expand_mode = 3
 
 [node name="SoundSlider" type="HSlider" parent="MenuVBoxContainer/SoundHBoxContainer"]
 unique_name_in_owner = true
