@@ -5,21 +5,13 @@ extends Node2D
 @export var camera_sensitivity: float = 1.0
 @export var drag_start_time: int = 150
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-
 # for delayed drag
-var starting_time = 0
-var drag_enabled = false
-
-func _process(delta):
+var starting_time : int = 0
+var drag_enabled := false
 
 
-	var movement = 0;
+func _process(delta: float) -> void:
+	var movement : int = 0
 
 	if Input.is_action_pressed("camera_up"):
 		movement -= 1
@@ -42,10 +34,8 @@ func _process(delta):
 		print_debug("drag disabled")
 
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if drag_enabled:
 			camera.position.y -= event.relative.y * 3
 			camera.position.y = min(0, camera.position.y)
-
-
