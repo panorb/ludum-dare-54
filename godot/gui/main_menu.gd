@@ -8,6 +8,8 @@ extends Node
 
 @onready var master_bus_index : int = AudioServer.get_bus_index('Master')
 
+@export var start_volume : float = 70
+
 signal start_game
 signal show_credits
 
@@ -16,7 +18,7 @@ func _ready():
 	quite_button.pressed.connect(self._quit_button_pressed)
 	sound_slider.value_changed.connect(self._sound_value_changed)
 	
-	sound_percent_label.text = str(sound_slider.value) +"%"
+	sound_slider.value = self.start_volume
 
 func _start_button_pressed():
 	self.start_game.emit()
