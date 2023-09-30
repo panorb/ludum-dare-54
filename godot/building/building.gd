@@ -29,6 +29,9 @@ func generate_building():
 	
 	var max_width = max(lower_width, upper_width)
 	
+	size.y = floor_number*floor_height
+	size.x = max(upper_width, lower_width)
+	
 	var offset = randomize_offset(lower_width, upper_width, is_border, is_left_border_if_border)
 	
 	var shrink_size = 0
@@ -48,6 +51,7 @@ func generate_building():
 	for i in floor_height * (floor_number - upper_height):
 		for j in lower_width:
 			grid[i+floor_height*upper_height][offset+j].set_brick()
+	
 	
 	if is_border:
 		if shrink_size > 0:
@@ -91,8 +95,9 @@ func generate_building():
 			if (not grid[floor_height*upper_height-1][j].is_empty) and grid[floor_height*upper_height][j].is_empty:
 				grid[floor_height*upper_height-1][j].set_bottom()
 	
-	self.size.y = floor_number*floor_height
-	self.size.x = max(upper_width, lower_width)
+	
+	
+	update_edges()
 
 func randomize_floor_number():
 	var random = randf()
@@ -146,3 +151,17 @@ func randomize_shrink_size(lower_width, upper_width):
 	shrink_size = min(shrink_size, lower_width - min_width, upper_width - min_width)
 	
 	return shrink_size
+
+func update_edges():
+	for i in size.y:
+		for j in size.x:
+			grid[i][j].edge = 0
+			if not grid[i][j].is_empty:
+				if i==0 or (i!=0 and grid[i-1][j].is_empty):
+					grid[i][j].edge += 1 # upper edge
+				if i==size.y-1 or (i!=size.y-1 and grid[i+1][j].is_empty):
+					grid[i][j].edge += 2 # lower edge
+				if j==0 or (j!=0 and grid[i][j-1].is_empty):
+					grid[i][j].edge += 3 # left edge
+				if j==size.x-1 or (j!=size.x-1 and grid[i][j+1].is_empty):
+					grid[i][j].edge += 6 # right edge

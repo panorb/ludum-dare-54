@@ -62,7 +62,13 @@ static func from_building(building):
 						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(5, 3))
 					elif building.grid[y][x].slope == 4:
 						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 3))
-			
+#			if building.grid[y][x].edge:
+#				if building.grid[y][x].edge == 3:
+#					print("x")
+#					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 1))
+#				if building.grid[y][x].edge == 6:
+#					print("x")
+#					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(2, 1))
 			#tbuilding.set_needs_suppot(Vector2i(x, y))
 	return tbuilding
 
