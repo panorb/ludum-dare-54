@@ -21,8 +21,10 @@ func _ready():
 #	b.graphical_tiles.set_cell(0, Vector2i(2, 0), 0, Vector2i(0, 0))
 #	b.graphical_tiles.set_cell(0, Vector2i(2, 4), 0, Vector2i(0, 0))
 #	b.graphical_tiles.set_cell(0, Vector2i(0, 4), 0, Vector2i(0, 0))
-#	var res = self.place_building(Vector2i(10, MAP_SIZE.y-6), b)
-#	print(res)
+#	b.set_needs_suppot(Vector2i(2, 4))
+#	b.set_needs_suppot(Vector2i(0, 4))
+#	var res = self.place_building(Vector2i(10, MAP_SIZE.y-7), b)
+	print(res)
 
 func init_foundation(width):
 	var foundation = Building.new(Vector2i(FOUNDATION_WIDTH, 1))
@@ -37,7 +39,31 @@ func init_foundation(width):
 # test if building could be placed
 func test_placement(position:Vector2i, building:Building) -> bool:
 	var size = building.size
-	if position.x < 0 or position.x + size.x > MAP_SIZE.x:
+	if position.x < 0 or position.x + size.x > MAP_SIZE.x or position.y + size.y > MAP_SIZE.y-1:
+		print("size issue")
+		return false
+	print("testing")
+	
+	var support_left = Vector2i(size.x+1, -1)
+	var support_right = Vector2i(-1, -1)
+	print("testing2")
+	for y in range(building.size.y):
+		for x in range(building.size.x):
+			var here = Vector2i(x, y)
+#			print(here)
+#			if x > 0 and x < MAP_SIZE.x-1:
+#				if building.get_window(here) and self.map.graphical_tiles.get_cell_source_id(0, position+here) != -1:
+			if building.get_needs_suppot(here):
+				if x < support_left.x:
+					support_left = here
+				if x > support_right.x:
+					support_right = here
+	if support_left.x > size.x or support_right.x < 0:
+		# building needs no support
+		return true
+	if not self.map.get_supports(position+support_left+Vector2i(0, 1)) or not self.map.get_supports(position+support_right+Vector2i(0, 1)):
+		# not enough support
+		print("not enough support")
 		return false
 	return true
 
