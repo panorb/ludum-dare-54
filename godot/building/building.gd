@@ -5,13 +5,11 @@ class_name Building extends Node
 @export var min_width : int = 2
 @export var max_width : int = 10
 @export var floor_width_distribution = [0, 0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 0.96, 1]
-@export var floor_number_distribution = [0, 0.3, 0.8, 1]
-@export var border_probability = 0.2
+@export var floor_number_distribution = [0, 0.3, 0.4, 1]
+@export var border_probability = 0.3
 @export var left_border_probability = 0.5
 @export var adjusted_expanding_distribution = [0.02, 0.22, 0.68, 0.98, 1]
-@export var no_tshape_probability = 0.4
-
-var building_tile = load("res://game/building/building_tile.gd")
+@export var no_tshape_probability = 0.2
 
 var grid = []
 var size = Vector2i.ZERO
@@ -38,8 +36,7 @@ func generate_building():
 	for i in floor_height * floor_number:
 		grid.append([])
 		for j in max(lower_size, upper_size):
-			var tile_instance = building_tile.instantiate()
-			add_child(tile_instance)
+			var tile_instance = Building_Tile.new()
 			grid[i].append(tile_instance)
 
 	for i in floor_height * upper_height:
@@ -55,48 +52,44 @@ func generate_building():
 			if is_left_border_if_border:
 				for i in expand_size:
 					for j in expand_size - i:
-						grid[i][-offset+j].unset_brick()
+						grid[i][j].unset_brick()
 						if i+j == expand_size - 1:
-							grid[i][-offset+j].set_slope(1)
+							grid[i][j].set_slope(1)
 			else:
 				for i in expand_size:
 					for j in expand_size - i:
-						grid[i][-offset+upper_height-j].unset_brick()
+						grid[i][upper_size-1-j].unset_brick()
 						if i+j == expand_size - 1:
-							grid[i][-offset+upper_height-j].set_slope(2)
+							grid[i][upper_size-1-j].set_slope(2)
 		if expand_size < 0:
 			if is_left_border_if_border:
 				for i in expand_size:
 					for j in expand_size - i:
-						grid[floor_height-1-i][-offset+j].unset_brick()
+						grid[floor_height-1-i][j].unset_brick()
 						if i+j == expand_size - 1:
-							grid[floor_height-1-i][-offset+j].set_slope(3)
+							grid[floor_height-1-i][j].set_slope(3)
 			else:
 				for i in expand_size:
 					for j in expand_size - i:
-						grid[floor_height-1-i][-offset+upper_height-j].unset_brick()
+						grid[floor_height-1-i][upper_size-1-j].unset_brick()
 						if i+j == expand_size - 1:
-							grid[floor_height-1-i][-offset+upper_height-j].set_slope(4)
-	
+							grid[floor_height-1-i][upper_size-1-j].set_slope(4)
+
 	for j in max(lower_size, upper_size):
 		if !grid[0][j].is_empty:
 			grid[0][j].set_top
-	
+
 	for j in max(lower_size, upper_size):
 		if !grid[floor_height-1][j].is_empty:
 			grid[floor_height-1][j].set_bottom
 	
-	print(floor_number)
-	print(floor_height)
-	print(upper_size)
-	print(lower_size)
 	self.size.y = floor_number*floor_height
 	self.size.x = max(upper_size, lower_size)
 
 func randomize_floor_number():
 	var random = randf()
 	var floor_number = 0
-	while floor_number_distribution[floor_number] > random:
+	while floor_number_distribution[floor_number] < random:
 		floor_number += 1
 	return floor_number
 
@@ -115,7 +108,7 @@ func randomize_left_border():
 func randomize_size():
 	var random = randf()
 	var floor_width = 0
-	while floor_width_distribution[floor_width] > random:
+	while floor_width_distribution[floor_width] < random:
 		floor_width += 1
 	return floor_width
 
@@ -129,15 +122,15 @@ func randomize_offset(lower_size, upper_size, is_border, is_left_border_if_borde
 		if randf() < 0.5:
 			return max(upper_size-lower_size, 0)
 		else:
-			return min(lower_size-upper_size, 0)
+			return min(upper_size-lower_size, 0)
 	var max_offset = max(upper_size-lower_size, 0)
-	var min_offset = min(lower_size-upper_size, 0)
+	var min_offset = min(upper_size-lower_size, 0)
 	return randi_range(min_offset, max_offset)
 
 func randomize_expand_size(lower_size, upper_size):
 	var random = randf()
 	var adjusted_expand_size = 0
-	while adjusted_expanding_distribution[adjusted_expand_size] > random:
+	while adjusted_expanding_distribution[adjusted_expand_size] < random:
 		adjusted_expand_size += 1
 	var expand_size = adjusted_expand_size - 2
 	
