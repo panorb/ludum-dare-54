@@ -49,7 +49,18 @@ static func from_building(building):
 	for y in range(tbuilding.size.y):
 		for x in range(tbuilding.size.x):
 			if not building.grid[y][x].is_empty:
-				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
+				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 1))
+			else:
+				if building.grid[y][x].slope:
+					if building.grid[y][x].slope == 1:
+						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(5, 2))
+					elif building.grid[y][x].slope == 2:
+						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 2))
+					if building.grid[y][x].slope == 3:
+						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(5, 3))
+					elif building.grid[y][x].slope == 4:
+						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 3))
+			
 			#tbuilding.set_needs_suppot(Vector2i(x, y))
 	return tbuilding
 
