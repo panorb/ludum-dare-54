@@ -76,12 +76,12 @@ func generate_building():
 							grid[floor_height-1-i][upper_size-1-j].set_slope(4)
 
 	for j in max(lower_size, upper_size):
-		if !grid[0][j].is_empty:
-			grid[0][j].set_top
+		if not grid[0][j].is_empty:
+			grid[0][j].set_top()
 
 	for j in max(lower_size, upper_size):
-		if !grid[floor_height-1][j].is_empty:
-			grid[floor_height-1][j].set_bottom
+		if not grid[floor_number*floor_height-1][j].is_empty:
+			grid[floor_number*floor_height-1][j].set_bottom()
 	
 	self.size.y = floor_number*floor_height
 	self.size.x = max(upper_size, lower_size)

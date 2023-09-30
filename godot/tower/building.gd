@@ -50,6 +50,8 @@ static func from_building(building):
 		for x in range(tbuilding.size.x):
 			if not building.grid[y][x].is_empty:
 				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 1))
+				if building.grid[y][x].is_bottom:
+					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 0))
 			else:
 				if building.grid[y][x].slope:
 					if building.grid[y][x].slope == 1:
