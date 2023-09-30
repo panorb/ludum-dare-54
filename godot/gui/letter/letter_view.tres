@@ -1,27 +1,10 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://bpgsdw6mshxrl"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bpgsdw6mshxrl"]
 
-[ext_resource type="FontFile" uid="uid://dhooi7avsl81h" path="res://gui/letter/architex.ttf" id="1_4627p"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtlii"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.811765, 0.811765, 0.811765, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n56w0"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-expand_margin_bottom = 2.0
+[ext_resource type="FontFile" uid="uid://dhooi7avsl81h" path="res://gui/letter/architex.ttf" id="1_4ir5w"]
 
 [resource]
-default_font = ExtResource("1_4627p")
+default_font = ExtResource("1_4ir5w")
 default_font_size = 32
-AcceptDialog/styles/panel = SubResource("StyleBoxFlat_jtlii")
-Button/styles/normal = SubResource("StyleBoxFlat_n56w0")
 Label/colors/font_color = Color(0.0219187, 0, 0.80967, 1)
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10

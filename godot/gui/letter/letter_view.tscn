@@ -64,15 +64,4 @@ offset_bottom = 675.0
 text = "OK
 "
 
-[node name="AcceptDialog" type="AcceptDialog" parent="."]
-initial_position = 2
-size = Vector2i(750, 559)
-borderless = true
-theme = ExtResource("2_4qyn8")
-dialog_text = "Verdammt! Alle freien Grundstücke sind an unsere Freu… freundliche Händler, die in einer ehrlichen Auktion gewonnen haben, verschen… verkauft worden. Dabei braucht unsere wachsende Bevölkerung immer mehr Wohnungen. Sei doch bitte so nett und hilf uns… unserer schönen Stadt aus dieser unangenehmen Situation raus. Wir haben noch ein freies Grundstück übrig. Bau irgendeinen Wolkenkratzer, um dieses Problemchen zu lösen!
-
-Freundliche Grüße
-Stadtverwaltung"
-dialog_autowrap = true
-
 [connection signal="pressed" from="Close" to="." method="_on_close"]

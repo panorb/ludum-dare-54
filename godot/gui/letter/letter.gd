@@ -8,7 +8,6 @@ var _texts = {}
 func _ready() -> void:
 	var texts_str = FileAccess.get_file_as_string("res://gui/letter/letter_texts.json")
 	_texts = JSON.parse_string(texts_str)
-	#show_letter("start")
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_key_pressed(KEY_SPACE):
