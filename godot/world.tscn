@@ -12,4 +12,4 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xbc8j")
 
-[node name="game" parent="." instance=ExtResource("2_ln6u2")]
+[node name="Game" parent="." instance=ExtResource("2_ln6u2")]
