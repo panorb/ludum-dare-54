@@ -65,23 +65,29 @@ func generate_building():
 			if is_left_border_if_border:
 				for i in expand_size:
 					for j in expand_size - i:
-						grid[floor_height-1-i][j].unset_brick()
+						grid[floor_height*floor_number-1-i][j].unset_brick()
 						if i+j == expand_size - 1:
-							grid[floor_height-1-i][j].set_slope(3)
+							grid[floor_height*floor_number-1-i][j].set_slope(3)
 			else:
 				for i in expand_size:
 					for j in expand_size - i:
-						grid[floor_height-1-i][upper_size-1-j].unset_brick()
+						grid[floor_height*floor_number-1-i][upper_size-1-j].unset_brick()
 						if i+j == expand_size - 1:
-							grid[floor_height-1-i][upper_size-1-j].set_slope(4)
+							grid[floor_height*floor_number-1-i][upper_size-1-j].set_slope(4)
 
 	for j in max(lower_size, upper_size):
 		if not grid[0][j].is_empty:
 			grid[0][j].set_top()
+		if floor_number > 1:
+			if (not grid[floor_height*upper_height][j].is_empty) and grid[floor_height*upper_height-1][j].is_empty:
+				grid[floor_height*upper_height][j].set_top()
 
 	for j in max(lower_size, upper_size):
 		if not grid[floor_number*floor_height-1][j].is_empty:
 			grid[floor_number*floor_height-1][j].set_bottom()
+		if floor_number > 1:
+			if (not grid[floor_height*upper_height-1][j].is_empty) and grid[floor_height*upper_height][j].is_empty:
+				grid[floor_height*upper_height-1][j].set_bottom()
 	
 	self.size.y = floor_number*floor_height
 	self.size.x = max(upper_size, lower_size)
