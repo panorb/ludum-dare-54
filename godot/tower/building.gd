@@ -1,4 +1,4 @@
-class_name Building
+class_name TBuilding
 extends Node
 
 var size : Vector2i

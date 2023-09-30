@@ -7,11 +7,11 @@ const MAP_SIZE : Vector2i = Vector2i(26, 10000)
 const FOUNDATION_WIDTH : int = 8
 
 #@onready var tilemap : TileMap = get_node("./MainBuilding")
-var map : Building
+var map : TBuilding
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.map = Building.new(MAP_SIZE, get_node("TemplateMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y))
+	self.map = TBuilding.new(MAP_SIZE, get_node("TemplateMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y))
 	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
 	self.init_foundation(FOUNDATION_WIDTH)
 #	var b = Building.new(Vector2i(3, 5))
@@ -27,7 +27,7 @@ func _ready():
 	print(res)
 
 func init_foundation(width):
-	var foundation = Building.new(Vector2i(FOUNDATION_WIDTH, 1))
+	var foundation = TBuilding.new(Vector2i(FOUNDATION_WIDTH, 1))
 	for i in range(FOUNDATION_WIDTH):
 		foundation.set_supports(Vector2i(i, 0), true)
 		foundation.graphical_tiles.set_cell(0, Vector2i(i, 0), 0, Vector2i(0, 0))
@@ -37,7 +37,7 @@ func init_foundation(width):
 	self.map.stamp(Vector2i(offset, MAP_SIZE.y-1), foundation)
 
 # test if building could be placed
-func test_placement(position:Vector2i, building:Building) -> bool:
+func test_placement(position:Vector2i, building:TBuilding) -> bool:
 	var size = building.size
 	if position.x < 0 or position.x + size.x > MAP_SIZE.x or position.y + size.y > MAP_SIZE.y-1:
 		print("size issue")
@@ -68,7 +68,7 @@ func test_placement(position:Vector2i, building:Building) -> bool:
 	return true
 
 # place building
-func place_building(position:Vector2i, building:Building) -> bool:
+func place_building(position:Vector2i, building:TBuilding) -> bool:
 	if not test_placement(position, building):
 		return false
 	
