@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqex7rpn30vkp"]
+[gd_scene load_steps=3 format=3 uid="uid://dqex7rpn30vkp"]
 
-[ext_resource type="Script" path="res://gui/QuitButton.gd" id="1_ll2hd"]
-[ext_resource type="Script" path="res://gui/SoundSlider.gd" id="1_njrhy"]
+[ext_resource type="Script" path="res://gui/main_menu.gd" id="1_g6uru"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ix1ce"]
 
@@ -12,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_g6uru")
 
 [node name="MenuVBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -24,6 +24,7 @@ layout_mode = 2
 text = "Game Name"
 
 [node name="StartButton" type="Button" parent="MenuVBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 10)
 layout_mode = 2
 text = "Start"
@@ -37,18 +38,20 @@ texture = SubResource("NoiseTexture2D_ix1ce")
 expand_mode = 2
 
 [node name="SoundSlider" type="HSlider" parent="MenuVBoxContainer/SoundHBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 10.0
-script = ExtResource("1_njrhy")
+step = 1.105
 
 [node name="CreditsButton" type="Button" parent="MenuVBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 10)
 layout_mode = 2
 text = "Credits"
 
 [node name="QuitButton" type="Button" parent="MenuVBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 10)
 layout_mode = 2
 text = "Quit"
-script = ExtResource("1_ll2hd")
