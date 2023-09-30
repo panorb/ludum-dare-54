@@ -2,6 +2,7 @@ extends Node
 
 @onready var start_button : BaseButton = %StartButton
 @onready var sound_slider : HSlider = %SoundSlider
+@onready var sound_percent_label : Label = %SoundPercentLabel
 @onready var credits_button : BaseButton = %CreditsButton
 @onready var quite_button : BaseButton = %QuitButton 
 
@@ -14,6 +15,8 @@ func _ready():
 	start_button.pressed.connect(self._start_button_pressed)
 	quite_button.pressed.connect(self._quit_button_pressed)
 	sound_slider.value_changed.connect(self._sound_value_changed)
+	
+	sound_percent_label.text = str(sound_slider.value) +"%"
 
 func _start_button_pressed():
 	self.start_game.emit()
@@ -26,3 +29,4 @@ func _quit_button_pressed():
 
 func _sound_value_changed(volume_value: float):
 	AudioServer.set_bus_volume_db (master_bus_index, volume_value)
+	sound_percent_label.text = str(volume_value) +"%"
