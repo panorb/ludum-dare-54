@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmoctt7p732ox"]
+
+[ext_resource type="Script" path="res://game/game.gd" id="1_6gq4m"]
+[ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
+
+[node name="game" type="Node2D" node_paths=PackedStringArray("camera")]
+script = ExtResource("1_6gq4m")
+camera = NodePath("Camera2D")
+camera_sensitivity = 3.0
+
+[node name="tower" parent="." instance=ExtResource("2_mt16c")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
