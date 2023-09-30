@@ -45,13 +45,10 @@ static func from_building(building):
 #	b.set_needs_suppot(Vector2i(2, 4))
 #	b.set_needs_suppot(Vector2i(0, 4))
 #	return b
-	print(building)
 	var tbuilding = TBuilding.new(building.size)
-	print(building.size)
 	for y in range(tbuilding.size.y):
 		for x in range(tbuilding.size.x):
-			if not building.grid[y][x].is_empty():
-				print("not empty")
+			if not building.grid[y][x].is_empty:
 				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
 			#tbuilding.set_needs_suppot(Vector2i(x, y))
 	return tbuilding
