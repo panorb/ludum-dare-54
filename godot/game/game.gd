@@ -45,7 +45,7 @@ func _process(delta):
 func _input(event):
 	if event is InputEventMouseMotion:
 		if drag_enabled:
-			camera.position.y -= event.relative.y
+			camera.position.y -= event.relative.y * 3
 			camera.position.y = min(0, camera.position.y)
 
 
