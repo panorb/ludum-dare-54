@@ -33,6 +33,28 @@ func stamp(pos:Vector2i, building):
 			self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
 			self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
 
+static func from_building(building):
+#	var b = TBuilding.new(Vector2i(3, 5))
+#	b.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
+#	b.graphical_tiles.set_cell(0, Vector2i(0, 1), 0, Vector2i(0, 0))
+#	b.graphical_tiles.set_cell(0, Vector2i(1, 0), 0, Vector2i(0, 0))
+#	b.graphical_tiles.set_cell(0, Vector2i(2, 0), 0, Vector2i(0, 0))
+#	b.graphical_tiles.set_cell(0, Vector2i(2, 4), 0, Vector2i(0, 0))
+#	b.graphical_tiles.set_cell(0, Vector2i(0, 4), 0, Vector2i(0, 0))
+#	b.set_needs_suppot(Vector2i(2, 4))
+#	b.set_needs_suppot(Vector2i(0, 4))
+#	return b
+	print(building)
+	var tbuilding = TBuilding.new(building.size)
+	print(building.size)
+	for y in range(tbuilding.size.y):
+		for x in range(tbuilding.size.x):
+			if not building.grid[y][x].is_empty():
+				print("not empty")
+				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
+			#tbuilding.set_needs_suppot(Vector2i(x, y))
+	return tbuilding
+
 func set_tile(pos:Vector2i, tile):
 	# self.graphical_tiles.set_cell(0, pos, tile.graphic_source_id, tile.graphic_coords)
 	# self.set_supports(pos, tile.supports)

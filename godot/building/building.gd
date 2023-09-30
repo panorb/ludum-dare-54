@@ -14,6 +14,7 @@ class_name Building extends Node
 var building_tile = load("res://game/building/building_tile.gd")
 
 var grid = []
+var size = Vector2i.ZERO
 
 func generate_building():
 	var floor_number = randomize_floor_number()
@@ -85,6 +86,12 @@ func generate_building():
 		if !grid[floor_height-1][j].is_empty:
 			grid[floor_height-1][j].set_bottom
 	
+	print(floor_number)
+	print(floor_height)
+	print(upper_size)
+	print(lower_size)
+	self.size.y = floor_number*floor_height
+	self.size.x = max(upper_size, lower_size)
 
 func randomize_floor_number():
 	var random = randf()

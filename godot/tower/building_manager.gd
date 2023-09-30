@@ -14,6 +14,11 @@ func _ready():
 	self.map = TBuilding.new(MAP_SIZE, get_node("TemplateMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y))
 	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
 	self.init_foundation(FOUNDATION_WIDTH)
+	var b = Building.new()
+	b.generate_building()
+	print("here")
+	print(b)
+	var tb = TBuilding.from_building(b)
 #	var b = Building.new(Vector2i(3, 5))
 #	b.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
 #	b.graphical_tiles.set_cell(0, Vector2i(0, 1), 0, Vector2i(0, 0))
@@ -23,8 +28,8 @@ func _ready():
 #	b.graphical_tiles.set_cell(0, Vector2i(0, 4), 0, Vector2i(0, 0))
 #	b.set_needs_suppot(Vector2i(2, 4))
 #	b.set_needs_suppot(Vector2i(0, 4))
-#	var res = self.place_building(Vector2i(10, MAP_SIZE.y-7), b)
-#	print(res)
+	var res = self.place_building(Vector2i(10, MAP_SIZE.y-11), tb)
+	print(res)
 
 func init_foundation(width):
 	var foundation = TBuilding.new(Vector2i(FOUNDATION_WIDTH, 1))
