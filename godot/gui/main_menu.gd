@@ -41,5 +41,5 @@ func _on_QuitButton_pressed() -> void:
 
 
 func _on_SoundSlider_value_changed(volume_value: float) -> void:
-	AudioServer.set_bus_volume_db (master_bus_index, volume_value)
+	AudioServer.set_bus_volume_db (master_bus_index, linear_to_db(volume_value / 100))
 	sound_percent_label.text = str(volume_value) +"%"
