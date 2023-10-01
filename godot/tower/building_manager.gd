@@ -25,7 +25,7 @@ func _ready() -> void:
 #	var res = self.place_building(Vector2i(13-(tb.size.x/2), MAP_SIZE.y-(tb.size.y+1)), tb)
 #	print(get_possible_placement(tb, true))
 	var failed_count:int = 0
-	for i in range(30):
+	for i in range(100):
 		b = Building.new()
 		b.generate_building()
 		var tb = TBuilding.from_building(b)
