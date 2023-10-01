@@ -1,6 +1,8 @@
 shader_type canvas_item;
 
 uniform vec2 u_resolution;
+uniform float u_progress;
+uniform float u_startAnim;
 uniform float u_perspective; // 0 to 1, creates fancy perspective effect
 uniform sampler2D u_tower; // tower texture
 
@@ -84,10 +86,11 @@ vec2 viewIndepUV(vec2 uv) {
 float distFunc(vec3 ray, inout vec3 gpos) {
 	//TODO remove
 	//vec2 u_m = vec2(.01);//u_mouse / u_resolution.xy;
-	vec2 u_m = vec2(mod(TIME*.01,1.));
-	u_m.y *= 25.;
+	vec2 u_m = vec2(u_progress);
+	u_m.y *= 23.;
 	vec3 u_scalings= vec3(1.*u_m.y,1.*u_m.y,10.);
 	//u_scalings = vec3(1.,1.,10.);
+	float towerScale = u_startAnim;
 	
 	float shape = infinity;
 
@@ -98,22 +101,25 @@ float distFunc(vec3 ray, inout vec3 gpos) {
 		lray.x = -1.+mod(lray.x,2.);
 		lray.x *= 2.;
 		
+		float rotAnim = 0.;
 		if (u_m.y < 5.) {
 			float zd = .1;
 			lray.z *= zd;
 			lray.z = -2.+mod(lray.z,2.);
-			lray.z /= zd;		
+			lray.z /= zd;
+		} else {
+			rotAnim = -TIME*(u_m.y-5.)*.01;
 		}
 		
 		lray.y /= u_scalings.y+1.;
 		lray.y -= u_scalings.y*.2;
-		float rotAnim = 0.;//u_time*1.1*(u_m.y*.01); //TODO height
 		vec3 pos = (rotationY(1.+rotAnim)*vec4(lray,1.0)).xyz;
 		
 		// fancy twirl
 		pos = (rotationY(lray.y*u_scalings.y*.3)*vec4(pos,1.0)).xyz;
 		
-		shape = min(shape, dstCube3(pos, vec3(1.0, 3.0, 1.0)*.5));
+		pos.y += .5*3.*(1.-towerScale);
+		shape = min(shape, dstCube3(pos, vec3(1.0, 3.0*towerScale, 1.0)*.5));
 		pos.y /= u_scalings.y;
 		
 		if (shape < MINHIT*2.) {
@@ -269,9 +275,9 @@ void fragment()
 	float u_time = TIME;
 	
 	//vec2 u_m = u_mouse / u_resolution.xy;
-	vec2 u_m = vec2(mod(u_time*.01,1.));
+	vec2 u_m = vec2(u_progress);
 	float perspective = u_m.y; // u_perspective;
-	perspective = .2;//u_mouse / u_resolution.xy;
+	perspective = u_perspective;//u_mouse / u_resolution.xy;
 	perspective = max(0.01,perspective); // dont clip ground rt
 	
 	float scale = 4.;
@@ -303,13 +309,16 @@ void fragment()
 	col.w = 1.;
 	
 	vec4 bgc = vec4(vec3(0.),1.);
+	vec3 cldFrt = vec3(0.);
 	// clouds front
 	{
 		vec2 lndc = ndc+vec2(23.,94.23);
+		lndc.x -= TIME*.2;
 		float c = fbm(lndc*4.);
 		float d = max(0.,fbm(lndc*3.)*2.-1.2);
 		bgc = vec4(vec3(c*d),0.);
-		col += bgc;
+		cldFrt += bgc.xyz;
+		col.xyz += bgc.xyz;
 	}
 	
 	// texture windows
@@ -375,6 +384,7 @@ void fragment()
 	// clouds back
 	{
 		vec2 lndc = ndc*.5;
+		lndc.x += TIME*.04;
 		float c = fbm(lndc*4.);
 		float d = max(0.,fbm(lndc*3.)*2.-1.2);
 		bgc = vec4(vec3(c*d),1.);
@@ -448,6 +458,7 @@ void fragment()
 	
 	//col = bgc;
 	
+	col.xyz += cldFrt;
 	col *= .5;
 	
 	COLOR = vec4(col.xyz, 1.0);

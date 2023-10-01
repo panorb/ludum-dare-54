@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://tower/tower.gd" id="1_lgnhb"]
 [ext_resource type="Script" path="res://tower/building_manager.gd" id="2_qc6mu"]
 [ext_resource type="Script" path="res://tower/building.gd" id="3_51hqr"]
-[ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="4_7rioh"]
+[ext_resource type="TileSet" uid="uid://0ybmj4iaojrs" path="res://tower/tower-tileset.tres" id="4_7rioh"]
 
 [node name="tower" type="Node2D" node_paths=PackedStringArray("tileMap")]
 script = ExtResource("1_lgnhb")

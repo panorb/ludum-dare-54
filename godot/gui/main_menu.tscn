@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d23t5lxls5bxt"]
+[gd_scene load_steps=4 format=3 uid="uid://l5a0o71304mc"]
 
 [ext_resource type="Script" path="res://gui/main_menu.gd" id="1_g6uru"]
 [ext_resource type="Texture2D" uid="uid://lwfjxln88rc7" path="res://gui/volume.png" id="2_5tiu0"]
+[ext_resource type="PackedScene" uid="uid://c3g8h1o5faaqa" path="res://background/background.tscn" id="2_d4r2e"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -13,6 +14,8 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_g6uru")
+
+[node name="background" parent="." instance=ExtResource("2_d4r2e")]
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
