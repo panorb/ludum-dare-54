@@ -21,16 +21,19 @@ SceneManager="*res://scene_manager.gd"
 
 [display]
 
-window/size/viewport_width=416
-window/size/viewport_height=240
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep_width"
 
 [dotnet]
 
 project/assembly_name="Ludum Dare 54"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
 
 [input]
 
