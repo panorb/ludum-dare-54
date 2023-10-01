@@ -22,28 +22,53 @@ func _on_ClickZone_input_event(viewport: Node, event: InputEvent, shape_idx: int
 		self.selected.emit(self)
 
 func _on_ClickZone_mouse_entered():
+	is_hovered = true
 	self.hover_begin.emit(self)
 
 func _on_ClickZone_mouse_exited():
+	is_hovered = false
 	self.hover_end.emit(self)
 
 var focus_tween : Tween
 
+var is_hovered := false
+var is_focused := false
+var is_selected := false
+
 func focus():
+	is_focused = true
 	if focus_tween:
 		focus_tween.stop()
 		focus_tween.kill()
-	z_index = 99
+	
+	if not is_selected:
+		z_index = 99
+	
 	focus_tween = create_tween()
 	focus_tween.set_trans(Tween.TRANS_EXPO)
 	focus_tween.tween_property(self, "scale", Vector2(1.2, 1.2), 0.2)
 	focus_tween.play()
 
 func blur():
+	is_focused = false
 	if focus_tween:
 		focus_tween.stop()
 		focus_tween.kill()
-	z_index = 0
+	
+	if not is_selected:
+		z_index = 0
 	focus_tween = create_tween()
 	focus_tween.tween_property(self, "scale", Vector2.ONE, 0.4)
 	focus_tween.play()
+
+func select():
+	is_selected = true
+	z_index = 50
+	print("")
+
+func deselect():
+	is_selected = false
+	
+	if not is_focused:
+		z_index = 0
+	pass

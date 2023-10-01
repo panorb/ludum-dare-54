@@ -38,13 +38,22 @@ func draw_card() -> void:
 	hand_cards.append(card_instance)
 
 func _on_Card_hover_begin(card : Card) -> void:
+	if held_card and card != held_card and held_card.is_hovered:
+		return
+	
 	card.focus()
 
 func _on_Card_hover_end(card : Card) -> void:
 	card.blur()
+	
+	if card == held_card:
+		for hand_card in hand_cards:
+			if hand_card.is_hovered:
+				hand_card.focus()
 
 func _on_Card_selected(card : Card) -> void:
 	if held_card:
+		held_card.deselect()
 		if held_card == card:
 			held_card = null
 			hand_cards.append(card)
@@ -53,10 +62,11 @@ func _on_Card_selected(card : Card) -> void:
 			hand_cards.append(held_card)
 			held_card = card
 	else:
+		card.select()
 		hand_cards = hand_cards.filter(func(elem : Card): return elem.name != card.name)
 		held_card = card
 	
-	draw_card()
+	# draw_card()
 	reorganize_hand()
 
 func reorganize_hand() -> void:
@@ -68,7 +78,7 @@ func reorganize_hand() -> void:
 	tween.set_parallel()
 	
 	if held_card:
-		var held_y = get_viewport_rect().size.y + y_offset - 50
+		var held_y = get_viewport_rect().size.y + y_offset - 20
 		var held_x = get_viewport_rect().size.x / 2.0
 		tween.tween_property(held_card, "position", Vector2(held_x, held_y), 0.6)
 		
