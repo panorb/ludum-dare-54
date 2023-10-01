@@ -17,6 +17,7 @@ signal show_credits
 func _ready() -> void:
 	start_button.pressed.connect(self._on_StartButton_pressed)
 	quit_button.pressed.connect(self._on_QuitButton_pressed)
+	credits_button.pressed.connect(self._on_CreditsButton_pressed)
 	sound_slider.value_changed.connect(self._on_SoundSlider_value_changed)
 	
 	sound_slider.value = self.start_volume
