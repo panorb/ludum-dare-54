@@ -113,11 +113,11 @@ bbcode_enabled = true
 text = "[center][b]Graphic Artists[/b][/center]"
 fit_content = true
 
-[node name="GraphicArtistsHFlowContainer2" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+[node name="GraphicArtistsHFlowContainer" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="nSkadeLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/GraphicArtistsHFlowContainer2"]
+[node name="nSkadeLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/GraphicArtistsHFlowContainer"]
 layout_mode = 2
 text = "nSkade"
 horizontal_alignment = 1
@@ -126,16 +126,16 @@ vertical_alignment = 1
 [node name="MusicRichtText" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[center][b]Music[/b][/center]"
+text = "[center][b]Music / Audio[/b][/center]"
 fit_content = true
 
-[node name="MusicHFlowContainer3" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+[node name="MusicHFlowContainer" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="nSkadeLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/MusicHFlowContainer3"]
+[node name="RougebluemulansLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/MusicHFlowContainer"]
 layout_mode = 2
-text = "nSkade"
+text = "@rougebluemulan"
 horizontal_alignment = 1
 vertical_alignment = 1
 

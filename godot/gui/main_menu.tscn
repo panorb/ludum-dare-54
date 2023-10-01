@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://d23t5lxls5bxt"]
+[gd_scene load_steps=4 format=3 uid="uid://d23t5lxls5bxt"]
 
 [ext_resource type="Script" path="res://gui/main_menu.gd" id="1_g6uru"]
 [ext_resource type="Texture2D" uid="uid://lwfjxln88rc7" path="res://gui/volume.png" id="2_5tiu0"]
+[ext_resource type="AudioStream" uid="uid://xst1ekamh3cv" path="res://music/main_menu_theme.mp3" id="2_j7iww"]
+[ext_resource type="Texture2D" uid="uid://c23u7darl2va3" path="res://gui/volume_slider.png" id="3_b25uu"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -13,6 +15,11 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_g6uru")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_j7iww")
+volume_db = 10.0
+autoplay = true
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
@@ -74,12 +81,18 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_constants/center_grabber = -1
+theme_override_icons/grabber = ExtResource("3_b25uu")
+theme_override_icons/grabber_highlight = ExtResource("3_b25uu")
+theme_override_icons/grabber_disabled = ExtResource("3_b25uu")
+theme_override_icons/tick = ExtResource("3_b25uu")
 scrollable = false
 tick_count = 1
 
 [node name="SoundPercentLabel" type="Label" parent="CenterContainer/MarginContainer/MenuVBoxContainer/SoundHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+text = "100%"
 
 [node name="CreditsButton" type="Button" parent="CenterContainer/MarginContainer/MenuVBoxContainer"]
 unique_name_in_owner = true
