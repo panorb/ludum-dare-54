@@ -96,6 +96,26 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 				(self.map.get_non_empty(here_tl) and building.get_non_empty(here_in)):
 #				print("overlap")
 				return false
+			if building.get_window_property(here_in):
+				if here_in.x == 0:
+					var outside = here_tl+Vector2i(-1, 0)
+					if (not outside.x < 0) and self.map.get_non_empty(outside):
+						return false
+				if here_in.x == building.size.x-1:
+					var outside = here_tl+Vector2i(1, 0)
+					if (not outside.x > MAP_SIZE.x-1) and self.map.get_non_empty(outside):
+						return false
+	for y in range(building.size.y):
+		# check if collides with existing windows
+		var left_in = Vector2i(0, y)
+		var left_out = position + left_in - self.map.offset + Vector2i(-1, 0)
+		var right_in = Vector2i(building.size.x-1, y)
+		var right_out = position + right_in - self.map.offset + Vector2i(1, 0)
+		if (not left_out.x < 0) and self.map.get_window_property(left_out) and building.get_non_empty(left_in):
+			return false
+		if (not right_out.x > MAP_SIZE.x-1) and self.map.get_window_property(right_out) and building.get_non_empty(right_in):
+			return false
+	
 	if building.support_left.x > size.x or building.support_right.x < 0:
 		# building needs no support
 		return true
