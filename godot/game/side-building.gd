@@ -43,7 +43,7 @@ func _process(delta):
 	add_rows_if_needed(10);
 
 func add_rows_if_needed(amount_to_draw: int):
-	if current_completed_row < 10000 && fill_tile_id != null:
+	if current_completed_row < 10000 && fill_tile_id != null && tilemap != null:
 		if outside_building_side < 0:
 			for row in range(current_completed_row, current_completed_row + amount_to_draw):
 				for x in range(0, -outside_building_side - building_padding_on_outside):
