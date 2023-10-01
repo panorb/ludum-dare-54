@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://xpjdv0n1b32j"]
+
+[ext_resource type="Script" path="res://game/side-building.gd" id="1_tx82r"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_tx82r")
