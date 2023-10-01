@@ -14,27 +14,27 @@ class_name Building extends Node
 var grid = []
 var size = Vector2i.ZERO
 
-func generate_building():
-	var floor_number = randomize_floor_number()
-	var upper_height = randomize_upper_height(floor_number)
+func generate_building() -> void:
+	var floor_number := randomize_floor_number()
+	var upper_height := randomize_upper_height(floor_number)
 	
-	var is_border = randomize_border()
+	var is_border := randomize_border()
 	var is_left_border_if_border = randomize_left_border()
 	
-	var lower_width = randomize_size()
+	var lower_width := randomize_size()
 	
-	var upper_width = randomize_size()
+	var upper_width := randomize_size()
 	if (floor_number == 1):
 		upper_width = lower_width
 	
-	var max_width = max(lower_width, upper_width)
+	var max_width: int = max(lower_width, upper_width)
 	
 	size.y = floor_number*floor_height
 	size.x = max(upper_width, lower_width)
 	
-	var offset = randomize_offset(lower_width, upper_width, is_border, is_left_border_if_border)
+	var offset := randomize_offset(lower_width, upper_width, is_border, is_left_border_if_border)
 	
-	var shrink_size = 0
+	var shrink_size: int = 0
 	if is_border:
 		shrink_size = randomize_shrink_size(lower_width, upper_width)
 	
@@ -99,33 +99,33 @@ func generate_building():
 	
 	update_edges()
 
-func randomize_floor_number():
-	var random = randf()
-	var floor_number = 0
+func randomize_floor_number() -> int:
+	var random := randf()
+	var floor_number: int = 0
 	while floor_number_distribution[floor_number] < random:
 		floor_number += 1
 	return floor_number
 
-func randomize_upper_height(floor_number):
+func randomize_upper_height(floor_number) -> int:
 	if floor_number <= 2:
 		return 1
 	return randi_range(1, floor_number - 1)
 	
 
-func randomize_border():
+func randomize_border() -> bool:
 	return randf() < border_probability
 	
-func randomize_left_border():
+func randomize_left_border() -> bool:
 	return randf() < left_border_probability
 	
-func randomize_size():
+func randomize_size() -> int:
 	var random = randf()
 	var floor_width = 0
 	while floor_width_distribution[floor_width] < random:
 		floor_width += 1
 	return floor_width
 
-func randomize_offset(lower_width, upper_width, is_border, is_left_border_if_border):
+func randomize_offset(lower_width, upper_width, is_border, is_left_border_if_border) -> int:
 	if is_border:
 		if is_left_border_if_border:
 			return 0
@@ -140,19 +140,19 @@ func randomize_offset(lower_width, upper_width, is_border, is_left_border_if_bor
 	var min_offset = min(upper_width-lower_width, 0)
 	return randi_range(min_offset, max_offset)
 
-func randomize_shrink_size(lower_width, upper_width):
-	var random = randf()
-	var adjusted_shrink_size = 0
+func randomize_shrink_size(lower_width, upper_width) -> int:
+	var random := randf()
+	var adjusted_shrink_size: int = 0
 	while adjusted_expanding_distribution[adjusted_shrink_size] < random:
 		adjusted_shrink_size += 1
-	var shrink_size = adjusted_shrink_size - 2
+	var shrink_size: int = adjusted_shrink_size - 2
 	
 	shrink_size = max(shrink_size, min_width - lower_width, min_width - upper_width)
 	shrink_size = min(shrink_size, lower_width - min_width, upper_width - min_width)
 	
 	return shrink_size
 
-func update_edges():
+func update_edges() -> void:
 	for i in size.y:
 		for j in size.x:
 			grid[i][j].edge = 0

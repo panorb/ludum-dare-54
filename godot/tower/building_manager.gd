@@ -10,7 +10,7 @@ const FOUNDATION_WIDTH : int = 8
 var map : TBuilding
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	self.map = TBuilding.new(MAP_SIZE, get_node("TemplateMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y))
 	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
 	self.init_foundation(FOUNDATION_WIDTH)
@@ -34,7 +34,7 @@ func _ready():
 #	res = self.place_building(Vector2i(10, MAP_SIZE.y-6), b)
 #	print(res)
 
-func init_foundation(width):
+func init_foundation(width: int) -> void:
 	var foundation = TBuilding.new(Vector2i(FOUNDATION_WIDTH, 1))
 	for i in range(FOUNDATION_WIDTH):
 		foundation.set_supports(Vector2i(i, 0), true)

@@ -1,18 +1,19 @@
 class_name TBuilding
 extends Node
 
-var size : Vector2i
-var graphical_tiles : TileMap
-var tile_info = []
-var offset : Vector2i
-
 const SUPPORTS_BUILDING : int = 1
 const NEEDS_SUPPORT : int = 2
 const DOOR : int = 4
 const WINDOW : int = 8
 const SLOPE : int = 16
 
-func _init(size:Vector2i, tile_map:TileMap = null, offset = Vector2i(0, 0)):
+var size : Vector2i
+var graphical_tiles : TileMap
+var tile_info = []
+var offset : Vector2i
+
+
+func _init(size: Vector2i, tile_map: TileMap = null, offset := Vector2i(0, 0)):
 	self.size = size
 	self.offset = offset
 	if tile_map == null:
@@ -25,7 +26,7 @@ func _init(size:Vector2i, tile_map:TileMap = null, offset = Vector2i(0, 0)):
 			self.tile_info[y].append(0)
 
 # copy the building into my own map
-func stamp(pos:Vector2i, building):
+func stamp(pos: Vector2i, building: TBuilding) -> void:
 	for y in range(building.size.y):
 		for x in range(building.size.x):
 			var pos_in = Vector2i(x, y)
@@ -34,7 +35,7 @@ func stamp(pos:Vector2i, building):
 				self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
 				self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
 
-static func from_building(building):
+static func from_building(building: Building) -> TBuilding:
 #	var b = TBuilding.new(Vector2i(3, 5))
 #	b.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
 #	b.graphical_tiles.set_cell(0, Vector2i(0, 1), 0, Vector2i(0, 0))
@@ -72,7 +73,7 @@ static func from_building(building):
 			#tbuilding.set_needs_suppot(Vector2i(x, y))
 	return tbuilding
 
-func set_tile(pos:Vector2i, tile):
+func set_tile(pos:Vector2i, tile) -> void:
 	# self.graphical_tiles.set_cell(0, pos, tile.graphic_source_id, tile.graphic_coords)
 	# self.set_supports(pos, tile.supports)
 	# self.set_needs_support(pos, tile.needs_support)
@@ -81,41 +82,41 @@ func set_tile(pos:Vector2i, tile):
 	# self.set_slope(pos, tile.slope)
 	pass
 
-func _get_flag(pos:Vector2i, flag:int):
+func _get_flag(pos: Vector2i, flag: int) -> bool:
 	return (self.tile_info[pos.y][pos.x] & flag) != 0
 
-func _set_flag(pos:Vector2i, value:bool, flag:int):
+func _set_flag(pos: Vector2i, value: bool, flag: int) -> void:
 	if value:
 		self.tile_info[pos.y][pos.x] = self.tile_info[pos.y][pos.x] | flag
 		return
 	self.tile_info[pos.y][pos.x] = self.tile_info[pos.y][pos.x] & (~flag)
 
-func get_supports(pos:Vector2i):
+func get_supports(pos: Vector2i) -> bool:
 	return self._get_flag(pos, SUPPORTS_BUILDING)
 
-func set_supports(pos:Vector2i, value:bool = true):
+func set_supports(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, SUPPORTS_BUILDING)
 
-func get_needs_suppot(pos:Vector2i):
+func get_needs_suppot(pos:Vector2i) -> bool:
 	return self._get_flag(pos, NEEDS_SUPPORT)
 
-func set_needs_suppot(pos:Vector2i, value:bool = true):
+func set_needs_suppot(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, NEEDS_SUPPORT)
 
-func get_window_property(pos:Vector2i):
+func get_window_property(pos: Vector2i) -> bool:
 	return self._get_flag(pos, WINDOW)
 
-func set_window_property(pos:Vector2i, value:bool = true):
+func set_window_property(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, WINDOW)
 
-func get_door(pos:Vector2i):
+func get_door(pos: Vector2i) -> bool:
 	return self._get_flag(pos, DOOR)
 
-func set_door(pos:Vector2i, value:bool = true):
+func set_door(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, DOOR)
 
-func get_slope(pos:Vector2i):
+func get_slope(pos: Vector2i) -> bool:
 	return self._get_flag(pos, SLOPE)
 
-func set_slope(pos:Vector2i, value:bool = true):
+func set_slope(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, SLOPE)
