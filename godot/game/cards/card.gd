@@ -33,6 +33,7 @@ func focus():
 	if focus_tween:
 		focus_tween.stop()
 		focus_tween.kill()
+	z_index = 99
 	focus_tween = create_tween()
 	focus_tween.set_trans(Tween.TRANS_EXPO)
 	focus_tween.tween_property(self, "scale", Vector2(1.2, 1.2), 0.2)
@@ -42,6 +43,7 @@ func blur():
 	if focus_tween:
 		focus_tween.stop()
 		focus_tween.kill()
+	z_index = 0
 	focus_tween = create_tween()
 	focus_tween.tween_property(self, "scale", Vector2.ONE, 0.4)
 	focus_tween.play()
