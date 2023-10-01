@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqex7rpn30vkp"]
+[gd_scene load_steps=3 format=3 uid="uid://d23t5lxls5bxt"]
 
 [ext_resource type="Script" path="res://gui/main_menu.gd" id="1_g6uru"]
-[ext_resource type="Texture2D" uid="uid://lwfjxln88rc7" path="res://gui/volume.png" id="2_5tiu0"]
+[ext_resource type="Texture2D" path="res://gui/volume.png" id="2_5tiu0"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -50,7 +50,7 @@ alignment = 1
 [node name="TitleLabel" type="Label" parent="CenterContainer/MarginContainer/MenuVBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
-text = "Game Name"
+text = "A Living Place in Limited Space"
 horizontal_alignment = 1
 vertical_alignment = 1
 
