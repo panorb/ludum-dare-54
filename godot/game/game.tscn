@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=8 format=3 uid="uid://dmoctt7p732ox"]
 
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
 [ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
