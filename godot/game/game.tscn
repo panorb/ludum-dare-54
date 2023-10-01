@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=8 format=3 uid="uid://dmoctt7p732ox"]
 
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
 [ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
@@ -36,24 +36,24 @@ tile_set = ExtResource("3_xn6el")
 format = 2
 
 [node name="SideBuildingRight" parent="Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
-position = Vector2(408, 0)
+position = Vector2(177, 0)
 tilemap = NodePath("../SideBuildingTileMap")
 draw_debug = true
 max_inside_size_variation = -5
 building_padding_on_outside = -5
-min_distance_between_patterns = 15
-min_template_height = 10
-pattern_probability_per_row = 0.13
+min_distance_between_patterns = 20
+min_template_height = 20
+pattern_probability_per_row = 0.05
 
 [node name="SideBuildingLeft" parent="Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
-position = Vector2(-408, 0)
+position = Vector2(-177, 0)
 tilemap = NodePath("../SideBuildingTileMap")
 draw_debug = true
-max_inside_size_variation = 15
+max_inside_size_variation = 5
 building_padding_on_outside = 5
-min_distance_between_patterns = 5
-min_template_height = 10
-pattern_probability_per_row = 0.13
+min_distance_between_patterns = 20
+min_template_height = 20
+pattern_probability_per_row = 0.05
 
 [node name="InteractionManager" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("5_xfojq")
