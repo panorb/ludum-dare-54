@@ -3,7 +3,6 @@ class_name Building extends Node
 @export var floor_height = 3
 
 @export var min_width : int = 2
-@export var max_width : int = 10
 @export var floor_width_distribution = [0, 0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 0.96, 1]
 @export var floor_number_distribution = [0, 0.3, 0.4, 1]
 @export var border_probability = 0.8
@@ -13,12 +12,11 @@ class_name Building extends Node
 
 @export var roof_probability = 0.4
 @export var border_window_probability = 0.2
-@export var hole_probability = 0.1
 @export var trap_door_probability = 0.25
 
 @export var window_probability = 0.4
-@export var decoration_probability = 0.3
-
+@export var hole_probability = 0.2
+@export var plant_probability = 0.25
 
 
 var grid = []
@@ -72,9 +70,9 @@ func generate_building() -> void:
 			if is_right_border:
 				for i in shrink_size:
 					for j in shrink_size - i:
-						grid[i][min(-offset+upper_width, max_width)-1-j].unset_brick()
+						grid[i][min(abs(offset)+upper_width, max_width)-1-j].unset_brick()
 						if i+j == shrink_size - 1:
-							grid[i][min(-offset+upper_width, max_width)-1-j].set_slope(2)
+							grid[i][min(abs(offset)+upper_width, max_width)-1-j].set_slope(2)
 		if shrink_size < 0:
 			if is_left_border:
 				for i in -shrink_size:
@@ -85,13 +83,12 @@ func generate_building() -> void:
 			if is_right_border:
 				for i in -shrink_size:
 					for j in -shrink_size - i:
-						grid[floor_height*floor_number-1-i][min(-offset+upper_width, max_width)-1-j].unset_brick()
+						grid[floor_height*floor_number-1-i][min(abs(offset)+upper_width, max_width)-1-j].unset_brick()
 						if i+j == -shrink_size - 1:
-							grid[floor_height*floor_number-1-i][min(-offset+upper_width, max_width)-1-j].set_slope(4)
+							grid[floor_height*floor_number-1-i][min(abs(offset)+upper_width, max_width)-1-j].set_slope(4)
 	
 	update_edges()
 	
-	generate_windows()
 	generate_trap_doors()
 	generate_decorations()
 
@@ -180,56 +177,29 @@ func initialize_grid() -> void:
 
 func generate_decorations() -> void:
 	if is_left_border and is_right_border:
+		var roof_number = randi_range(1, 4)
 		for j in size.x:
 			if not grid[0][j].is_empty or grid[0][j].slope:
-				grid[0][j].set_decoration(3)
+				grid[0][j].set_roof(roof_number)
 	
 	for i in size.y:
 		for j in size.x:
-			if grid[i][j].decoration:
+			if grid[i][j].is_decorated:
+				continue
+			if grid[i][j].is_empty:
 				continue
 			if allows_window(i, j) and randf() < window_probability:
-				grid[i][j].set_decoration(1)
-			if allows_hole(i, j) and randf() < hole_probability:
-				grid[i][j].set_decoration(2)
-			if allows_decoration(i, j) and randf() < decoration_probability:
-				grid[i][j].set_decoration(10+randi_range(0, 26))
-
-func allows_decoration(i, j) -> bool:
-	if grid[i][j].is_empty:
-		return false
-	
-	return true
+				grid[i][j].set_window(randi_range(1, 9))
+			if randf() < hole_probability:
+				grid[i][j].set_hole(randi_range(1,12))
+			if randf() < plant_probability:
+				grid[i][j].set_plant(randi_range(1, 14))
 
 func allows_window(i, j) -> bool:
-	if grid[i][j].is_empty:
-		return false
 	if i%floor_height != 1:
 		return false
-	if grid[i][j].left_right_edge:
-		return false
 	
 	return true
-
-func allows_hole(i, j) -> bool:
-	if grid[i][j].is_decorated or grid[i][j].is_empty:
-		return false
-	return true
-
-func generate_windows() -> void:
-	if not is_left_border and not is_right_border:
-		return
-	
-	var j = 0
-	if is_right_border:
-		j = size.x - 1
-	
-	for i in size.y:
-		if grid[i][j].decoration or grid[i][j].is_empty:
-			continue
-		if i%floor_height == 1:
-			if randf() < border_window_probability:
-				grid[i][j].set_window()
 
 func generate_trap_doors() -> void:
 	for j in size.x:
