@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://cc30pv72kwdlp"]
+
+[node name="credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="VSplitContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+text = "Credits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DevelopmentLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+text = "Development"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DevelopmentHFlowContainer" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="WinieLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "Winie"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PipeLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "|"
+
+[node name="PanorLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "Paul @panor"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PipeLabel2" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "|"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JulianLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "Julian"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PipeLabel3" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "|"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StefanLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "Stefan"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PipeLabel4" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "|"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NiposchLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "Nick @niposch"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PipeLabel5" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "|"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NickFleming_Label" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/DevelopmentHFlowContainer"]
+layout_mode = 2
+text = "NickFleming_"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GraphicArtistsLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Graphic Artists"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GraphicArtistsHFlowContainer2" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="WinieLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/GraphicArtistsHFlowContainer2"]
+layout_mode = 2
+text = "nSkade"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+text = "Music"
+horizontal_alignment = 1
+vertical_alignment = 1
