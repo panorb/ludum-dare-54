@@ -6,9 +6,9 @@ class_name Building extends Node
 @export var max_width : int = 10
 @export var floor_width_distribution = [0, 0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 0.96, 1]
 @export var floor_number_distribution = [0, 0.3, 0.4, 1]
-@export var border_probability = 1
+@export var border_probability = 0.3
 @export var left_border_probability = 0.5
-@export var adjusted_expanding_distribution = [10.05, 0.22, 0.68, 0.98, 1]
+@export var adjusted_expanding_distribution = [0.05, 0.22, 0.68, 0.98, 1]
 @export var no_tshape_probability = 0.2
 
 var grid = []
