@@ -17,6 +17,7 @@ class_name Building extends Node
 @export var trap_door_probability = 0.25
 
 @export var window_probability = 0.4
+@export var decoration_probability = 0.3
 
 
 
@@ -191,6 +192,14 @@ func generate_decorations() -> void:
 				grid[i][j].set_decoration(1)
 			if allows_hole(i, j) and randf() < hole_probability:
 				grid[i][j].set_decoration(2)
+			if allows_decoration(i, j) and randf() < decoration_probability:
+				grid[i][j].set_decoration(10+randi_range(0, 26))
+
+func allows_decoration(i, j) -> bool:
+	if grid[i][j].is_empty:
+		return false
+	
+	return true
 
 func allows_window(i, j) -> bool:
 	if grid[i][j].is_empty:

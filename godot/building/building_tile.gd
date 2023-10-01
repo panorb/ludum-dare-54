@@ -109,6 +109,8 @@ func update_tile():
 				tile_decoration = Vector2i(0, 0)
 			else:
 				tile_decoration = Vector2i(2, 0)
+		if decoration >= 10:
+			tile_decoration = Vector2i(6+(decoration-10)/7, 7+(decoration-10)%7)
 
 	if is_window:
 		if left_right_edge == 1:
