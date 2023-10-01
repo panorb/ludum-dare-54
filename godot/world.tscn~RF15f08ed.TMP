@@ -8,7 +8,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ankjj"]
 shader = ExtResource("2_63iyq")
-shader_parameter/u_resolution = Vector2(416, 240)
+shader_parameter/u_resolution = Vector2(1280, 720)
+shader_parameter/u_time = null
 shader_parameter/u_perspective = null
 shader_parameter/u_mouse = null
 shader_parameter/u_tower = ExtResource("3_iv1i4")
@@ -22,10 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xbc8j")
 
-[node name="Game" parent="." instance=ExtResource("2_ln6u2")]
-
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
-layer = 2
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
 material = SubResource("ShaderMaterial_ankjj")
@@ -34,6 +32,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Game" parent="." instance=ExtResource("2_ln6u2")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
