@@ -41,6 +41,10 @@ func _on_Card_hover_begin(card : Card) -> void:
 	if held_card and card != held_card and held_card.is_hovered:
 		return
 	
+	if card == held_card:
+		for hand_card in hand_cards:
+			hand_card.blur()
+	
 	card.focus()
 
 func _on_Card_hover_end(card : Card) -> void:
