@@ -19,16 +19,14 @@ func _ready():
 	self.click_zone.mouse_exited.connect(self._on_ClickZone_mouse_exited)
 	self.click_zone.input_event.connect(self._on_ClickZone_input_event)
 	
-	await get_tree().process_frame
-	
 	capacity_label.text = str(_capacity)
-	self.add_child(_building.graphical_tiles)
 
 
-func init(building: TBuilding, capacity : int):
-	_building = building
+func init_capacity(capacity : int):
 	_capacity = capacity
-	
+
+func init_building(building: TBuilding):
+	_building = building
 
 func _on_ClickZone_input_event(viewport: Node, event: InputEvent, shape_idx: int):
 	if event is InputEventMouseButton and event.is_pressed():

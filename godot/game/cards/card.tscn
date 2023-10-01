@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://diexed5ksovey"]
+[gd_scene load_steps=8 format=3 uid="uid://diexed5ksovey"]
 
 [ext_resource type="Texture2D" uid="uid://cofr0371yt74m" path="res://game/cards/card_background.png" id="1_y1phy"]
 [ext_resource type="Script" path="res://game/cards/card.gd" id="2_y4vfv"]
 [ext_resource type="FontFile" uid="uid://bvxa4kms88wda" path="res://gui/centurion.ttf" id="3_0kxmm"]
+[ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="4_707pf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jwf2e"]
 size = Vector2(44, 60)
@@ -50,4 +51,25 @@ texture = SubResource("ViewportTexture_q1p8d")
 unique_name_in_owner = true
 disable_3d = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(390, 330)
+size = Vector2i(224, 144)
+
+[node name="ColorRect" type="ColorRect" parent="PreviewViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.690196, 0.576471, 0.466667, 1)
+
+[node name="PreviewTileMap" type="TileMap" parent="PreviewViewport"]
+unique_name_in_owner = true
+tile_set = ExtResource("4_707pf")
+format = 2
+layer_0/tile_data = PackedInt32Array(-65536, 0, 0, -1, 0, 0, -65537, 0, 0)
+layer_1/name = ""
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()

@@ -10,6 +10,8 @@ signal card_hand_ready
 var hand_cards : Array[Card] = []
 var held_card : Card = null
 
+const CARD_PREVIEW_SIZE : Vector2i = Vector2i(14, 9)
+
 func _ready() -> void:
 	get_tree().get_root().size_changed.connect(reorganize_hand)
 	initial_card_draw()
@@ -26,9 +28,6 @@ func draw_card() -> void:
 	var y = get_viewport_rect().size.y + 120
 	var x = get_viewport_rect().size.x / 2
 	
-	var building := Building.new()
-	building.generate_building()
-	var t_building := TBuilding.from_building(building)
 	
 	var card_instance : Card = card_scene.instantiate()
 	
@@ -37,9 +36,18 @@ func draw_card() -> void:
 	card_instance.selected.connect(self._on_Card_selected)
 	card_instance.position.x = x
 	card_instance.position.y = y
-	card_instance.init(t_building, 250)
+	card_instance.init_capacity(250)
 	
 	add_child(card_instance)
+	
+	
+	var building := Building.new()
+	building.generate_building()
+	var t_building := TBuilding.from_building(building)
+	var preview_building := TBuilding.new(CARD_PREVIEW_SIZE, card_instance.preview_tile_map)
+	preview_building.stamp(Vector2i(CARD_PREVIEW_SIZE.x/2-t_building.size.x/2, CARD_PREVIEW_SIZE.y/2-t_building.size.y/2), t_building)
+	card_instance.init_building(preview_building)
+	
 	hand_cards.append(card_instance)
 
 func _on_Card_hover_begin(card : Card) -> void:
