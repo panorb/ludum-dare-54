@@ -1,29 +1,29 @@
 class_name Building_Tile extends Node
 
-var is_empty = true
-var is_top = false
-var is_bottom = false
-var is_trap_door = false
-var window = false
-var roof = 0
-var hole = 0
-var plant = 0
-var is_door
-var slope = 0
-var left_right_edge = 0
-var tile = Vector2i(-1, -1)
-var tile_decoration = Vector2i(-1, -1)
-var is_decorated = false
+var is_empty : bool = true
+var is_top : bool = false
+var is_bottom : bool = false
+var is_trap_door : bool = false
+var window : int = 0
+var roof : int = 0
+var hole : int = 0
+var plant : int = 0
+var is_door : bool = false
+var slope : int = 0
+var left_right_edge : int = 0
+var tile := Vector2i(-1, -1)
+var tile_decoration := Vector2i(-1, -1)
+var is_decorated : bool = false
 
-func set_brick():
+func set_brick() -> void:
 	is_empty = false
 	update_tile()
 
-func unset_brick():
+func unset_brick() -> void:
 	is_empty = true
 	update_tile()
 
-func set_slope(new_slope):
+func set_slope(new_slope) -> void:
 	slope = new_slope
 	# 1 = upper left
 	# 2 = upper right
@@ -31,7 +31,7 @@ func set_slope(new_slope):
 	# 4 = lower right
 	update_tile()
 
-func set_left_right_edge(edge):
+func set_left_right_edge(edge) -> void:
 	left_right_edge = edge
 	# 1 = left
 	# 2 = right
@@ -72,7 +72,7 @@ func set_plant(number) -> void:
 	is_decorated = true
 	update_tile()
 
-func update_tile():
+func update_tile() -> void:
 	if not self.is_empty:
 		if self.left_right_edge == 1:
 			if self.is_top:

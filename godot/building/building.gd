@@ -5,25 +5,25 @@ class_name Building extends Node
 @export var min_width : int = 2
 @export var floor_width_distribution = [0, 0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 0.96, 1]
 @export var floor_number_distribution = [0, 0.3, 0.4, 1]
-@export var border_probability = 0.8
-@export var border_skew_probability = 0.5
+@export var border_probability : float = 0.8
+@export var border_skew_probability : float = 0.5
 @export var adjusted_expanding_distribution = [0.25, 0.6, 0.8, 0.98, 1]
-@export var no_tshape_probability = 0.2
+@export var no_tshape_probability : float = 0.2
 
-@export var roof_probability = 0.4
-@export var border_window_probability = 0.2
-@export var trap_door_probability = 0.25
+@export var roof_probability : float = 0.4
+@export var border_window_probability : float = 0.2
+@export var trap_door_probability : float = 0.25
 
-@export var window_probability = 0.4
-@export var hole_probability = 0.2
-@export var plant_probability = 0.25
+@export var window_probability : float = 0.4
+@export var hole_probability : float = 0.2
+@export var plant_probability : float = 0.25
 
 
 var grid = []
 var size = Vector2i.ZERO
 
-var is_left_border = false
-var is_right_border = false
+var is_left_border : bool = false
+var is_right_border : bool = false
 
 func generate_building() -> void:
 	var floor_number := randomize_floor_number()
@@ -120,8 +120,8 @@ func randomize_border() -> void:
 	return
 	
 func randomize_size() -> int:
-	var random = randf()
-	var floor_width = 0
+	var random := randf()
+	var floor_width: int = 0
 	while floor_width_distribution[floor_width] < random:
 		floor_width += 1
 	return floor_width
@@ -188,14 +188,14 @@ func generate_decorations() -> void:
 				continue
 			if grid[i][j].is_empty:
 				continue
-			if allows_window(i, j) and randf() < window_probability:
+			if allows_window(i) and randf() < window_probability:
 				grid[i][j].set_window(randi_range(1, 9))
 			if randf() < hole_probability:
 				grid[i][j].set_hole(randi_range(1,12))
 			if randf() < plant_probability:
 				grid[i][j].set_plant(randi_range(1, 14))
 
-func allows_window(i, j) -> bool:
+func allows_window(i) -> bool:
 	if i%floor_height != 1:
 		return false
 	
