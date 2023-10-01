@@ -6,16 +6,21 @@ const NEEDS_SUPPORT : int = 2
 const DOOR : int = 4
 const WINDOW : int = 8
 const SLOPE : int = 16
+const NON_EMPTY : int = 32
 
 var size : Vector2i
 var graphical_tiles : TileMap
 var tile_info = []
 var offset : Vector2i
+var support_left : Vector2i
+var support_right : Vector2i
 
 
 func _init(size: Vector2i, tile_map: TileMap = null, offset := Vector2i(0, 0)):
 	self.size = size
 	self.offset = offset
+	self.support_left = Vector2i(size.x+1, -1)
+	self.support_right = Vector2i(-1, -1)
 	if tile_map == null:
 		self.graphical_tiles = TileMap.new()
 	else:
@@ -49,28 +54,67 @@ static func from_building(building: Building) -> TBuilding:
 	var tbuilding = TBuilding.new(building.size)
 	for y in range(tbuilding.size.y):
 		for x in range(tbuilding.size.x):
+			if building.grid[y][x].is_bottom and building.grid[y][x].slope != 0:
+				print("warning: "+str(Vector2i(x, y)))
+			tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, building.grid[y][x].tile)
 			if not building.grid[y][x].is_empty:
-				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 1))
-				if building.grid[y][x].is_bottom:
-					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 0))
+				tbuilding.set_non_empty(Vector2i(x, y))
 			else:
 				if building.grid[y][x].slope:
-					if building.grid[y][x].slope == 1:
-						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(5, 2))
-					elif building.grid[y][x].slope == 2:
-						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 2))
-					if building.grid[y][x].slope == 3:
-						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(5, 3))
-					elif building.grid[y][x].slope == 4:
-						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 3))
-#			if building.grid[y][x].edge:
-#				if building.grid[y][x].edge == 3:
-#					print("x")
-#					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 1))
-#				if building.grid[y][x].edge == 6:
-#					print("x")
-#					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(2, 1))
+					tbuilding.set_non_empty(Vector2i(x, y))
 			tbuilding.set_needs_suppot(Vector2i(x, y), building.grid[y][x].is_bottom)
+			tbuilding.set_supports(Vector2i(x, y), building.grid[y][x].is_top)
+			
+#			if not building.grid[y][x].is_empty:
+#				tbuilding.set_non_empty(Vector2i(x, y))
+#			else:
+#				if building.grid[y][x].slope:
+#					tbuilding.set_non_empty(Vector2i(x, y))
+#			tbuilding.set_needs_suppot(Vector2i(x, y), building.grid[y][x].is_bottom)
+#			tbuilding.set_supports(Vector2i(x, y), building.grid[y][x].is_top)
+#			tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, building.grid[y][x].tile)
+			#--------
+#			if building.grid[y][x].is_bottom and building.grid[y][x].slope != 0:
+#				print("warning: "+str(Vector2i(x, y)))
+#			if not building.grid[y][x].is_empty:
+#				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 1))
+#				tbuilding.set_non_empty(Vector2i(x, y))
+#			else:
+#				if building.grid[y][x].slope:
+#					if building.grid[y][x].slope == 1:
+#						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(5, 2))
+#					elif building.grid[y][x].slope == 2:
+#						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 2))
+#					if building.grid[y][x].slope == 3:
+#						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(5, 3))
+#					elif building.grid[y][x].slope == 4:
+#						tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(6, 3))
+##					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 0))
+#					tbuilding.set_non_empty(Vector2i(x, y))
+##			if building.grid[y][x].edge:
+##				if building.grid[y][x].edge == 3:
+##					print("x")
+##					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 1))
+##				if building.grid[y][x].edge == 6:
+##					print("x")
+##					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(2, 1))
+#			tbuilding.set_needs_suppot(Vector2i(x, y), building.grid[y][x].is_bottom)
+#			tbuilding.set_supports(Vector2i(x, y), building.grid[y][x].is_top)
+#			if building.grid[y][x].is_bottom and building.grid[y][x].slope != 0:
+##				print("warning: "+str(building.grid[y][x].is_empty))
+#				if building.grid[y][x].is_empty:
+#					tbuilding.set_needs_suppot(Vector2i(x, y), false)
+##			if building.grid[y][x].is_bottom:
+#			if tbuilding.get_needs_suppot(Vector2i(x, y)):
+#				tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(1, 0))
+	for y in range(building.size.y):
+		for x in range(building.size.x):
+			var here = Vector2i(x, y)
+			if tbuilding.get_needs_suppot(here):
+				if x < tbuilding.support_left.x:
+					tbuilding.support_left = here
+				if x > tbuilding.support_right.x:
+					tbuilding.support_right = here
 	return tbuilding
 
 func set_tile(pos:Vector2i, tile) -> void:
@@ -120,3 +164,9 @@ func get_slope(pos: Vector2i) -> bool:
 
 func set_slope(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, SLOPE)
+
+func get_non_empty(pos: Vector2i) -> bool:
+	return self._get_flag(pos, NON_EMPTY)
+
+func set_non_empty(pos: Vector2i, value := true) -> void:
+	self._set_flag(pos, value, NON_EMPTY)
