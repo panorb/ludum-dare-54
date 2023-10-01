@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://diexed5ksovey"]
+
+[ext_resource type="Texture2D" uid="uid://cofr0371yt74m" path="res://game/cards/card_background.png" id="1_y1phy"]
+[ext_resource type="Script" path="res://game/cards/card.gd" id="2_y4vfv"]
+[ext_resource type="FontFile" uid="uid://bvxa4kms88wda" path="res://gui/centurion.ttf" id="3_0kxmm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jwf2e"]
+size = Vector2(44, 60)
+
+[node name="Card" type="Sprite2D"]
+texture = ExtResource("1_y1phy")
+script = ExtResource("2_y4vfv")
+
+[node name="CapacityAnchor" type="Node2D" parent="."]
+position = Vector2(-10, 13)
+
+[node name="CapacityLabel" type="Label" parent="CapacityAnchor"]
+unique_name_in_owner = true
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_0kxmm")
+theme_override_font_sizes/font_size = 8
+text = "122"
+vertical_alignment = 1
+
+[node name="ClickZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickZone"]
+shape = SubResource("RectangleShape2D_jwf2e")

@@ -76,20 +76,6 @@ func generate_building() -> void:
 						grid[floor_height*floor_number-1-i][max_width-1-j].unset_brick()
 						if i+j == -shrink_size - 1:
 							grid[floor_height*floor_number-1-i][max_width-1-j].set_slope(4)
-
-	for j in max_width:
-		if not grid[0][j].is_empty:
-			grid[0][j].set_top()
-		if floor_number > 1:
-			if (not grid[floor_height*upper_height][j].is_empty) and grid[floor_height*upper_height-1][j].is_empty:
-				grid[floor_height*upper_height][j].set_top()
-
-	for j in max_width:
-		if not grid[floor_number*floor_height-1][j].is_empty:
-			grid[floor_number*floor_height-1][j].set_bottom()
-		if floor_number > 1:
-			if (not grid[floor_height*upper_height-1][j].is_empty) and grid[floor_height*upper_height][j].is_empty:
-				grid[floor_height*upper_height-1][j].set_bottom()
 	
 	update_edges()
 
@@ -151,9 +137,9 @@ func update_edges() -> void:
 		for j in size.x:
 			if not grid[i][j].is_empty:
 				if i==0 or (i!=0 and grid[i-1][j].is_empty and not grid[i-1][j].slope):
-					grid[i][j].set_upper_lower_edge(1) # upper edge
+					grid[i][j].set_top() # upper edge
 				if i==size.y-1 or (i!=size.y-1 and grid[i+1][j].is_empty and not grid[i+1][j].slope):
-					grid[i][j].set_upper_lower_edge(2) # lower edge
+					grid[i][j].set_bottom() # lower edge
 				if j==0 or (j!=0 and grid[i][j-1].is_empty and not grid[i][j-1].slope):
 					grid[i][j].set_left_right_edge(1) # left edge
 				if j==size.x-1 or (j!=size.x-1 and grid[i][j+1].is_empty and not grid[i][j+1].slope):
