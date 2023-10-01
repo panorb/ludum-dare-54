@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cc30pv72kwdlp"]
+[gd_scene load_steps=2 format=3 uid="uid://cc30pv72kwdlp"]
+
+[ext_resource type="Script" path="res://gui/credits.gd" id="1_bvjxp"]
 
 [node name="credits" type="Control"]
 layout_mode = 3
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_bvjxp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -17,7 +20,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="VSplitContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
@@ -113,7 +118,7 @@ vertical_alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="WinieLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/GraphicArtistsHFlowContainer2"]
+[node name="nSkadeLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/GraphicArtistsHFlowContainer2"]
 layout_mode = 2
 text = "nSkade"
 horizontal_alignment = 1
@@ -124,3 +129,25 @@ layout_mode = 2
 text = "Music"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MusicHFlowContainer3" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="nSkadeLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/MusicHFlowContainer3"]
+layout_mode = 2
+text = "nSkade"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_top = 20.0
+offset_right = -19.0
+offset_bottom = 51.0
+grow_horizontal = 0
+text = "X"
