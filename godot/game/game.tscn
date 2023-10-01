@@ -46,7 +46,6 @@ outside_building_side = -5
 building_padding_on_outside = -40
 
 [node name="InteractionManager" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
-script = ExtResource("4_nfdbr")
 camera = NodePath("../Camera2D")
 
 [connection signal="primary_interaction_just_pressed_sig" from="InteractionManager" to="tower" method="_on_interaction_manager_primary_interaction_just_pressed_sig"]
