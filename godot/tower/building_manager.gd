@@ -134,6 +134,18 @@ func place_building(position:Vector2i, building:TBuilding) -> bool:
 #	print(height)
 	return true
 
+func tower_spam_block(position):
+#	print("tower spam at: "+str(position+self.map.offset))
+	var pos = position+self.map.offset
+	if pos.x < 0 or pos.x > MAP_SIZE.x-1 or pos.y < 0 or pos.y > MAP_SIZE.y-1:
+		return
+	print("hey")
+	self.map.set_non_empty(pos)
+	self.map.graphical_tiles.set_cell(1, position, 0, Vector2i(0, 0))
 
 func _on_side_building_right_tower_spam(position):
-	print("tower spam at: "+str(position))
+	tower_spam_block(position)
+
+
+func _on_side_building_left_tower_spam(position):
+	tower_spam_block(position)
