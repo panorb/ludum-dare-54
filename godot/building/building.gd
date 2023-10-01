@@ -38,12 +38,8 @@ func generate_building() -> void:
 	if is_border:
 		shrink_size = randomize_shrink_size(lower_width, upper_width)
 	
-	for i in floor_height * floor_number:
-		grid.append([])
-		for j in max_width:
-			var tile_instance = Building_Tile.new()
-			grid[i].append(tile_instance)
-
+	initialize_grid()
+	
 	for i in floor_height * upper_height:
 		for j in upper_width:
 			grid[i][-offset+j].set_brick()
@@ -94,8 +90,6 @@ func generate_building() -> void:
 		if floor_number > 1:
 			if (not grid[floor_height*upper_height-1][j].is_empty) and grid[floor_height*upper_height][j].is_empty:
 				grid[floor_height*upper_height-1][j].set_bottom()
-	
-	
 	
 	update_edges()
 
@@ -157,11 +151,18 @@ func update_edges() -> void:
 		for j in size.x:
 			grid[i][j].edge = 0
 			if not grid[i][j].is_empty:
-				if i==0 or (i!=0 and grid[i-1][j].is_empty):
+				if i==0 or (i!=0 and grid[i-1][j].is_empty and not grid[i-1][j].slope):
 					grid[i][j].edge += 1 # upper edge
-				if i==size.y-1 or (i!=size.y-1 and grid[i+1][j].is_empty):
+				if i==size.y-1 or (i!=size.y-1 and grid[i+1][j].is_empty and not grid[i+1][j].slope):
 					grid[i][j].edge += 2 # lower edge
-				if j==0 or (j!=0 and grid[i][j-1].is_empty):
+				if j==0 or (j!=0 and grid[i][j-1].is_empty and not grid[i][j-1].slope):
 					grid[i][j].edge += 3 # left edge
-				if j==size.x-1 or (j!=size.x-1 and grid[i][j+1].is_empty):
+				if j==size.x-1 or (j!=size.x-1 and grid[i][j+1].is_empty and not grid[i][j+1].slope):
 					grid[i][j].edge += 6 # right edge
+
+func initialize_grid():
+	for i in size.y:
+		grid.append([])
+		for j in size.x:
+			var tile_instance = Building_Tile.new()
+			grid[i].append(tile_instance)

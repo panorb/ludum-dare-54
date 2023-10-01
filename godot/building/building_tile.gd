@@ -5,6 +5,7 @@ var is_top = false
 var is_bottom = false
 var slope = 0
 var edge = 0
+var tile = Vector2i(-1, -1)
 
 func set_brick():
 	is_empty = false
@@ -44,4 +45,23 @@ func set_bottom():
 
 
 func update_tile():
-	pass
+	if not self.is_empty:
+		tile = Vector2i(1, 1)
+		if self.is_bottom:
+			tile = Vector2i(1, 0)
+	else:
+		tile = Vector2i(-1, -1)
+		if self.slope:
+			if self.slope == 1:
+				tile = Vector2i(5, 2)
+			elif self.slope == 2:
+				tile = Vector2i(6, 2)
+			elif self.slope == 3:
+				tile = Vector2i(5, 3)
+			elif self.slope == 4:
+				tile = Vector2i(6, 3)
+#	if self.edge:
+#		if self.edge == 3:
+#			tile = Vector2i(0, 1)
+#		if self.edge == 6:
+#			tile = Vector2i(2, 1)
