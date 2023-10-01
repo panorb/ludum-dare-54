@@ -5,7 +5,7 @@ signal card_hand_ready
 @export var card_scene : PackedScene = preload("res://game/cards/card.tscn")
 @export_range(1, 6) var card_num : int = 3 
 @export_range(5, 75) var card_spacing : int = 5
-@export_range(-75, 75) var y_offset : int = -45
+@export_range(-150, 75) var y_offset : int = -120
 
 var hand_cards : Array[Card] = []
 var held_card : Card = null
@@ -25,7 +25,7 @@ func initial_card_draw() -> void:
 	self.card_hand_ready.emit()
 
 func draw_card() -> void:
-	var y = get_viewport_rect().size.y + 120
+	var y = get_viewport_rect().size.y + 200
 	var x = get_viewport_rect().size.x / 2
 	
 	
@@ -39,7 +39,6 @@ func draw_card() -> void:
 	card_instance.init_capacity(250)
 	
 	add_child(card_instance)
-	
 	
 	var building := Building.new()
 	building.generate_building()
@@ -95,7 +94,7 @@ func reorganize_hand() -> void:
 	tween.set_parallel()
 	
 	if held_card:
-		var held_y = get_viewport_rect().size.y + y_offset - 20
+		var held_y = get_viewport_rect().size.y + y_offset - 40
 		var held_x = get_viewport_rect().size.x / 2.0
 		tween.tween_property(held_card, "position", Vector2(held_x, held_y), 0.6)
 		

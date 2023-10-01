@@ -6,7 +6,7 @@
 [ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="4_707pf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jwf2e"]
-size = Vector2(44, 60)
+size = Vector2(134, 180)
 
 [sub_resource type="QuadMesh" id="QuadMesh_21hl2"]
 
@@ -18,7 +18,7 @@ texture = ExtResource("1_y1phy")
 script = ExtResource("2_y4vfv")
 
 [node name="CapacityAnchor" type="Node2D" parent="."]
-position = Vector2(-10, 13)
+position = Vector2(-37, 34)
 
 [node name="CapacityLabel" type="Label" parent="CapacityAnchor"]
 unique_name_in_owner = true
@@ -42,8 +42,8 @@ unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_jwf2e")
 
 [node name="PreviewRenderer" type="MeshInstance2D" parent="."]
-position = Vector2(7.7486e-07, -10.5)
-scale = Vector2(40, -33)
+position = Vector2(-1.90735e-06, -31.5)
+scale = Vector2(118, -99)
 mesh = SubResource("QuadMesh_21hl2")
 texture = SubResource("ViewportTexture_q1p8d")
 

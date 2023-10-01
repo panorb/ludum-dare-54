@@ -29,7 +29,7 @@ func init_building(building: TBuilding):
 	_building = building
 
 func _on_ClickZone_input_event(viewport: Node, event: InputEvent, shape_idx: int):
-	if event is InputEventMouseButton and event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		self.selected.emit(self)
 
 func _on_ClickZone_mouse_entered():
@@ -68,6 +68,9 @@ func blur():
 	
 	if not is_selected:
 		z_index = 0
+	else:
+		z_index = 50
+	
 	focus_tween = create_tween()
 	focus_tween.tween_property(self, "scale", Vector2.ONE, 0.4)
 	focus_tween.play()
