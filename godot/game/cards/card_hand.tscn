@@ -1,13 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://nr04eptwcnd5"]
+[gd_scene load_steps=2 format=3 uid="uid://nr04eptwcnd5"]
 
 [ext_resource type="Script" path="res://game/cards/card_hand.gd" id="1_dttvm"]
-[ext_resource type="Texture2D" uid="uid://eyycsfp1wxq1" path="res://icon.svg" id="2_xer7o"]
 
 [node name="CardHand" type="Node2D"]
 script = ExtResource("1_dttvm")
-
-[node name="StartX" type="Marker2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="StartX"]
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_xer7o")

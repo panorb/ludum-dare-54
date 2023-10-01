@@ -7,7 +7,7 @@
 
 [node name="tower" type="Node2D" node_paths=PackedStringArray("tileMap")]
 script = ExtResource("1_lgnhb")
-tileMap = NodePath("BuildingManager/TemplateMap")
+tileMap = NodePath("BuildingManager/TowerMap")
 
 [node name="BuildingManager" type="Node2D" parent="."]
 script = ExtResource("2_qc6mu")
@@ -15,6 +15,14 @@ script = ExtResource("2_qc6mu")
 [node name="Building" type="Node" parent="BuildingManager"]
 script = ExtResource("3_51hqr")
 
-[node name="TemplateMap" type="TileMap" parent="BuildingManager"]
+[node name="TowerMap" type="TileMap" parent="BuildingManager"]
 tile_set = ExtResource("4_7rioh")
 format = 2
+layer_0/name = "Building"
+layer_1/name = "Decoration"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
