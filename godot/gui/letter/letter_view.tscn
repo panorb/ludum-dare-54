@@ -59,11 +59,18 @@ size_flags_vertical = 3
 bbcode_enabled = true
 
 [node name="Close" type="Button" parent="."]
-layout_mode = 0
-offset_left = 625.0
-offset_top = 644.0
-offset_right = 656.0
-offset_bottom = 675.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.5
+offset_top = -36.0
+offset_right = 15.5
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "OK
 "
 
