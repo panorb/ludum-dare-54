@@ -133,3 +133,7 @@ func place_building(position:Vector2i, building:TBuilding) -> bool:
 	self.height = max(self.height, MAP_SIZE.y - position.y)
 #	print(height)
 	return true
+
+
+func _on_side_building_right_tower_spam(position):
+	print("tower spam at: "+str(position))

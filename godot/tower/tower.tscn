@@ -10,6 +10,7 @@ script = ExtResource("1_lgnhb")
 tileMap = NodePath("BuildingManager/TowerMap")
 
 [node name="BuildingManager" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("2_qc6mu")
 
 [node name="Building" type="Node" parent="BuildingManager"]

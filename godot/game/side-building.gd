@@ -11,6 +11,8 @@ extends Node2D
 @export var min_template_height: int = 10
 @export_range(0.0,1.0) var pattern_probability_per_row: float = 0.1
 
+#@export var building_manager : BuildingManager
+
 var tilemap_layer = 0
 var tilemap_sourceid = 0
 
@@ -18,7 +20,10 @@ var tilemap_sourceid = 0
 
 var random = RandomNumberGenerator.new()
 
+
 var tilemap_starting_position: Vector2i
+
+signal tower_spam(position:Vector2i)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -53,7 +58,7 @@ var current_row_width_delta = 0
 func find_baseplate_start(pattern: TileMapPattern):
 	var start = null
 
-	print(pattern.get_size())
+#	print(pattern.get_size())
 	for y in range(pattern.get_size().y-1, -1, -1):
 		for x in range(pattern.get_size().x):
 			if pattern.has_cell(Vector2i(x,y)):
@@ -95,6 +100,7 @@ func add_rows_if_needed(amount_to_draw: int):
 			for x in range(-building_padding_on_outside, floorf(current_row_width_delta), direction):
 				# fill with
 				tilemap.set_cell(tilemap_layer, tilemap_starting_position + Vector2i(x, -row), tilemap_sourceid, fill_tile_id);
+				tower_spam.emit(tilemap_starting_position + Vector2i(x, -row))
 			
 			row += 1;
 			current_completed_row += 1;
@@ -111,6 +117,9 @@ func add_rows_if_needed(amount_to_draw: int):
 					print("could not find offset for pattern");
 					return;
 				self.tilemap.set_pattern(0, pattern_position - offset, pattern_to_place);
+				for i in range(5): #TODO
+					#tower_spam.emit(tilemap_starting_position + Vector2i(x, -row))
+					pass
 				row += pattern_height;
 				last_pattern_used_at_height = row
 				current_completed_row += pattern_height;

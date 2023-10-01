@@ -64,3 +64,8 @@ camera = NodePath("../GameCamera")
 
 [node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
 unique_name_in_owner = true
+
+[connection signal="tower_spam" from="Environment/SideBuildingRight" to="Tower/BuildingManager" method="_on_side_building_right_tower_spam"]
+
+[editable path="Tower"]
+[editable path="Environment/SideBuildingRight"]
