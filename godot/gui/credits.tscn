@@ -27,17 +27,17 @@ theme_override_constants/margin_bottom = 20
 [node name="VSplitContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+[node name="TitleLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
-text = "Credits"
-horizontal_alignment = 1
-vertical_alignment = 1
+bbcode_enabled = true
+text = "[font_size=25][center][b]Credits[/b][/center][/font_size]"
+fit_content = true
 
-[node name="DevelopmentLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+[node name="DevelopmentLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
-text = "Development"
-horizontal_alignment = 1
-vertical_alignment = 1
+bbcode_enabled = true
+text = "[center][b]Development[/b][/center]"
+fit_content = true
 
 [node name="DevelopmentHFlowContainer" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
@@ -107,12 +107,11 @@ text = "NickFleming_"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GraphicArtistsLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+[node name="GraphicArtistsLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
-size_flags_vertical = 1
-text = "Graphic Artists"
-horizontal_alignment = 1
-vertical_alignment = 1
+bbcode_enabled = true
+text = "[center][b]Graphic Artists[/b][/center]"
+fit_content = true
 
 [node name="GraphicArtistsHFlowContainer2" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
@@ -124,11 +123,11 @@ text = "nSkade"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+[node name="MusicRichtText" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
-text = "Music"
-horizontal_alignment = 1
-vertical_alignment = 1
+bbcode_enabled = true
+text = "[center][b]Music[/b][/center]"
+fit_content = true
 
 [node name="MusicHFlowContainer3" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
