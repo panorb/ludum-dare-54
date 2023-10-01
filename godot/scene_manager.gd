@@ -1,9 +1,11 @@
 extends Node
 
 var packed_scenes := {
-	"game": preload("res://game/game.tscn")
+	"main_menu": preload("res://gui/main_menu.tscn"),
+	"game": preload("res://game/game.tscn"),
+	"credits": preload("res://gui/credits.tscn")
 };
-var start_scene := "game";
+var start_scene := "main_menu";
 
 var _scenes := {};
 @onready var _curr_scene: Node = get_node_or_null("/root/World");
