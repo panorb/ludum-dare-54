@@ -190,10 +190,10 @@ vec4 raymarch(vec3 dir, vec3 origin, inout vec3 gnormal, inout bool ghit,inout v
 	return vec4(0.0);
 }
 
-vec4 ssWin(vec2 uv) {
+vec4 ssWin(vec2 uv, float bias) {
 	// fetch window 2x 5y
 	uv = uv/16.+vec2(1.,4.)/16.;
-	return texture(u_tower,uv);
+	return textureLod(u_tower,uv,bias);
 }
 
 // raytraced plane
@@ -329,8 +329,10 @@ void fragment()
 		} else if (length(gpos.yz) > length(gpos.xy)) {
 			locPos = gpos.xy-.5;
 		}
-		col = ssWin(mod(locPos*5.,vec2(1.)));
-		col *= .5;
+		float depth = length(gpos-CAMPOS);
+		float lod = 1.+log2(.5+depth/16.);
+		col = ssWin(mod(locPos*5.,vec2(1.)),lod);
+		col *= .5; //TODO //2./depth;
 		COLOR = vec4(col.xyz, 1.0);
 	} else { // cuz return is not allowed.
 	// sky

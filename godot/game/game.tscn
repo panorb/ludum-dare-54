@@ -1,14 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=12 format=3 uid="uid://dmoctt7p732ox"]
 
-[ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
 [ext_resource type="PackedScene" uid="uid://c3g8h1o5faaqa" path="res://background/background.tscn" id="1_bmw85"]
+[ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
 [ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
 [ext_resource type="Script" path="res://game/game_camera.gd" id="2_qbikm"]
 [ext_resource type="Texture2D" uid="uid://xa2g7s7ia4eb" path="res://placeholders/white.png" id="3_w6yv1"]
-[ext_resource type="TileSet" uid="uid://0ybmj4iaojrs" path="res://tower/tower-tileset.tres" id="3_xn6el"]
-[ext_resource type="PackedScene" path="res://game/side-building.tscn" id="4_1affs"]
+[ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="3_xn6el"]
+[ext_resource type="PackedScene" uid="uid://xpjdv0n1b32j" path="res://game/side-building.tscn" id="4_1affs"]
+[ext_resource type="Script" path="res://background/CanvasLayer.gd" id="4_rhn13"]
 [ext_resource type="Script" path="res://game/InteractionManager.gd" id="5_xfojq"]
 [ext_resource type="PackedScene" uid="uid://cf5v8hs4kc7x2" path="res://gui/letter/letter_view.tscn" id="8_ruha8"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ga315"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Game" type="Node2D"]
 metadata/_edit_horizontal_guides_ = []
@@ -20,26 +24,49 @@ autoplay = true
 
 [node name="background" parent="." instance=ExtResource("1_bmw85")]
 
-[node name="Tower" parent="." instance=ExtResource("2_mt16c")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="GameCamera" type="Camera2D" parent="."]
+[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
+unique_name_in_owner = true
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 0
+offset = Vector2(624, 360)
+scale = Vector2(3, 3)
+transform = Transform2D(3, 0, 0, 3, 624, 360)
+script = ExtResource("4_rhn13")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer2"]
+texture_filter = 1
+texture = SubResource("ViewportTexture_ga315")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+size = Vector2i(416, 240)
+
+[node name="Tower" parent="SubViewport" instance=ExtResource("2_mt16c")]
+
+[node name="GameCamera" type="Camera2D" parent="SubViewport"]
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("2_qbikm")
 
-[node name="Environment" type="Node2D" parent="."]
+[node name="Environment" type="Node2D" parent="SubViewport"]
 
-[node name="Gras" type="Sprite2D" parent="Environment"]
+[node name="Gras" type="Sprite2D" parent="SubViewport/Environment"]
+visible = false
 modulate = Color(0.0705882, 0.415686, 0.0784314, 1)
 position = Vector2(0, 776.5)
 scale = Vector2(7676, 1553)
 texture = ExtResource("3_w6yv1")
 
-[node name="SideBuildingTileMap" type="TileMap" parent="Environment"]
+[node name="SideBuildingTileMap" type="TileMap" parent="SubViewport/Environment"]
 tile_set = ExtResource("3_xn6el")
 format = 2
 
-[node name="SideBuildingRight" parent="Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
+[node name="SideBuildingRight" parent="SubViewport/Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
 position = Vector2(177, 0)
 tilemap = NodePath("../SideBuildingTileMap")
 draw_debug = true
@@ -49,7 +76,7 @@ min_distance_between_patterns = 20
 min_template_height = 20
 pattern_probability_per_row = 0.05
 
-[node name="SideBuildingLeft" parent="Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
+[node name="SideBuildingLeft" parent="SubViewport/Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
 position = Vector2(-177, 0)
 tilemap = NodePath("../SideBuildingTileMap")
 draw_debug = true
@@ -59,11 +86,6 @@ min_distance_between_patterns = 20
 min_template_height = 20
 pattern_probability_per_row = 0.05
 
-[node name="InteractionManager" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
+[node name="InteractionManager" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("camera")]
 script = ExtResource("5_xfojq")
 camera = NodePath("../GameCamera")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
-unique_name_in_owner = true

@@ -8,7 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ankjj"]
 shader = ExtResource("2_63iyq")
-shader_parameter/u_resolution = Vector2(1280, 720)
+shader_parameter/u_resolution = Vector2(412, 240)
 shader_parameter/u_time = null
 shader_parameter/u_perspective = null
 shader_parameter/u_mouse = null

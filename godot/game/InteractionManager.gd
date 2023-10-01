@@ -31,12 +31,12 @@ func _process(delta: float) -> void:
 	camera.position.y += movement * camera_sensitivity * delta * 100
 	camera.position.y = min(0, camera.position.y)
 
-	var background_scene = get_parent().get_node("background")
+	var background_scene = get_parent().get_parent().get_node("background")
 	#if background_scene:
-	var color_rect = background_scene.get_node("CanvasLayer").get_child(0)
+	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
 	bgsTimer += delta
 	color_rect.material.set_shader_parameter("u_startAnim", minf(smoothstep(0.,1.,bgsTimer),1.))
-	var prog = maxf(-1.01,-.01-camera.position.y/5000.) #TODO 50k seems reasonable
+	var prog = maxf(-1.01,-.01-camera.position.y/50000.) #TODO 50k seems reasonable
 	color_rect.material.set_shader_parameter("u_progress", prog)
 	color_rect.material.set_shader_parameter("u_perspective", .2)
 
