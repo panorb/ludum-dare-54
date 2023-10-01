@@ -49,23 +49,23 @@ func update_tile():
 	if not self.is_empty:
 		if self.left_right_edge == 1:
 			if self.upper_lower_edge == 1:
-				tile = Vector2i(9, 0)
+				tile = Vector2i(12, 0)
 			elif self.upper_lower_edge == 2:
-				tile = Vector2i(9, 1)
+				tile = Vector2i(12, 1)
 			else:
 				tile = Vector2i(0, 1)
 		elif self.left_right_edge == 2:
 			if self.upper_lower_edge == 1:
-				tile = Vector2i(11, 0)
+				tile = Vector2i(14, 0)
 			elif self.upper_lower_edge == 2:
-				tile = Vector2i(11, 1)
+				tile = Vector2i(14, 1)
 			else:
 				tile = Vector2i(2, 1)
 		else:
 			if self.upper_lower_edge == 1:
-				tile = Vector2i(10, 0)
+				tile = Vector2i(13, 0)
 			elif self.upper_lower_edge == 2:
-				tile = Vector2i(10, 1)
+				tile = Vector2i(13, 1)
 			else:
 				tile = Vector2i(1, 1)
 	else:
