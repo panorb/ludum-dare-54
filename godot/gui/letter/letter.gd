@@ -9,8 +9,8 @@ func _ready() -> void:
 	var texts_str = FileAccess.get_file_as_string("res://gui/letter/letter_texts.json")
 	_texts = JSON.parse_string(texts_str)
 
-func _input(_event: InputEvent) -> void:
-	if Input.is_key_pressed(KEY_SPACE):
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("close_letter"):
 		_on_close()
 
 ## Shows letter that will be extracted from [code]letter_texts.json[/code] by key [param text_key].

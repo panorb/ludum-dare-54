@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cf5v8hs4kc7x2"]
+[gd_scene load_steps=4 format=3 uid="uid://cf5v8hs4kc7x2"]
 
 [ext_resource type="Script" path="res://gui/letter/letter.gd" id="1_i47go"]
 [ext_resource type="Theme" uid="uid://bpgsdw6mshxrl" path="res://gui/letter/letter_view.tres" id="2_4qyn8"]
+[ext_resource type="Texture2D" uid="uid://deil0yplio1qx" path="res://gui/letter/letter_background.png" id="3_2p0kr"]
 
 [node name="Letter" type="Control"]
 visible = false
@@ -9,8 +10,6 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 960.0
-offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
@@ -27,40 +26,56 @@ color = Color(0, 0, 0, 0.501961)
 
 [node name="LetterContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-offset_left = 265.0
-offset_top = 70.0
-offset_right = 1015.0
-offset_bottom = 600.0
-
-[node name="ColorRect" type="ColorRect" parent="LetterContainer"]
-layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("2_4qyn8")
-color = Color(0.945098, 0.945098, 0.756863, 1)
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 65
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 65
 
-[node name="MarginContainer" type="MarginContainer" parent="LetterContainer/ColorRect"]
+[node name="TextureRect" type="TextureRect" parent="LetterContainer"]
+layout_mode = 2
+texture = ExtResource("3_2p0kr")
+
+[node name="MarginContainer" type="MarginContainer" parent="LetterContainer/TextureRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
 
-[node name="ScrollContainer" type="ScrollContainer" parent="LetterContainer/ColorRect/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="LetterContainer/TextureRect/MarginContainer"]
 layout_mode = 2
 
-[node name="LetterText" type="Label" parent="LetterContainer/ColorRect/MarginContainer/ScrollContainer"]
+[node name="LetterText" type="RichTextLabel" parent="LetterContainer/TextureRect/MarginContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-autowrap_mode = 3
+bbcode_enabled = true
 
 [node name="Close" type="Button" parent="."]
-layout_mode = 0
-offset_left = 625.0
-offset_top = 644.0
-offset_right = 656.0
-offset_bottom = 675.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -60.0
+offset_right = 10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "OK
 "
 
