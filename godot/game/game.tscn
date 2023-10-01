@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=9 format=3 uid="uid://dmoctt7p732ox"]
 
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
 [ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="3_xn6el"]
 [ext_resource type="PackedScene" uid="uid://xpjdv0n1b32j" path="res://game/side-building.tscn" id="4_1affs"]
 [ext_resource type="Script" path="res://game/InteractionManager.gd" id="5_xfojq"]
+[ext_resource type="PackedScene" uid="uid://cf5v8hs4kc7x2" path="res://gui/letter/letter_view.tscn" id="8_ruha8"]
 
 [node name="Game" type="Node2D"]
 metadata/_edit_horizontal_guides_ = []
@@ -51,3 +52,8 @@ building_padding_on_outside = -40
 [node name="InteractionManager" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("5_xfojq")
 camera = NodePath("../GameCamera")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
+unique_name_in_owner = true
