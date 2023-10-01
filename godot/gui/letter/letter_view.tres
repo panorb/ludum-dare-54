@@ -4,8 +4,5 @@
 
 [resource]
 default_font = ExtResource("1_4ir5w")
-MarginContainer/constants/margin_bottom = 10
-MarginContainer/constants/margin_left = 10
-MarginContainer/constants/margin_right = 10
-MarginContainer/constants/margin_top = 10
+default_font_size = 36
 RichTextLabel/colors/default_color = Color(0.0235294, 0, 0.807843, 1)
