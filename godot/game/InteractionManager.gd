@@ -8,7 +8,7 @@ signal primary_interaction_just_pressed_sig
 
 const MOUSE_SCROLL_SPEED: int = 10
 
-func _process(delta):
+func _process(delta: float) -> void:
 
 
 	var movement = 0;
@@ -39,7 +39,7 @@ enum MOUSE_STATE { INACTIVE, DRAGGING, CLICKING}
 var current_state = MOUSE_STATE.INACTIVE
 var starting_position = null
 var primary_pressed = false
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("primary_action"):
 			primary_pressed = true
