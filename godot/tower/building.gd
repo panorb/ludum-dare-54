@@ -23,6 +23,7 @@ func _init(size: Vector2i, tile_map: TileMap = null, offset := Vector2i(0, 0)):
 	self.support_right = Vector2i(-1, -1)
 	if tile_map == null:
 		self.graphical_tiles = TileMap.new()
+		self.graphical_tiles.add_layer(1)
 	else:
 		self.graphical_tiles = tile_map
 	for y in range(size.y):
@@ -39,6 +40,8 @@ func stamp(pos: Vector2i, building: TBuilding) -> void:
 			if self.graphical_tiles.get_cell_source_id(0, pos_tl-offset) == -1:
 				self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
 				self.graphical_tiles.set_cell(1, pos_tl-offset, building.graphical_tiles.get_cell_source_id(1, pos_in), building.graphical_tiles.get_cell_atlas_coords(1, pos_in))
+#				if building.graphical_tiles.get_cell_atlas_coords(1, pos_in).x != -1:
+#					print("hey")
 				self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
 
 static func from_building(building: Building) -> TBuilding:
@@ -46,8 +49,11 @@ static func from_building(building: Building) -> TBuilding:
 	for y in range(tbuilding.size.y):
 		for x in range(tbuilding.size.x):
 			tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, building.grid[y][x].tile)
-			tbuilding.graphical_tiles.set_cell(1, Vector2i(x, y), 0, building.grid[y][x].tile)
-			#tbuilding.graphical_tiles.set_cell(1, Vector2i(x, y), 0, building.grid[y][x].tile_decoration)
+			tbuilding.graphical_tiles.set_cell(1, Vector2i(x, y), 0, building.grid[y][x].tile_decoration)
+#			if building.grid[y][x].tile_decoration.x != -1:
+#				print("hey "+str(building.grid[y][x].tile_decoration))
+#			if tbuilding.graphical_tiles.get_cell_atlas_coords(1, Vector2i(x, y)).x != -1:
+#				print("ho")
 			if not building.grid[y][x].is_empty:
 				tbuilding.set_non_empty(Vector2i(x, y))
 			else:
