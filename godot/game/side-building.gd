@@ -117,9 +117,10 @@ func add_rows_if_needed(amount_to_draw: int):
 					print("could not find offset for pattern");
 					return;
 				self.tilemap.set_pattern(0, pattern_position - offset, pattern_to_place);
-				for i in range(5): #TODO
-					#tower_spam.emit(tilemap_starting_position + Vector2i(x, -row))
-					pass
+				for x in range(pattern_position.x, pattern_position.x + pattern_to_place.get_size().x):
+					for y in range(pattern_position.y, pattern_position.y + pattern_to_place.get_size().y):
+						if pattern_to_place.has_cell(Vector2i(x - pattern_position.x, y - pattern_position.y)):
+							tower_spam.emit(Vector2i(x,y))
 				row += pattern_height;
 				last_pattern_used_at_height = row
 				current_completed_row += pattern_height;
