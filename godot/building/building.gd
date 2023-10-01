@@ -11,12 +11,13 @@ class_name Building extends Node
 @export var adjusted_expanding_distribution = [0.05, 0.22, 0.28, 0.98, 1]
 @export var no_tshape_probability = 0.2
 
+@export var roof_probability = 0.7
 @export var border_window_probability = 0.4
 @export var hole_probability = 0.1
 @export var trap_door_probability = 0.25
 
 @export var window_probability = 0.4
-@export var roof_probability = 0.7
+
 
 
 var grid = []
@@ -64,28 +65,28 @@ func generate_building() -> void:
 			if is_left_border:
 				for i in shrink_size:
 					for j in shrink_size - i:
-						grid[i][j].unset_brick()
+						grid[i][max(-offset,0)+j].unset_brick()
 						if i+j == shrink_size - 1:
-							grid[i][j].set_slope(1)
-			else:
+							grid[i][max(-offset,0)+j].set_slope(1)
+			if is_right_border:
 				for i in shrink_size:
 					for j in shrink_size - i:
-						grid[i][max_width-1-j].unset_brick()
+						grid[i][min(-offset+upper_width, max_width)-1-j].unset_brick()
 						if i+j == shrink_size - 1:
-							grid[i][max_width-1-j].set_slope(2)
+							grid[i][min(-offset+upper_width, max_width)-1-j].set_slope(2)
 		if shrink_size < 0:
 			if is_left_border:
 				for i in -shrink_size:
 					for j in -shrink_size - i:
-						grid[floor_height*floor_number-1-i][j].unset_brick()
+						grid[floor_height*floor_number-1-i][max(offset,0)+j].unset_brick()
 						if i+j == -shrink_size - 1:
-							grid[floor_height*floor_number-1-i][j].set_slope(3)
-			else:
+							grid[floor_height*floor_number-1-i][max(offset,0)+j].set_slope(3)
+			if is_right_border:
 				for i in -shrink_size:
 					for j in -shrink_size - i:
-						grid[floor_height*floor_number-1-i][max_width-1-j].unset_brick()
+						grid[floor_height*floor_number-1-i][min(-offset+upper_width, max_width)-1-j].unset_brick()
 						if i+j == -shrink_size - 1:
-							grid[floor_height*floor_number-1-i][max_width-1-j].set_slope(4)
+							grid[floor_height*floor_number-1-i][min(-offset+upper_width, max_width)-1-j].set_slope(4)
 	
 	update_edges()
 	
@@ -111,6 +112,9 @@ func randomize_border() -> void:
 	is_right_border = false
 	if randf() >= border_probability:
 		return
+	if randf() < roof_probability:
+		is_left_border = true
+		is_right_border = true
 	if randf() < border_skew_probability:
 		is_left_border = true
 	else:
@@ -125,9 +129,9 @@ func randomize_size() -> int:
 	return floor_width
 
 func randomize_offset(lower_width, upper_width) -> int:
-	if is_left_border:
+	if is_left_border and not is_right_border:
 		return 0
-	if is_right_border:
+	if is_right_border and not is_left_border:
 		return upper_width-lower_width
 	if randf() < no_tshape_probability:
 		if randf() < 0.5:
@@ -139,6 +143,9 @@ func randomize_offset(lower_width, upper_width) -> int:
 	return randi_range(min_offset, max_offset)
 
 func randomize_shrink_size(lower_width, upper_width) -> int:
+	if is_left_border and is_right_border:
+		return 1
+	
 	var random := randf()
 	var adjusted_shrink_size: int = 0
 	while adjusted_expanding_distribution[adjusted_shrink_size] < random:
@@ -171,7 +178,7 @@ func initialize_grid() -> void:
 			grid[i].append(tile_instance)
 
 func generate_decorations() -> void:
-	if randf() < roof_probability:
+	if is_left_border and is_right_border:
 		for j in size.x:
 			if not grid[0][j].is_empty or grid[0][j].slope:
 				grid[0][j].set_decoration(3)
@@ -227,7 +234,7 @@ func generate_trap_doors() -> void:
 	for j in size.x:
 		if grid[size.y-1][j].is_decorated or grid[size.y-1][j].is_empty:
 			continue
-		if j > 0 and grid[0][j-1].is_trap_door:
+		if j > 0 and grid[size.y-1][j-1].is_trap_door:
 			continue
 		if randf() < trap_door_probability:
 			grid[size.y-1][j].set_trap_door()
