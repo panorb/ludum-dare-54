@@ -4,7 +4,8 @@ var is_empty = true
 var is_top = false
 var is_bottom = false
 var slope = 0
-var edge = 0
+var left_right_edge = 0
+var upper_lower_edge = 0
 var tile = Vector2i(-1, -1)
 
 func set_brick():
@@ -23,16 +24,16 @@ func set_slope(new_slope):
 	# 4 = lower right
 	update_tile()
 
-func set_edge(new_edge):
-	edge = new_edge
+func set_left_right_edge(edge):
+	left_right_edge = edge
+	# 1 = left
+	# 2 = right
+	update_tile()
+
+func set_upper_lower_edge(edge):
+	upper_lower_edge = edge
 	# 1 = upper
 	# 2 = lower
-	# 3 = left
-	# 4 = upper_left
-	# 5 = lower_left
-	# 6 = right
-	# 7 = upper_right
-	# 8 = lower_right
 	update_tile()
 
 func set_top():
@@ -46,9 +47,27 @@ func set_bottom():
 
 func update_tile():
 	if not self.is_empty:
-		tile = Vector2i(1, 1)
-		if self.is_bottom:
-			tile = Vector2i(1, 0)
+		if self.left_right_edge == 1:
+			if self.upper_lower_edge == 1:
+				tile = Vector2i(9, 0)
+			elif self.upper_lower_edge == 2:
+				tile = Vector2i(9, 1)
+			else:
+				tile = Vector2i(0, 1)
+		elif self.left_right_edge == 2:
+			if self.upper_lower_edge == 1:
+				tile = Vector2i(11, 0)
+			elif self.upper_lower_edge == 2:
+				tile = Vector2i(11, 1)
+			else:
+				tile = Vector2i(2, 1)
+		else:
+			if self.upper_lower_edge == 1:
+				tile = Vector2i(10, 0)
+			elif self.upper_lower_edge == 2:
+				tile = Vector2i(10, 1)
+			else:
+				tile = Vector2i(1, 1)
 	else:
 		tile = Vector2i(-1, -1)
 		if self.slope:
@@ -60,8 +79,3 @@ func update_tile():
 				tile = Vector2i(5, 3)
 			elif self.slope == 4:
 				tile = Vector2i(6, 3)
-#	if self.edge:
-#		if self.edge == 3:
-#			tile = Vector2i(0, 1)
-#		if self.edge == 6:
-#			tile = Vector2i(2, 1)

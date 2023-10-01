@@ -25,7 +25,7 @@ func _ready() -> void:
 #	var res = self.place_building(Vector2i(13-(tb.size.x/2), MAP_SIZE.y-(tb.size.y+1)), tb)
 	#print(get_possible_placement(tb, true))
 	var failed_count:int = 0
-	for i in range(100):
+	for i in range(30):
 		b = Building.new()
 		b.generate_building()
 		var tb = TBuilding.from_building(b)
@@ -34,11 +34,11 @@ func _ready() -> void:
 #			tb = TBuilding.from_building(b)
 		var positions = get_possible_placement(tb, true)
 		if not positions:
-			print("failed")
+#			print("failed")
 			failed_count += 1
 			continue
 		self.place_building(positions[randi() % positions.size()], tb)
-	print("Total failed: "+str(failed_count))
+#	print("Total failed: "+str(failed_count))
 	
 #	var b = TBuilding.new(Vector2i(3, 5))
 #	b.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
@@ -66,7 +66,7 @@ func init_foundation(width: int) -> void:
 
 func get_possible_placement(building:TBuilding, find_all:bool = false) -> Array[Vector2i]:
 	var positions : Array[Vector2i] = []
-	print("testing building of size "+str(building.size)+" from "+str(MAP_SIZE.y - self.height - building.size.y - 10)+" to "+str(min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)))
+#	print("testing building of size "+str(building.size)+" from "+str(MAP_SIZE.y - self.height - building.size.y - 10)+" to "+str(min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)))
 #	for y in range(MAP_SIZE.y - self.height - building.size.y - 10, min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)):
 #		for x in range(0, MAP_SIZE.x-building.size.x):
 #			var pos = Vector2i(x, y)
@@ -111,5 +111,5 @@ func place_building(position:Vector2i, building:TBuilding) -> bool:
 		return false
 	self.map.stamp(position, building)
 	self.height = max(self.height, MAP_SIZE.y - position.y)
-	print(height)
+#	print(height)
 	return true

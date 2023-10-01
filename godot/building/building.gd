@@ -149,16 +149,15 @@ func randomize_shrink_size(lower_width, upper_width) -> int:
 func update_edges() -> void:
 	for i in size.y:
 		for j in size.x:
-			grid[i][j].edge = 0
 			if not grid[i][j].is_empty:
 				if i==0 or (i!=0 and grid[i-1][j].is_empty and not grid[i-1][j].slope):
-					grid[i][j].edge += 1 # upper edge
+					grid[i][j].set_upper_lower_edge(1) # upper edge
 				if i==size.y-1 or (i!=size.y-1 and grid[i+1][j].is_empty and not grid[i+1][j].slope):
-					grid[i][j].edge += 2 # lower edge
+					grid[i][j].set_upper_lower_edge(2) # lower edge
 				if j==0 or (j!=0 and grid[i][j-1].is_empty and not grid[i][j-1].slope):
-					grid[i][j].edge += 3 # left edge
+					grid[i][j].set_left_right_edge(1) # left edge
 				if j==size.x-1 or (j!=size.x-1 and grid[i][j+1].is_empty and not grid[i][j+1].slope):
-					grid[i][j].edge += 6 # right edge
+					grid[i][j].set_left_right_edge(2) # right edge
 
 func initialize_grid():
 	for i in size.y:
