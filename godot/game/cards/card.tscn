@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://diexed5ksovey"]
+[gd_scene load_steps=7 format=3 uid="uid://diexed5ksovey"]
 
 [ext_resource type="Texture2D" uid="uid://cofr0371yt74m" path="res://game/cards/card_background.png" id="1_y1phy"]
 [ext_resource type="Script" path="res://game/cards/card.gd" id="2_y4vfv"]
@@ -6,6 +6,11 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jwf2e"]
 size = Vector2(44, 60)
+
+[sub_resource type="QuadMesh" id="QuadMesh_21hl2"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_q1p8d"]
+viewport_path = NodePath("PreviewViewport")
 
 [node name="Card" type="Sprite2D"]
 texture = ExtResource("1_y1phy")
@@ -30,6 +35,19 @@ text = "122"
 vertical_alignment = 1
 
 [node name="ClickZone" type="Area2D" parent="."]
+unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickZone"]
 shape = SubResource("RectangleShape2D_jwf2e")
+
+[node name="PreviewRenderer" type="MeshInstance2D" parent="."]
+position = Vector2(7.7486e-07, -10.5)
+scale = Vector2(40, -33)
+mesh = SubResource("QuadMesh_21hl2")
+texture = SubResource("ViewportTexture_q1p8d")
+
+[node name="PreviewViewport" type="SubViewport" parent="."]
+unique_name_in_owner = true
+disable_3d = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(390, 330)

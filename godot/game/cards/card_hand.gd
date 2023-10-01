@@ -14,7 +14,6 @@ func _ready() -> void:
 	get_tree().get_root().size_changed.connect(reorganize_hand)
 	initial_card_draw()
 
-
 func initial_card_draw() -> void:
 	for i in 3:
 		draw_card()
@@ -27,12 +26,18 @@ func draw_card() -> void:
 	var y = get_viewport_rect().size.y + 120
 	var x = get_viewport_rect().size.x / 2
 	
+	var building := Building.new()
+	building.generate_building()
+	var t_building := TBuilding.from_building(building)
+	
 	var card_instance : Card = card_scene.instantiate()
+	
 	card_instance.hover_begin.connect(self._on_Card_hover_begin)
 	card_instance.hover_end.connect(self._on_Card_hover_end)
 	card_instance.selected.connect(self._on_Card_selected)
 	card_instance.position.x = x
 	card_instance.position.y = y
+	card_instance.init(t_building, 250)
 	
 	add_child(card_instance)
 	hand_cards.append(card_instance)
@@ -92,7 +97,7 @@ func reorganize_hand() -> void:
 	var half_width: int = total_width / 2.0
 	
 	var start_x = (get_viewport_rect().size.x / 2.0) - half_width + (hand_cards[0].texture.get_width() / 2.0)
-	$StartX.position = Vector2(start_x, 40)
+	# $StartX.position = Vector2(start_x, 40)
 	
 	# var start_x = (get_viewport_rect().size.x / 2.0) - ((card_num / 2.0) * (hand_cards[0].texture.get_width() + card_spacing))
 	var y = get_viewport_rect().size.y + y_offset

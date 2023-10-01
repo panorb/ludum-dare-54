@@ -1,8 +1,14 @@
 class_name Card
 extends Sprite2D
 
-@onready var capacity_label : Label = get_node("%CapacityLabel")
-@onready var click_zone : Area2D = get_node("ClickZone")
+@onready var capacity_label : Label = %CapacityLabel
+@onready var click_zone : Area2D =%ClickZone
+
+@onready var preview_viewport = %PreviewViewport
+@onready var preview_tile_map = %PreviewTileMap
+
+var _building: TBuilding = null
+var _capacity: int = 0
 
 signal hover_begin(card : Card)
 signal hover_end(card : Card)
@@ -12,10 +18,17 @@ func _ready():
 	self.click_zone.mouse_entered.connect(self._on_ClickZone_mouse_entered)
 	self.click_zone.mouse_exited.connect(self._on_ClickZone_mouse_exited)
 	self.click_zone.input_event.connect(self._on_ClickZone_input_event)
-	init(5)
+	
+	await get_tree().process_frame
+	
+	capacity_label.text = str(_capacity)
+	self.add_child(_building.graphical_tiles)
 
-func init(capacity : int):
-	capacity_label.text = str(capacity)
+
+func init(building: TBuilding, capacity : int):
+	_building = building
+	_capacity = capacity
+	
 
 func _on_ClickZone_input_event(viewport: Node, event: InputEvent, shape_idx: int):
 	if event is InputEventMouseButton and event.is_pressed():
