@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=7 format=3 uid="uid://dmoctt7p732ox"]
 
+[ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
 [ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
 [ext_resource type="Texture2D" uid="uid://xa2g7s7ia4eb" path="res://placeholders/white.png" id="3_w6yv1"]
 [ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="3_xn6el"]
@@ -8,6 +9,11 @@
 
 [node name="Game" type="Node2D"]
 metadata/_edit_horizontal_guides_ = []
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_otubx")
+volume_db = 10.0
+autoplay = true
 
 [node name="Tower" parent="." instance=ExtResource("2_mt16c")]
 

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://gui/main_menu.gd" id="1_g6uru"]
 [ext_resource type="Texture2D" uid="uid://lwfjxln88rc7" path="res://gui/volume.png" id="2_5tiu0"]
+[ext_resource type="AudioStream" uid="uid://xst1ekamh3cv" path="res://music/main_menu_theme.mp3" id="2_j7iww"]
 [ext_resource type="Texture2D" uid="uid://c23u7darl2va3" path="res://gui/volume_slider.png" id="3_b25uu"]
 
 [node name="MainMenu" type="Control"]
@@ -14,6 +15,11 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_g6uru")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_j7iww")
+volume_db = 10.0
+autoplay = true
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
