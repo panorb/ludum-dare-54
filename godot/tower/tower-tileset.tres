@@ -88,6 +88,8 @@ texture = ExtResource("1_g3tv2")
 3:4/0 = 0
 4:4/0 = 0
 3:5/0 = 0
+1:6/0 = 0
+1:7/0 = 0
 
 [resource]
 sources/0 = SubResource("TileSetAtlasSource_pgu1h")

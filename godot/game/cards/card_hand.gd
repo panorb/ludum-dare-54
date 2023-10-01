@@ -1,6 +1,7 @@
 extends Node2D
 
 signal card_hand_ready
+signal card_selected(card:Card)
 
 @export var card_scene : PackedScene = preload("res://game/cards/card.tscn")
 @export_range(1, 6) var card_num : int = 3 
@@ -9,6 +10,7 @@ signal card_hand_ready
 
 var hand_cards : Array[Card] = []
 var held_card : Card = null
+var selected_card : Card = null
 
 const CARD_PREVIEW_SIZE : Vector2i = Vector2i(14, 9)
 
@@ -45,9 +47,16 @@ func draw_card() -> void:
 	var t_building := TBuilding.from_building(building)
 	var preview_building := TBuilding.new(CARD_PREVIEW_SIZE, card_instance.preview_tile_map)
 	preview_building.stamp(Vector2i(CARD_PREVIEW_SIZE.x/2-t_building.size.x/2, CARD_PREVIEW_SIZE.y/2-t_building.size.y/2), t_building)
-	card_instance.init_building(preview_building)
+	card_instance.init_building(t_building, preview_building)
 	
 	hand_cards.append(card_instance)
+
+func drop_card():
+	hand_cards.erase(selected_card)
+	if selected_card == held_card:
+		held_card = null
+	selected_card.queue_free()
+	selected_card = null
 
 func _on_Card_hover_begin(card : Card) -> void:
 	if held_card and card != held_card and held_card.is_hovered:
@@ -81,7 +90,8 @@ func _on_Card_selected(card : Card) -> void:
 		card.select()
 		hand_cards = hand_cards.filter(func(elem : Card): return elem.name != card.name)
 		held_card = card
-	
+	card_selected.emit(card)
+	self.selected_card = card
 	# draw_card()
 	reorganize_hand()
 
@@ -122,3 +132,9 @@ func reorganize_hand() -> void:
 	tween.play()
 
 
+
+
+func _on_building_manager_building_placed(position):
+	drop_card()
+	draw_card()
+	reorganize_hand()

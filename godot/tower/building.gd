@@ -16,7 +16,7 @@ var support_left : Vector2i
 var support_right : Vector2i
 
 
-func _init(size: Vector2i, tile_map: TileMap = null, offset := Vector2i(0, 0)):
+func _init(size: Vector2i = Vector2i.ZERO, tile_map: TileMap = null, offset := Vector2i(0, 0)):
 	self.size = size
 	self.offset = offset
 	self.support_left = Vector2i(size.x+1, -1)
@@ -33,16 +33,23 @@ func _init(size: Vector2i, tile_map: TileMap = null, offset := Vector2i(0, 0)):
 
 # copy the building into my own map
 func stamp(pos: Vector2i, building: TBuilding) -> void:
+#	print("stamp")
 	for y in range(building.size.y):
 		for x in range(building.size.x):
 			var pos_in = Vector2i(x, y)
 			var pos_tl = pos + pos_in
+#			print(pos_tl-offset)
 			if self.graphical_tiles.get_cell_source_id(0, pos_tl-offset) == -1:
 				self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
 				self.graphical_tiles.set_cell(1, pos_tl-offset, building.graphical_tiles.get_cell_source_id(1, pos_in), building.graphical_tiles.get_cell_atlas_coords(1, pos_in))
 #				if building.graphical_tiles.get_cell_atlas_coords(1, pos_in).x != -1:
 #					print("hey")
 				self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
+				if self.get_needs_suppot(pos_tl):
+					if x < self.support_left.x:
+						self.support_left = pos_tl
+					if x > self.support_right.x:
+						self.support_right = pos_tl
 
 static func from_building(building: Building) -> TBuilding:
 	var tbuilding = TBuilding.new(building.size)
@@ -127,3 +134,4 @@ func get_non_empty(pos: Vector2i) -> bool:
 
 func set_non_empty(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, NON_EMPTY)
+#	self.graphical_tiles.set_cell(1, pos-self.offset, 0, Vector2i(2,2))
