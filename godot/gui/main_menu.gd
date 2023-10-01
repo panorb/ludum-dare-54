@@ -10,13 +10,13 @@ signal show_credits
 @onready var sound_slider : HSlider = %SoundSlider
 @onready var sound_percent_label : Label = %SoundPercentLabel
 @onready var credits_button : BaseButton = %CreditsButton
-@onready var quite_button : BaseButton = %QuitButton 
+@onready var quit_button : BaseButton = %QuitButton 
 @onready var master_bus_index : int = AudioServer.get_bus_index('Master')
 
 
 func _ready() -> void:
 	start_button.pressed.connect(self._on_StartButton_pressed)
-	quite_button.pressed.connect(self._on_QuitButton_pressed)
+	quit_button.pressed.connect(self._on_QuitButton_pressed)
 	sound_slider.value_changed.connect(self._on_SoundSlider_value_changed)
 	
 	sound_slider.value = self.start_volume
