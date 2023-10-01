@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 
 signal start_game
@@ -50,7 +50,7 @@ func _on_QuitButton_pressed() -> void:
 func _on_SoundSlider_value_changed(volume_value: float) -> void:
 	AudioServer.set_bus_volume_db (master_bus_index, linear_to_db(volume_value / 100))
 	sound_percent_label.text = str(volume_value) +"%"
-	
+
 	if volume_value <= 0 :
 		sound_image.texture = volume_mute_image
 	elif volume_value > 0 && volume_value <=25:
