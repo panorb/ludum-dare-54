@@ -6,6 +6,7 @@ extends Node2D
 
 signal primary_interaction_just_pressed_sig
 
+const MOUSE_SCROLL_SPEED: int = 10
 
 func _process(delta):
 
@@ -17,6 +18,12 @@ func _process(delta):
 	
 	if Input.is_action_pressed("camera_down"):
 		movement += 1
+
+	if Input.is_action_just_released("camera_wheel_up"):
+		movement -= MOUSE_SCROLL_SPEED
+	
+	if Input.is_action_just_released("camera_wheel_down"):
+		movement += MOUSE_SCROLL_SPEED
 
 	camera.position.y += movement * camera_sensitivity * delta * 100
 	camera.position.y = min(0, camera.position.y)
