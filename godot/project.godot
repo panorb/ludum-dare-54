@@ -31,6 +31,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Ludum Dare 54"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
+
 [input]
 
 camera_up={
