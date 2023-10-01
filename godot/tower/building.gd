@@ -38,6 +38,7 @@ func stamp(pos: Vector2i, building: TBuilding) -> void:
 			var pos_tl = pos + pos_in
 			if self.graphical_tiles.get_cell_source_id(0, pos_tl-offset) == -1:
 				self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
+				self.graphical_tiles.set_cell(1, pos_tl-offset, building.graphical_tiles.get_cell_source_id(1, pos_in), building.graphical_tiles.get_cell_atlas_coords(1, pos_in))
 				self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
 
 static func from_building(building: Building) -> TBuilding:
@@ -45,6 +46,8 @@ static func from_building(building: Building) -> TBuilding:
 	for y in range(tbuilding.size.y):
 		for x in range(tbuilding.size.x):
 			tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, building.grid[y][x].tile)
+			tbuilding.graphical_tiles.set_cell(1, Vector2i(x, y), 0, building.grid[y][x].tile)
+			#tbuilding.graphical_tiles.set_cell(1, Vector2i(x, y), 0, building.grid[y][x].tile_decoration)
 			if not building.grid[y][x].is_empty:
 				tbuilding.set_non_empty(Vector2i(x, y))
 			else:
@@ -52,6 +55,8 @@ static func from_building(building: Building) -> TBuilding:
 					tbuilding.set_non_empty(Vector2i(x, y))
 			tbuilding.set_needs_suppot(Vector2i(x, y), building.grid[y][x].is_bottom)
 			tbuilding.set_supports(Vector2i(x, y), building.grid[y][x].is_top)
+			tbuilding.set_window_property(Vector2i(x, y), building.grid[y][x].is_window)
+			#tbuilding.set_door(Vector2i(x, y), building.grid[y][x].is_door)
 	
 	for y in range(building.size.y):
 		for x in range(building.size.x):

@@ -12,7 +12,7 @@ var height : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.map = TBuilding.new(MAP_SIZE, get_node("TemplateMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y))
+	self.map = TBuilding.new(Vector2i(MAP_SIZE.x, MAP_SIZE.y+1), get_node("TowerMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y-1))
 	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
 	self.init_foundation(FOUNDATION_WIDTH)
 	self.height = 1
@@ -23,7 +23,7 @@ func _ready() -> void:
 #	var tb = TBuilding.from_building(b)
 #	print("Placing building of size"+str(tb.size)+" at "+str(Vector2i(13-(tb.size.x/2), MAP_SIZE.y-(tb.size.y+1))))
 #	var res = self.place_building(Vector2i(13-(tb.size.x/2), MAP_SIZE.y-(tb.size.y+1)), tb)
-	#print(get_possible_placement(tb, true))
+#	print(get_possible_placement(tb, true))
 	var failed_count:int = 0
 	for i in range(30):
 		b = Building.new()
@@ -58,7 +58,7 @@ func init_foundation(width: int) -> void:
 	var foundation = TBuilding.new(Vector2i(FOUNDATION_WIDTH, 1))
 	for i in range(FOUNDATION_WIDTH):
 		foundation.set_supports(Vector2i(i, 0), true)
-		foundation.graphical_tiles.set_cell(0, Vector2i(i, 0), 0, Vector2i(0, 0))
+		#foundation.graphical_tiles.set_cell(0, Vector2i(i, 0), 0, Vector2i(0, 0))
 	var offset = int(MAP_SIZE.x / 2) - int(width / 2)
 	for i in range(width):
 		foundation.set_supports(Vector2i(i, 0))
