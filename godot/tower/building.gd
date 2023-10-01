@@ -70,7 +70,7 @@ static func from_building(building: Building) -> TBuilding:
 #				if building.grid[y][x].edge == 6:
 #					print("x")
 #					tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, Vector2i(2, 1))
-			#tbuilding.set_needs_suppot(Vector2i(x, y))
+			tbuilding.set_needs_suppot(Vector2i(x, y), building.grid[y][x].is_bottom)
 	return tbuilding
 
 func set_tile(pos:Vector2i, tile) -> void:
