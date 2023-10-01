@@ -24,54 +24,18 @@ position = Vector2(0, 776.5)
 scale = Vector2(7676, 1553)
 texture = ExtResource("3_w6yv1")
 
-[node name="RightBuilding" type="Node2D" parent="Environment"]
-position = Vector2(383, -227.25)
-scale = Vector2(202.5, 455.5)
-
-[node name="SideBuilding2" type="Sprite2D" parent="Environment/RightBuilding"]
-modulate = Color(0.5016, 0.56544, 0.57, 1)
-texture = ExtResource("3_w6yv1")
-
-[node name="SideBuilding3" type="Sprite2D" parent="Environment/RightBuilding"]
-modulate = Color(0.5016, 0.56544, 0.57, 1)
-position = Vector2(0.276543, -0.956641)
-texture = ExtResource("3_w6yv1")
-
-[node name="SideBuilding4" type="Sprite2D" parent="Environment/RightBuilding"]
-modulate = Color(0.5016, 0.56544, 0.57, 1)
-position = Vector2(0.0296296, -1.90944)
-texture = ExtResource("3_w6yv1")
-
-[node name="RightBuilding2" type="Node2D" parent="Environment"]
-position = Vector2(-383, -227.25)
-scale = Vector2(202.5, 455.5)
-
-[node name="SideBuilding2" type="Sprite2D" parent="Environment/RightBuilding2"]
-modulate = Color(0.5016, 0.56544, 0.57, 1)
-texture = ExtResource("3_w6yv1")
-
-[node name="SideBuilding3" type="Sprite2D" parent="Environment/RightBuilding2"]
-modulate = Color(0.5016, 0.56544, 0.57, 1)
-position = Vector2(0.276543, -0.956641)
-texture = ExtResource("3_w6yv1")
-
-[node name="SideBuilding4" type="Sprite2D" parent="Environment/RightBuilding2"]
-modulate = Color(0.5016, 0.56544, 0.57, 1)
-position = Vector2(0.0296296, -1.90944)
-texture = ExtResource("3_w6yv1")
-
 [node name="SideBuildingTileMap" type="TileMap" parent="Environment"]
 tile_set = ExtResource("3_xn6el")
 format = 2
 
 [node name="SideBuildingLeft" parent="Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
-position = Vector2(-342, 0)
+position = Vector2(-408, 0)
 tilemap = NodePath("../SideBuildingTileMap")
 draw_debug = true
 outside_building_side = 5
 
 [node name="SideBuildingRight" parent="Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
-position = Vector2(342, 0)
+position = Vector2(408, 0)
 tilemap = NodePath("../SideBuildingTileMap")
 draw_debug = true
 outside_building_side = -5

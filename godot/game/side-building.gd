@@ -29,6 +29,8 @@ func _ready():
 
 	if Engine.is_editor_hint():
 		return
+	
+	add_rows_if_needed(50);
 
 	
 var current_completed_row = 0
@@ -37,20 +39,22 @@ func _process(delta):
 		_ready();
 		queue_redraw();
 		return;
+	
+	add_rows_if_needed(10);
 
-	var amount_to_draw_each_frame = 1;
+func add_rows_if_needed(amount_to_draw: int):
 	if current_completed_row < 10000 && fill_tile_id != null:
 		if outside_building_side < 0:
-			for row in range(current_completed_row, current_completed_row + amount_to_draw_each_frame):
+			for row in range(current_completed_row, current_completed_row + amount_to_draw):
 				for x in range(0, -outside_building_side - building_padding_on_outside):
 					# fill with
 					tilemap.set_cell(tilemap_layer, tilemap_starting_position + Vector2i(x, -row), tilemap_sourceid, fill_tile_id);
 		else:
-			for row in range(current_completed_row, current_completed_row + amount_to_draw_each_frame):
+			for row in range(current_completed_row, current_completed_row + amount_to_draw):
 				for x in range(0, outside_building_side + building_padding_on_outside - 1):
 					# fill with
 					tilemap.set_cell(tilemap_layer, tilemap_starting_position + Vector2i(-x, -row), tilemap_sourceid, fill_tile_id);
-		current_completed_row += amount_to_draw_each_frame;
+		current_completed_row += amount_to_draw;
 		if current_completed_row >= 10000:
 			print("done creating secondary buildings");
 			return;

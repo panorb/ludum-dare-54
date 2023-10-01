@@ -1,20 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://btl27tf157rs5"]
+[gd_scene load_steps=5 format=3 uid="uid://btl27tf157rs5"]
 
 [ext_resource type="Script" path="res://tower/tower.gd" id="1_lgnhb"]
 [ext_resource type="Script" path="res://tower/building_manager.gd" id="2_qc6mu"]
 [ext_resource type="Script" path="res://tower/building.gd" id="3_51hqr"]
 [ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="4_7rioh"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_o1ukj"]
-
 [node name="tower" type="Node2D" node_paths=PackedStringArray("tileMap")]
 script = ExtResource("1_lgnhb")
 tileMap = NodePath("BuildingManager/TemplateMap")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-position = Vector2(9.09495e-13, -90)
-scale = Vector2(74.5, 179.5)
-mesh = SubResource("BoxMesh_o1ukj")
 
 [node name="BuildingManager" type="Node2D" parent="."]
 script = ExtResource("2_qc6mu")
@@ -25,4 +18,3 @@ script = ExtResource("3_51hqr")
 [node name="TemplateMap" type="TileMap" parent="BuildingManager"]
 tile_set = ExtResource("4_7rioh")
 format = 2
-layer_0/tile_data = PackedInt32Array(-1, 65536, 4, -65536, 65536, 4, -65535, 65536, 4, -2, 65536, 4)
