@@ -7,19 +7,22 @@ class_name Building extends Node
 @export var floor_width_distribution = [0, 0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 0.96, 1]
 @export var floor_number_distribution = [0, 0.3, 0.4, 1]
 @export var border_probability = 0.3
-@export var left_border_probability = 0.5
+@export var border_skew_probability = 0.5
 @export var adjusted_expanding_distribution = [0.05, 0.22, 0.68, 0.98, 1]
 @export var no_tshape_probability = 0.2
+@export var border_window_probability = 0.4
 
 var grid = []
 var size = Vector2i.ZERO
+
+var is_left_border = false
+var is_right_border = false
 
 func generate_building() -> void:
 	var floor_number := randomize_floor_number()
 	var upper_height := randomize_upper_height(floor_number)
 	
-	var is_border := randomize_border()
-	var is_left_border_if_border = randomize_left_border()
+	randomize_border()
 	
 	var lower_width := randomize_size()
 	
@@ -32,11 +35,9 @@ func generate_building() -> void:
 	size.y = floor_number*floor_height
 	size.x = max(upper_width, lower_width)
 	
-	var offset := randomize_offset(lower_width, upper_width, is_border, is_left_border_if_border)
+	var offset := randomize_offset(lower_width, upper_width)
 	
-	var shrink_size: int = 0
-	if is_border:
-		shrink_size = randomize_shrink_size(lower_width, upper_width)
+	
 	
 	initialize_grid()
 	
@@ -49,9 +50,11 @@ func generate_building() -> void:
 			grid[i+floor_height*upper_height][offset+j].set_brick()
 	
 	
-	if is_border:
+	var shrink_size: int = 0
+	if is_left_border or is_right_border:
+		shrink_size = randomize_shrink_size(lower_width, upper_width)
 		if shrink_size > 0:
-			if is_left_border_if_border:
+			if is_left_border:
 				for i in shrink_size:
 					for j in shrink_size - i:
 						grid[i][j].unset_brick()
@@ -64,7 +67,7 @@ func generate_building() -> void:
 						if i+j == shrink_size - 1:
 							grid[i][max_width-1-j].set_slope(2)
 		if shrink_size < 0:
-			if is_left_border_if_border:
+			if is_left_border:
 				for i in -shrink_size:
 					for j in -shrink_size - i:
 						grid[floor_height*floor_number-1-i][j].unset_brick()
@@ -76,6 +79,10 @@ func generate_building() -> void:
 						grid[floor_height*floor_number-1-i][max_width-1-j].unset_brick()
 						if i+j == -shrink_size - 1:
 							grid[floor_height*floor_number-1-i][max_width-1-j].set_slope(4)
+	
+	generate_decorations()
+	
+	generate_windows()
 	
 	update_edges()
 
@@ -92,11 +99,16 @@ func randomize_upper_height(floor_number) -> int:
 	return randi_range(1, floor_number - 1)
 	
 
-func randomize_border() -> bool:
-	return randf() < border_probability
-	
-func randomize_left_border() -> bool:
-	return randf() < left_border_probability
+func randomize_border() -> void:
+	is_left_border = false
+	is_right_border = false
+	if randf() >= border_probability:
+		return
+	if randf() < border_skew_probability:
+		is_left_border = true
+	else:
+		is_right_border = true
+	return
 	
 func randomize_size() -> int:
 	var random = randf()
@@ -105,12 +117,11 @@ func randomize_size() -> int:
 		floor_width += 1
 	return floor_width
 
-func randomize_offset(lower_width, upper_width, is_border, is_left_border_if_border) -> int:
-	if is_border:
-		if is_left_border_if_border:
-			return 0
-		else:
-			return upper_width-lower_width
+func randomize_offset(lower_width, upper_width) -> int:
+	if is_left_border:
+		return 0
+	if is_right_border:
+		return upper_width-lower_width
 	if randf() < no_tshape_probability:
 		if randf() < 0.5:
 			return max(upper_width-lower_width, 0)
@@ -145,9 +156,26 @@ func update_edges() -> void:
 				if j==size.x-1 or (j!=size.x-1 and grid[i][j+1].is_empty and not grid[i][j+1].slope):
 					grid[i][j].set_left_right_edge(2) # right edge
 
-func initialize_grid():
+func initialize_grid() -> void:
 	for i in size.y:
 		grid.append([])
 		for j in size.x:
 			var tile_instance = Building_Tile.new()
 			grid[i].append(tile_instance)
+
+func generate_decorations() -> void:
+	pass
+
+func generate_windows() -> void:
+	if not is_left_border and not is_right_border:
+		return
+	
+	var j = 0
+	if is_right_border:
+		j = size.x - 1
+	
+	for i in size.y:
+		if i%floor_height == 1:
+			if randf() < border_window_probability:
+				grid[i][j].set_window()
+	
