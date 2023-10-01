@@ -20,6 +20,9 @@ func _ready() -> void:
 	credits_button.pressed.connect(self._on_CreditsButton_pressed)
 	sound_slider.value_changed.connect(self._on_SoundSlider_value_changed)
 	
+	if OS.get_name() == 'Web':
+		quit_button.visible = false
+	
 	sound_slider.value = self.start_volume
 
 
