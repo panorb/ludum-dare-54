@@ -3,6 +3,7 @@ extends Node2D
 @export var camera: Camera2D
 @export var camera_sensitivity: float = 5.0
 @export var drag_start_time: int = 150
+@export var bgsTimer: float = 0.
 @onready var _letter := get_node("%Letter")
 
 signal primary_interaction_just_pressed_sig
@@ -29,6 +30,15 @@ func _process(delta: float) -> void:
 
 	camera.position.y += movement * camera_sensitivity * delta * 100
 	camera.position.y = min(0, camera.position.y)
+
+	var background_scene = get_parent().get_parent().get_node("Background")
+	#if background_scene:
+	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
+	bgsTimer += delta
+	color_rect.material.set_shader_parameter("u_startAnim", minf(smoothstep(0.,1.,bgsTimer),1.))
+	var prog = maxf(-1.01,-.01-camera.get_screen_center_position().y/50000.) #TODO 50k seems reasonable
+	color_rect.material.set_shader_parameter("u_progress", prog)
+	color_rect.material.set_shader_parameter("u_perspective", .2)
 
 	if Input.is_action_just_released("primary_action"):
 		if current_state == MOUSE_STATE.CLICKING:

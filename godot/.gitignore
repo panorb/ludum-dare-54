@@ -2,3 +2,7 @@
 .godot/
 
 .vscode/
+
+# ignore all tmp files
+*.tmp
+*.TMP

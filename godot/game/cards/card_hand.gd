@@ -1,6 +1,8 @@
 extends Node2D
 
 signal card_hand_ready
+signal card_selected(card:Card)
+signal card_deselected
 
 @export var card_scene : PackedScene = preload("res://game/cards/card.tscn")
 @export_range(1, 6) var card_num : int = 3 
@@ -15,41 +17,47 @@ var held_card : Card = null
 const CARD_PREVIEW_SIZE : Vector2i = Vector2i(14, 9)
 
 func _ready() -> void:
-	get_tree().get_root().size_changed.connect(reorganize_hand)
+	# get_tree().get_root().size_changed.connect(reorganize_hand)
 	initial_card_draw()
 
 func initial_card_draw() -> void:
-	for i in 3:
-		draw_card()
-	
-	reorganize_hand()
+	draw_card(5)
 	
 	self.card_hand_ready.emit()
 
-func draw_card() -> void:
-	var y = get_viewport_rect().size.y + 200
-	var x = get_viewport_rect().size.x / 2
-	
-	
-	var card_instance : Card = card_scene.instantiate()
-	
-	card_instance.hover_begin.connect(self._on_Card_hover_begin)
-	card_instance.hover_end.connect(self._on_Card_hover_end)
-	card_instance.selected.connect(self._on_Card_selected)
-	card_instance.position.x = x
-	card_instance.position.y = y
-	card_instance.init_capacity(250)
-	
-	add_child(card_instance)
-	
-	var building := Building.new()
-	building.generate_building()
-	var t_building := TBuilding.from_building(building)
-	var preview_building := TBuilding.new(CARD_PREVIEW_SIZE, card_instance.preview_tile_map)
-	preview_building.stamp(Vector2i(CARD_PREVIEW_SIZE.x/2-t_building.size.x/2, CARD_PREVIEW_SIZE.y/2-t_building.size.y/2), t_building)
-	card_instance.init_building(preview_building)
-	
-	hand_cards.append(card_instance)
+func draw_card(count:int) -> void:
+	for i in range(count):
+		var y = get_viewport_rect().size.y + 200
+		var x = get_viewport_rect().size.x / 2
+		
+		
+		var card_instance : Card = card_scene.instantiate()
+		
+		card_instance.hover_begin.connect(self._on_Card_hover_begin)
+		card_instance.hover_end.connect(self._on_Card_hover_end)
+		card_instance.selected.connect(self._on_Card_selected)
+		card_instance.position.x = x
+		card_instance.position.y = y
+		card_instance.init_capacity(250)
+		
+		add_child(card_instance)
+		
+		var building := Building.new()
+		building.generate_building()
+		var t_building := TBuilding.from_building(building)
+		var preview_building := TBuilding.new(CARD_PREVIEW_SIZE, card_instance.preview_tile_map)
+		preview_building.stamp(Vector2i(CARD_PREVIEW_SIZE.x/2-t_building.size.x/2, CARD_PREVIEW_SIZE.y/2-t_building.size.y/2), t_building)
+		card_instance.init_building(t_building, preview_building)
+		
+		hand_cards.append(card_instance)
+	reorganize_hand()
+
+func drop_card():
+	if held_card == null:
+		return
+	held_card.queue_free()
+	held_card = null
+	card_wizard.deactivate()
 
 func _on_Card_hover_begin(card : Card) -> void:
 	if held_card and card != held_card and held_card.is_hovered:
@@ -76,6 +84,7 @@ func _on_Card_selected(card : Card) -> void:
 			card_wizard.deactivate()
 			held_card = null
 			hand_cards.append(card)
+			card_deselected.emit()
 		else:
 			card.select()
 			card_wizard.activate()
@@ -87,15 +96,16 @@ func _on_Card_selected(card : Card) -> void:
 		card_wizard.activate()
 		hand_cards = hand_cards.filter(func(elem : Card): return elem.name != card.name)
 		held_card = card
+	if held_card != null:
+		card_selected.emit(held_card)
 	
-	# draw_card()
 	reorganize_hand()
 
 func reorganize_hand() -> void:
 	var card_num : int = len(hand_cards)
 	if not card_num:
 		return
-		
+#
 	var tween : Tween = create_tween()
 	tween.set_parallel()
 	
@@ -110,9 +120,7 @@ func reorganize_hand() -> void:
 	var half_width: int = total_width / 2.0
 	
 	var start_x = (get_viewport_rect().size.x / 2.0) - half_width + (hand_cards[0].texture.get_width() / 2.0)
-	# $StartX.position = Vector2(start_x, 40)
 	
-	# var start_x = (get_viewport_rect().size.x / 2.0) - ((card_num / 2.0) * (hand_cards[0].texture.get_width() + card_spacing))
 	var y = get_viewport_rect().size.y + y_offset
 	if held_card:
 		y += 35
@@ -128,3 +136,16 @@ func reorganize_hand() -> void:
 	tween.play()
 
 
+
+
+func _on_building_manager_building_placed(position):
+	drop_card()
+	draw_card(1)
+	reorganize_hand()
+
+func redraw():
+	drop_card()
+	for card in hand_cards:
+		card.queue_free()
+	hand_cards.clear()
+	draw_card(5)
