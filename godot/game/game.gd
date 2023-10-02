@@ -69,7 +69,7 @@ func _on_card_hand_card_deselected():
 
 
 func _on_click_detector_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and event.is_released():
+	if event is InputEventMouseButton and event.is_released() event.button_index not in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
 		self.card_hand.click_anywhere()
 
 

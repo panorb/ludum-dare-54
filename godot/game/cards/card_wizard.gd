@@ -15,13 +15,16 @@ func _ready():
 func tutorial():
 #	var click = clicked
 #	await click
-	await self.speek("foo", true)
-	$TutorialTimer.start()
-	await $TutorialTimer.timeout
-	await self.speek("bar", true)
-	$TutorialTimer.start()
-	await $TutorialTimer.timeout
-	await self.speek("baz", true)
+	var texts_str = FileAccess.get_file_as_string("res://gui/tutorial/tutorial_texts.json")
+	var texts = JSON.parse_string(texts_str)["tutorial"]
+	for text in texts:
+		await self.speek(text, true)
+		$TutorialTimer.start()
+		await $TutorialTimer.timeout
+#		await self.speek("bar", true)
+#		$TutorialTimer.start()
+#		await $TutorialTimer.timeout
+#		await self.speek("baz", true)
 
 func activate():
 	animation_player.play("active")
@@ -47,7 +50,7 @@ func speek(text, await_click=false):
 	self.speaking = false
 
 func _on_area_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and event.is_released():
+	if event is InputEventMouseButton and event.is_released() and event.button_index not in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
 		print(self.speaking)
 		if not self.speaking:
 			self.speek("That's me!")
