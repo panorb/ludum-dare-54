@@ -43,7 +43,9 @@ func _ready() -> void:
 		if not positions:
 			failed_count += 1
 			continue
-		self.map.stamp(positions[randi() % positions.size()], tb)
+		var number = randi() % positions.size()
+		self.map.stamp(positions[number], tb)
+		self.height = max(self.height, MAP_SIZE.y - positions[number].y)
 
 func get_mouse_position():
 	var camera_position = get_local_mouse_position()
@@ -98,6 +100,10 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 		# Size issue
 		return false
 	
+	if building.support_left.x > size.x or building.support_right.x < 0:
+		# Building needs no support
+		return true
+	
 	for y in range(building.size.y):
 		for x in range(building.size.x):
 			var here_in = Vector2i(x, y)
@@ -107,9 +113,6 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 				# Overlap
 				return false
 	
-	if building.support_left.x > size.x or building.support_right.x < 0:
-		# Building needs no support
-		return true
 	if not self.map.get_supports(position+building.support_left+Vector2i(0, 1)) or not self.map.get_supports(position+building.support_right+Vector2i(0, 1)):
 		# Not enough support
 		return false
@@ -133,7 +136,7 @@ func tower_spam_block(position):
 	
 	for y in range(1):
 		for x in range(1):
-			self.map.stamp(pos+Vector2i(x-1,y-1), self.blocker)
+			self.map.stamp(pos+Vector2i(x,y), self.blocker)
 
 func deselect_preview_building():
 	self.preview_map.clear()
