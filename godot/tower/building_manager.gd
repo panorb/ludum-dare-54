@@ -13,6 +13,9 @@ var preview_building : TBuilding = null
 var preview_pos : Vector2i = Vector2i.ZERO
 var blocker : TBuilding = null
 
+@onready var place_anim_left = $PlaceAnimLeft
+@onready var place_anim_right = $PlaceAnimRight
+
 signal building_placed(position:Vector2i, capacity:int)
 signal building_placement_failed
 signal base_capacity(capacity:int)
@@ -52,6 +55,9 @@ func _ready() -> void:
 #		var number = randi() % positions.size()
 #		self.map.stamp(positions[number], tb)
 #		self.height = max(self.height, MAP_SIZE.y - positions[number].y)
+		
+	place_anim_right.scale.x = -1 # flip right place anim
+	place_anim_right.position.x = 1
 
 func get_mouse_position():
 	var camera_position = get_local_mouse_position()
@@ -137,6 +143,10 @@ func place_building(position:Vector2i, building:TBuilding) -> bool:
 	self.height = max(self.height, MAP_SIZE.y - position.y)
 
 	building_placed.emit(position, building.capacity)
+	place_anim_left.position = Vector2(-16,-16)+self.map.graphical_tiles.map_to_local(position-self.map.offset+Vector2i(0,building.size.y))
+	place_anim_left.activate()
+	place_anim_right.position = Vector2(0,-16)+self.map.graphical_tiles.map_to_local(position-self.map.offset+Vector2i(building.size.x,building.size.y))
+	place_anim_right.activate()
 	return true
 
 
