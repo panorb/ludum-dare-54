@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmmrurvofvint"]
+
+[ext_resource type="Script" path="res://world.gd" id="1_xbc8j"]
+[ext_resource type="Shader" path="res://background/background.gdshader" id="2_63iyq"]
+[ext_resource type="PackedScene" uid="uid://dmoctt7p732ox" path="res://game/game.tscn" id="2_ln6u2"]
+[ext_resource type="PackedScene" path="res://gui/main_menu.tscn" id="3_2l1vb"]
+[ext_resource type="Texture2D" uid="uid://d2kkwimpiek7x" path="res://tower/tower.png" id="3_iv1i4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ankjj"]
+shader = ExtResource("2_63iyq")
+shader_parameter/u_resolution = Vector2(412, 240)
+shader_parameter/u_time = null
+shader_parameter/u_perspective = null
+shader_parameter/u_mouse = null
+shader_parameter/u_tower = ExtResource("3_iv1i4")
+
+[node name="World" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xbc8j")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
+material = SubResource("ShaderMaterial_ankjj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Game" parent="." instance=ExtResource("2_ln6u2")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("3_2l1vb")]

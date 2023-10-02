@@ -2,6 +2,8 @@
 
 [ext_resource type="Theme" uid="uid://bmbd2indv7vih" path="res://gui/menu.tres" id="1_bxsmj"]
 [ext_resource type="Script" path="res://gui/main_menu.gd" id="1_g6uru"]
+[ext_resource type="PackedScene" uid="uid://cplf8w1sb71bg" path="res://background/background.tscn" id="2_d4r2e"]
+
 [ext_resource type="AudioStream" uid="uid://xst1ekamh3cv" path="res://music/main_menu_theme.mp3" id="2_j7iww"]
 [ext_resource type="Texture2D" uid="uid://lwfjxln88rc7" path="res://gui/volume_mute.png" id="3_3rkh5"]
 [ext_resource type="Texture2D" uid="uid://c23u7darl2va3" path="res://gui/volume_slider.png" id="3_b25uu"]
@@ -24,6 +26,11 @@ volume_db = 10.0
 autoplay = true
 
 [node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+
+[node name="Background" parent="." instance=ExtResource("2_d4r2e")]
+
+[node name="Button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -36,8 +43,6 @@ grow_horizontal = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 50
 text = "A Living Place in Limited Space"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="CenterContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 1

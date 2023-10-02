@@ -110,7 +110,7 @@ vertical_alignment = 1
 [node name="GraphicArtistsLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[center][b]Graphic Artists[/b][/center]"
+text = "[center][b]Sprites and Rendering[/b][/center]"
 fit_content = true
 
 [node name="GraphicArtistsHFlowContainer" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]

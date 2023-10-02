@@ -28,7 +28,14 @@ func _ready() -> void:
 		quit_button.visible = false
 
 	sound_slider.value = self.start_volume
-
+	
+	var background_scene = get_node("Background")
+	#if background_scene:
+	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
+	color_rect.material.set_shader_parameter("u_startAnim", 0.)
+	var prog = -.01
+	color_rect.material.set_shader_parameter("u_progress", prog)
+	color_rect.material.set_shader_parameter("u_perspective", .2)
 
 func _on_StartButton_pressed() -> void:
 	SceneManager.show_scene("game")
