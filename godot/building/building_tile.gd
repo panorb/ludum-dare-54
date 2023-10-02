@@ -1,5 +1,11 @@
 class_name Building_Tile extends Node
 
+@export var full_capacity = 1.0
+@export var slope_capacity = 0.5
+@export var roof_deduction = 0.2
+@export var hole_deduction = 0.1
+@export var window_deduction = -0.1
+
 var is_empty : bool = true
 var is_top : bool = false
 var is_bottom : bool = false
@@ -16,6 +22,8 @@ var left_right_edge : int = 0
 var tile := Vector2i(-1, -1)
 var tile_decoration := Vector2i(-1, -1)
 var is_decorated : bool = false
+
+var tile_capacity : float = 0
 
 func set_brick(number) -> void:
 	is_empty = false
@@ -81,7 +89,11 @@ func set_balcony(number) -> void:
 	update_tile()
 
 func update_tile() -> void:
-	if not self.is_empty:
+	tile_capacity = 0.0
+	
+	if not self.is_empty and not self.balcony:
+		tile_capacity += full_capacity
+		
 		tile = Vector2i(13, 8+3*color)
 		if self.left_right_edge == 1:
 			tile.x -= 1
@@ -95,6 +107,7 @@ func update_tile() -> void:
 	else:
 		tile = Vector2i(-1, -1)
 		if self.slope:
+			tile_capacity += slope_capacity
 			if self.slope == 1:
 				tile = Vector2i(5, 2)
 			elif self.slope == 2:
@@ -105,6 +118,7 @@ func update_tile() -> void:
 				tile = Vector2i(6, 3)
 	
 	if roof:
+		tile_capacity -= roof_deduction
 		tile = Vector2i(13, 3+(roof-1))
 		if slope == 1:
 			tile.x -= 1
@@ -112,12 +126,14 @@ func update_tile() -> void:
 			tile.x += 1
 	
 	if hole:
+		tile_capacity -= hole_deduction
 		tile_decoration = Vector2i(6+(hole-1)/3, 7+(hole-1)%3)
 	
 	if plant:
 		tile_decoration = Vector2i(6+(plant-1)/4, 10+(plant-1)%4)
 	
 	if window:
+		tile_capacity -= window_deduction
 		tile_decoration = Vector2i(3+(window-1)/3, 9+(window-1)%3)
 	
 	if is_trap_door:
@@ -131,7 +147,4 @@ func update_tile() -> void:
 			tile_decoration = Vector2i(3, 7)
 	
 	if balcony:
-		if balcony == 1:
-			tile = Vector2i(0, 7)
-		if balcony == 4:
-			tile = Vector2i(2, 7)
+		tile = Vector2i(15, 9 + balcony)
