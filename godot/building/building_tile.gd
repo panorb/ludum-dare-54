@@ -23,12 +23,18 @@ var left_right_edge : int = 0
 var tile := Vector2i(-1, -1)
 var tile_decoration := Vector2i(-1, -1)
 var is_decorated : bool = false
+var door : int = 0
 
 var tile_capacity : float = 0
 
 func set_brick(number) -> void:
 	is_empty = false
 	color = number
+	update_tile()
+
+func set_door(number) -> void:
+	door = number
+	is_decorated = true
 	update_tile()
 
 func set_scaffold() -> void:
@@ -100,7 +106,7 @@ func update_tile() -> void:
 	if not self.is_empty and not self.balcony and not self.is_scaffold:
 		tile_capacity += full_capacity
 		
-		tile = Vector2i(13, 8+3*color)
+		tile = Vector2i(13, 5+4*color)
 		if self.left_right_edge == 1:
 			tile.x -= 1
 		if self.left_right_edge == 2:
@@ -114,7 +120,7 @@ func update_tile() -> void:
 		tile = Vector2i(-1, -1)
 		if self.slope:
 			tile_capacity += slope_capacity
-			tile = Vector2i(10, 8+3*color)
+			tile = Vector2i(10, 5+4*color)
 			if slope == 2 or slope == 4:
 				tile.x += 1
 			if slope == 3 or slope == 4:
@@ -129,7 +135,7 @@ func update_tile() -> void:
 	
 	if roof:
 		tile_capacity -= roof_deduction
-		tile = Vector2i(13, 3+(roof-1))
+		tile = Vector2i(13, 0+(roof-1))
 		if slope == 1:
 			tile.x -= 1
 		if slope == 2:
@@ -158,3 +164,6 @@ func update_tile() -> void:
 	
 	if balcony:
 		tile = Vector2i(15, 9 + balcony)
+	
+	if door:
+		tile_decoration = Vector2i(3+(door-1)%3, 5+(door-1)/3)

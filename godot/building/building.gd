@@ -29,6 +29,22 @@ var is_right_border : bool = false
 
 var raw_capacity : int = 0
 
+func generate_base() -> void:
+	size.y = floor_height
+	size.x = 12
+	initialize_grid()
+	
+	var color := randi_range(0, 2)
+	for i in size.y:
+		for j in size.x:
+			grid[i][j].set_brick(color)
+	
+	update_edges()
+	
+	generate_door()
+	generate_decorations()
+	update_raw_capacity()
+
 func generate_scaffold() -> void:
 	size.y = floor_height
 	size.x = 1
@@ -41,9 +57,6 @@ func generate_scaffold() -> void:
 	update_edges()
 
 func generate_building() -> void:
-	if randf() < 0.1:
-		generate_scaffold()
-		return
 	var floor_number := randomize_floor_number()
 	var upper_height := randomize_upper_height(floor_number)
 	
@@ -66,7 +79,7 @@ func generate_building() -> void:
 	
 	initialize_grid()
 	
-	var color := randi_range(0, 1)*2
+	var color := randi_range(0, 2)
 	for i in floor_height * upper_height:
 		for j in upper_width:
 			grid[i][-offset+j].set_brick(color)
@@ -294,8 +307,14 @@ func generate_balkony() -> void:
 	
 	grid = tmp_grid
 
-func update_raw_capacity():
+func update_raw_capacity() -> void:
 	raw_capacity = 0
 	for i in size.y:
 		for j in size.x:
 			raw_capacity += grid[i][j].tile_capacity
+
+func generate_door() -> void:
+	var x_position = randi_range(1,size.x-1)
+	var door = randi_range(1,3)
+	grid[1][x_position].set_door(door)
+	grid[2][x_position].set_door(3+door)
