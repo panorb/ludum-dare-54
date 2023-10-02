@@ -7,6 +7,7 @@ class_name Building_Tile extends Node
 @export var window_deduction = -0.1
 
 var is_empty : bool = true
+var is_scaffold : bool = false
 var is_top : bool = false
 var is_bottom : bool = false
 var is_trap_door : bool = false
@@ -28,6 +29,11 @@ var tile_capacity : float = 0
 func set_brick(number) -> void:
 	is_empty = false
 	color = number
+	update_tile()
+
+func set_scaffold() -> void:
+	is_empty = false
+	is_scaffold = true
 	update_tile()
 
 func unset_brick() -> void:
@@ -91,7 +97,7 @@ func set_balcony(number) -> void:
 func update_tile() -> void:
 	tile_capacity = 0.0
 	
-	if not self.is_empty and not self.balcony:
+	if not self.is_empty and not self.balcony and not self.is_scaffold:
 		tile_capacity += full_capacity
 		
 		tile = Vector2i(13, 8+3*color)
@@ -116,6 +122,9 @@ func update_tile() -> void:
 				tile = Vector2i(5, 3)
 			elif self.slope == 4:
 				tile = Vector2i(6, 3)
+	
+	if self.is_scaffold:
+		tile = Vector2i(13, 11)
 	
 	if roof:
 		tile_capacity -= roof_deduction

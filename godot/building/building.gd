@@ -29,6 +29,17 @@ var is_right_border : bool = false
 
 var raw_capacity : int = 0
 
+func generate_scaffold() -> void:
+	size.y = floor_height
+	size.x = 1
+	initialize_grid()
+
+	for i in size.y:
+		for j in size.x:
+			grid[i][j].set_scaffold()
+
+	update_edges()
+
 func generate_building() -> void:
 	var floor_number := randomize_floor_number()
 	var upper_height := randomize_upper_height(floor_number)
@@ -99,7 +110,7 @@ func generate_building() -> void:
 	generate_trap_doors()
 	generate_decorations()
 	
-	update_raw_capacity
+	update_raw_capacity()
 
 func randomize_floor_number() -> int:
 	var random := randf()

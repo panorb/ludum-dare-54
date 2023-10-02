@@ -27,7 +27,10 @@ func _ready() -> void:
 	var failed_count:int = 0
 	for i in range(100):
 		b = Building.new()
-		b.generate_building()
+		if randf() < 0.1:
+			b.generate_scaffold()
+		else:
+			b.generate_building()
 		var tb = TBuilding.from_building(b)
 #		while tb.support_left.y < tb.size.y-1 or tb.support_right.y < tb.size.y-1:
 #			b.generate_building()
