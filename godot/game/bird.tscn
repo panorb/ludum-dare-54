@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://0nqftvrsbxn2"]
+
+[ext_resource type="Texture2D" uid="uid://b16udl2quld11" path="res://game/bird_red1.png" id="1_ihfey"]
+[ext_resource type="Texture2D" uid="uid://deabati0ygx7l" path="res://game/bird_red2.png" id="2_cy27c"]
+[ext_resource type="Texture2D" uid="uid://2iflkjps7y1e" path="res://game/bird_red3.png" id="3_bnep2"]
+[ext_resource type="Script" path="res://game/bird.gd" id="4_nuhnr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_35vv7"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ihfey")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_cy27c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_bnep2")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_35vv7")
+animation = &"new_animation"
+autoplay = "new_animation"
+script = ExtResource("4_nuhnr")
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"source": "C:/Users/Collin/Downloads/birds.ase"
+}

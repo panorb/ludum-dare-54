@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=16 format=3 uid="uid://dmoctt7p732ox"]
 
 [ext_resource type="PackedScene" uid="uid://cplf8w1sb71bg" path="res://background/background.tscn" id="1_bmw85"]
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://game/InteractionManager.gd" id="5_xfojq"]
 [ext_resource type="PackedScene" uid="uid://cf5v8hs4kc7x2" path="res://gui/letter/letter_view.tscn" id="8_ruha8"]
 [ext_resource type="PackedScene" uid="uid://nr04eptwcnd5" path="res://game/cards/card_hand.tscn" id="9_fvuws"]
+[ext_resource type="Script" path="res://game/Birdcontroller.gd" id="14_uywsb"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ga315"]
 viewport_path = NodePath("SubViewport")
@@ -65,6 +66,9 @@ size = Vector2i(416, 240)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("2_qbikm")
+
+[node name="Birdcontroller" type="Node2D" parent="SubViewport"]
+script = ExtResource("14_uywsb")
 
 [node name="Environment" type="Node2D" parent="SubViewport"]
 
