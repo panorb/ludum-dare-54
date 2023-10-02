@@ -60,7 +60,6 @@ func get_mouse_position():
 	
 
 func _process(delta):
-	print(height)
 	if self.preview_building == null:
 		return
 	var mouse_position = get_mouse_position()
@@ -94,13 +93,10 @@ func get_possible_placement(building:TBuilding, find_all:bool = false) -> Array[
 	for y in range(MAP_SIZE.y - self.height - building.size.y - 10, min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)):
 		for x in range(0, MAP_SIZE.x-building.size.x):
 			var pos = Vector2i(x, y)
-			print(test_placement(pos, building))
 			if not test_placement(pos, building):
 				if not find_all:
 					return [pos]
 				positions.append(pos)
-	if not positions:
-		print("error")
 	return positions
 
 # Test if building could be placed
