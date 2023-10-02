@@ -78,6 +78,9 @@ func _on_player_height_changed(player_height: float):
 	var percent_city_noise = inverse_lerp(CITY_NOISE_MAX_HEIGHT, 0.0, player_height)
 	var percent_troposphere = inverse_lerp(TROPOSPHERE_MAX_HEIGHT, CITY_NOISE_MAX_HEIGHT, player_height)
 	
+	#Scheiße aber mir fällt nichts ein
+	percent_city_noise = percent_city_noise - 0.2
+	
 	if percent_city_noise > 0.0 and percent_city_noise <= 1.0:
 		city_noise_sound.volume_db = linear_to_db(percent_city_noise)
 		if !city_noise_sound.playing:
