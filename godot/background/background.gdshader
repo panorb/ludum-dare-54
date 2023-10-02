@@ -10,7 +10,7 @@ uniform vec2 u_mouse; // unused remove
 
 #define M_PI 3.1415926535897932384
 
-#define NUMSTEPS 128
+#define NUMSTEPS 64
 const float MINHIT = 0.01;
 const float MAXDIST = 1000.0;
 const float infinity = 1.0 / 0.0;
@@ -74,6 +74,13 @@ float sdPlane( vec2 p, vec2 n, float h )
 {
   // n must be normalized
   return dot(p,n) + h;
+}
+
+// from https://iquilezles.org/articles/distfunctions/
+float sdCone( vec3 p, vec2 c, float h )
+{
+  float q = length(p.xz);
+  return max(dot(c.xy,vec2(q,p.y)),-h-p.y);
 }
 
 vec2 viewIndepUV(vec2 uv) {
@@ -160,34 +167,71 @@ vec3 normalFunc(vec3 p) {
 	return normalize(vec3(gradX, gradY, gradZ));
 }
 
-vec4 raymarch(vec3 dir, vec3 origin, inout vec3 gnormal, inout bool ghit,inout vec3 gpos) {
+vec4 raymarch(vec3 dir, vec3 origin, inout vec3 gnormal, inout bool ghit,inout vec3 gpos,out vec3 flameCol) {
 	ghit = false;
 	gnormal = vec3(0.);
 	
+	flameCol = vec3(0.);
+	
 	float dist = 0.0;
 	for (int i = 0; i < NUMSTEPS; i++) {
-			vec3 pos = origin + dist * dir;
+		vec3 pos = origin + dist * dir;
+		
+		float closest = distFunc(pos,gpos);
+		
+		vec2 u_m = vec2(u_progress);
+		u_m.y *= 23.;
+		// lift off
+		if (u_m.y > 5.) {
+			vec3 u_scalings= vec3(1.*u_m.y,1.*u_m.y,10.);
+			vec3 lray = pos;
+			lray.x *= .5;
+			lray.x = -1.+mod(lray.x,2.);
+			lray.x *= 2.;
 			
-			float closest = distFunc(pos,gpos);
+			float rotAnim = 0.;
+			if (u_m.y < 5.) {
+				float zd = .1;
+				lray.z *= zd;
+				lray.z = -2.+mod(lray.z,2.);
+				lray.z /= zd;
+			} else {
+				rotAnim = -TIME*(u_m.y-5.)*.01;
+			}
 			
+			lray.y /= u_scalings.y+1.;
+			lray.y -= u_scalings.y*.2;
+			vec3 lfray = lray + vec3(0.,1.5,0.);
+			lfray = (rotationX(M_PI)*vec4(lfray,1.)).xyz;
+			float fs = sin(TIME*35.)*.1+.9;
+			float shape1 = sdCone(lfray+vec3(0.,-1.53,0.),vec2(2.0,0.8*fs),1.5);
+			if (shape1 < MINHIT*2.) {
+				flameCol += vec3(1.,0.,0.);
+			}
+			float shape2 = sdCone(lfray+vec3(0.,-1.53,0.),vec2(0.5,0.5*(1.-fs)),1.5);
+			if (shape2 < MINHIT*2.) {
+				flameCol += vec3(.1,.1,.0);
+			}
+		}
+		
 		if (closest < MINHIT) {
 			float depth = log(log(length(pos-origin)))*0.5;
 			vec3 ambient = vec3(0.3,0.3,0.3);
 			//return normalFunc(pos);
 			gnormal = normalFunc(pos);
-			vec3 light = vec3(-5.0,5.0,0.0);
+			vec3 light = vec3(-40.0,30.0,30.0);
 			vec3 dir_light = normalize(light-pos);
 			float diffuse = max(0.0, dot(gnormal, dir_light));
 			ghit = true;
 			return vec4(ambient + vec3(1.0)*diffuse, depth);
 		}
 		if (dist > MAXDIST)
-			return vec4(0.0,0.0,0.0, infinity);
+			return vec4(vec3(0.),infinity);
 		
 		dist += closest;
 	}
 	
-	return vec4(0.0);
+	return vec4(vec3(0.),0.);
 }
 
 vec4 ssWin(vec2 uv, float bias) {
@@ -305,18 +349,23 @@ void fragment()
 	//CAMDIR = (rotationY(u_time)*vec4(CAMDIR,.1)).xyz;
 	vec3 gnormal = vec3(0.);
 	bool ghit = false;
-	vec4 col = raymarch(CAMDIR, CAMPOS,gnormal,ghit,gpos);
+	vec3 flameCol = vec3(0.);
+	vec4 col = raymarch(CAMDIR, CAMPOS,gnormal,ghit,gpos,flameCol);
+	float depth = col.w;//length(gpos-CAMPOS);
+	flameCol = min(vec3(1.),flameCol*.3)*.4;
 	col.w = 1.;
 	
 	vec4 bgc = vec4(vec3(0.),1.);
 	vec3 cldFrt = vec3(0.);
+	
+	float cldOp = min(1.,u_progress*10.);
 	// clouds front
 	{
 		vec2 lndc = ndc+vec2(23.,94.23);
 		lndc.x -= TIME*.2;
 		float c = fbm(lndc*4.);
 		float d = max(0.,fbm(lndc*3.)*2.-1.2);
-		bgc = vec4(vec3(c*d),0.);
+		bgc = vec4(vec3(c*d)*cldOp,0.);
 		cldFrt += bgc.xyz;
 		col.xyz += bgc.xyz;
 	}
@@ -329,11 +378,10 @@ void fragment()
 		} else if (length(gpos.yz) > length(gpos.xy)) {
 			locPos = gpos.xy-.5;
 		}
-		float depth = length(gpos-CAMPOS);
 		float lod = 1.+log2(.5+depth/16.);
-		col = ssWin(mod(locPos*5.,vec2(1.)),lod);
-		col *= .5; //TODO //2./depth;
-		COLOR = vec4(col.xyz, 1.0);
+		col *= ssWin(mod(locPos*5.,vec2(1.)),lod);
+		col *= .8; //TODO //2./depth;
+		COLOR = vec4(max(vec3(0.),col.xyz*(1.-depth*.7))+flameCol, 1.0);
 	} else { // cuz return is not allowed.
 	// sky
 	{
@@ -389,7 +437,7 @@ void fragment()
 		lndc.x += TIME*.04;
 		float c = fbm(lndc*4.);
 		float d = max(0.,fbm(lndc*3.)*2.-1.2);
-		bgc = vec4(vec3(c*d),1.);
+		bgc = vec4(vec3(c*d)*cldOp,1.);
 		col += bgc;
 	}
 	
@@ -412,7 +460,7 @@ void fragment()
 	
 	// mountain2
 	{
-		float se = u_time*.5;
+		float se = .5;
 		vec2 lndc = ndc;
 		bool even = mod((lndc.x*3.+se),2.) < 1.;
 		lndc.y -= cpy*.5;
@@ -428,42 +476,44 @@ void fragment()
 	// mountain
 	{
 		vec2 lndc = ndc;
-		bool even = mod((ndc.x*3.+u_time),2.) < 1.;
+		bool even = mod((ndc.x*3.),2.) < 1.;
 		lndc.y -= cpy*.55;
 		
-		float fade = lndc.y*10.+mod((even ? 1. : -1.)*(lndc.x*3.+u_time),1.);
+		float fade = lndc.y*10.+mod((even ? 1. : -1.)*(lndc.x*3.),1.);
 		float lane = max(0.,1.-1000.*0.7/(500.0*10.+1.0)*fade*fade);
 		float v = round(lane-.2);
 		if (v > .5 || lndc.y < 0.) {
 			bgc = vec4(vec3(.2,.4,.2),0.);
-			col = bgc;
+			col = bgc*(lndc.y+1.);
 		}
 	}
 	
 	// ground
-	{
+	if (u_progress < .5) {
 		vec3 n = vec3(0.,1.,0.);
-		vec2 p = explPlane(vec3(0.,1.,0.),CAMDIR,n,vec3(0.0,0.0,0.0));
-		vec3 pos = vec3(0.,1.,0.)+CAMDIR*p.y;
-		if (p.x==1. && !ghit){
-			vec3 origin = vec3(0.,1.,0.);
-			float depth = log(log(length(pos-origin)))*0.5;
-			vec3 ambient = vec3(0.1,0.1,0.1);
-			vec3 light = vec3(-5.0,5.0,0.0);
+		vec2 p = explPlane(vec3(0.,.25,0.),CAMDIR,n,vec3(0.0,0.,0.0));
+		
+		vec3 pos = CAMPOS+CAMDIR*p.y+vec3(0.,MINHIT*2.,0.);
+		if (p.x==1. && !ghit){		// shadow shoot ray
+			vec3 light = vec3(-40.0,30.0,30.0);
+			vec4 shd = raymarch(normalize(light-pos),pos,gnormal,ghit,gpos,flameCol);
+			vec3 ambient = vec3(0.05);
 			vec3 dir_light = normalize(light-pos);
 			float diffuse = max(0.0, dot(n, dir_light));
-			ghit = true;
 			bgc = vec4(ambient + vec3(1.0)*diffuse, 1.);
 			col = bgc;//vec4(.4,.4,.4,1.);
+			if (ghit) {
+				col.xyz = max(vec3(0.),col.xyz-vec3(.23));
+			}
 		}
 	}
 	
 	//col = bgc;
 	
 	col.xyz += cldFrt;
-	col *= .5;
+	col *= .7;
 	
-	COLOR = vec4(col.xyz, 1.0);
+	COLOR = vec4(max(vec3(0.),col.xyz)+flameCol, 1.0);
 	}
 	uv = uv/16.+vec2(1.,4.)/16.;
 	//COLOR = vec4(texture(u_tower,uv).xyz,1.);
