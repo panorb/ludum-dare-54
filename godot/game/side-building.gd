@@ -52,7 +52,7 @@ func _process(delta):
 		return;
 	add_rows_if_needed(10);
 
-var current_row_width_delta = 0
+var current_row_width_delta = 0.0
 
 
 func find_baseplate_start(pattern: TileMapPattern):
@@ -93,6 +93,7 @@ func add_rows_if_needed(amount_to_draw: int):
 		var orig_completed_row = current_completed_row
 
 		while row < orig_completed_row + amount_to_draw:
+			var previous_row_width_delta = current_row_width_delta;
 			current_row_width_delta = get_row_width(row, current_row_width_delta);
 			var direction = 1
 			if max_inside_size_variation < 0:
@@ -102,6 +103,29 @@ func add_rows_if_needed(amount_to_draw: int):
 				tilemap.set_cell(tilemap_layer, tilemap_starting_position + Vector2i(x, -row), tilemap_sourceid, fill_tile_id);
 				tower_spam.emit(tilemap_starting_position + Vector2i(x, -row))
 			
+			var fix_tile_position = null
+			var tile_type = Vector2i(1,4)
+			if current_row_width_delta > previous_row_width_delta:
+				# we're getting wider, add a angular tile
+				if max_inside_size_variation > 0:
+					fix_tile_position = Vector2i(floorf(current_row_width_delta) - 1, -row + 1);
+					tile_type = Vector2i(2,15)
+				else:
+					fix_tile_position = Vector2i(ceilf(current_row_width_delta), -row + 1);
+					tile_type = Vector2i(0,14)
+				
+			elif current_row_width_delta < previous_row_width_delta:
+				# we're getting narrower, add a angular tile
+				if max_inside_size_variation > 0:
+					fix_tile_position = Vector2i(floorf(current_row_width_delta), -row);
+					tile_type = Vector2i(2,14)
+				else:
+					fix_tile_position = Vector2i(ceilf(current_row_width_delta), -row);
+					tile_type = Vector2i(0,15)
+			
+			if fix_tile_position != null:
+				tilemap.set_cell(tilemap_layer, tilemap_starting_position + fix_tile_position, tilemap_sourceid, tile_type);
+				tower_spam.emit(tilemap_starting_position + Vector2i(fix_tile_position.x, -row))
 			row += 1;
 			current_completed_row += 1;
 			
@@ -130,21 +154,17 @@ func add_rows_if_needed(amount_to_draw: int):
 			return;
 
 
-func get_row_width(currnt_row:int, last_row_width_delta:float):
+func get_row_width(current_row:int, last_row_width_delta:float):
+	var total_variance = max_inside_size_variation;
 
-	var this_row_delta = last_row_width_delta
+	var this_row_delta = (-1.0 *cos(1.0/45.0 * current_row * PI)) * total_variance/2.0 + total_variance/2.0;
 
-	if random.randf() < 0.2: # we should change the row_delta
-		if random.randf() < 0.5:
-			this_row_delta += 0.5
-		else:
-			this_row_delta -= 0.5
 		
-		# make sure we don't go too far / too close
-		if max_inside_size_variation > 0:
-			this_row_delta = clamp(this_row_delta, 0, max_inside_size_variation)
-		else:
-			this_row_delta = clamp(this_row_delta, max_inside_size_variation, 0)
+	# make sure we don't go too far / too close
+	if max_inside_size_variation > 0:
+		this_row_delta = round(clamp(this_row_delta, 0, max_inside_size_variation))
+	else:
+		this_row_delta = round(clamp(this_row_delta, max_inside_size_variation, 0))
 
 
 	return this_row_delta
