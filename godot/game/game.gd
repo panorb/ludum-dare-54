@@ -4,22 +4,54 @@ extends Node2D
 @onready var card_hand = get_node("%CardHand")
 @onready var capacity_gui = get_node("%CapacityUI")
 
-var round_capacity_demand:int
+@onready var letter = %Letter
+
+var round_capacity_demand: int
 var selected_card_type: Card.CardType = Card.CardType.CARD_TYPE_NORMAL
+var block_click:bool = false
+
+enum GameState { PRE_GAME, INITIAL, WARNED_ONCE, WARNED_TWICE, GAME_OVER }
+var current_state : GameState
 
 func _ready():
 	self.round_capacity_demand = 0
 	self.capacity_gui.demand = self.round_capacity_demand
-	$CanvasLayer/Letter.show_letter("start")
+	
+	self.letter.close.connect(_on_Letter_close)
+	
+	change_game_state(GameState.PRE_GAME)
+
+func change_game_state(state : GameState):
+	if state == GameState.PRE_GAME:
+		letter.show_letter("start")
+	elif state == GameState.WARNED_ONCE:
+		letter.show_letter("first_warning")
+	elif state == GameState.WARNED_TWICE:
+		letter.show_letter("second_warning")
+	elif state == GameState.GAME_OVER:
+		letter.show_letter("game_over", [int(tower.height / 3), tower.capacity_used])
+	
+	current_state += 1
+
+func _on_Letter_close():
+	if current_state == GameState.GAME_OVER:
+		# game overed
+		SceneManager.show_scene("main_menu")
+		return
+	
+
 
 func _process(delta):
 	if Input.is_action_just_released("primary_action"):
-		tower.place_preview_building()
+		if not block_click:
+			tower.place_preview_building()
+		block_click = false
 	if Input.is_action_just_released("close_letter"):
 		self.tower.deselect_preview_building()
 		self.card_hand.redraw()
 
 func _on_card_hand_card_selected(card):
+	self.block_click = true
 	self.tower.select_preview_building(card._building)
 	self.selected_card_type = card.card_type
 
@@ -31,12 +63,18 @@ func _on_tower_building_placed(position, capacity):
 
 func post_round():
 	self.card_hand.drop_card()
-		# TODO check game over (over capacity)
 
 func pre_round():
 	var left_over = self.tower.add_sheep(self.round_capacity_demand)
 	if left_over:
 		print("not enough capacity, "+str(left_over)+" sheep couldn't move in")
+		if current_state == GameState.INITIAL:
+			change_game_state(GameState.WARNED_ONCE)
+		elif current_state == GameState.WARNED_ONCE:
+			change_game_state(GameState.WARNED_TWICE)
+		elif current_state == GameState.WARNED_TWICE:
+			change_game_state(GameState.GAME_OVER)
+	
 	self.card_hand.draw_card(self.selected_card_type, 1)
 	self.selected_card_type = Card.CardType.CARD_TYPE_NORMAL
 	
@@ -61,3 +99,13 @@ func pre_round():
 
 func _on_card_hand_card_deselected():
 	self.tower.deselect_preview_building()
+
+
+func _on_click_detector_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.is_released() and event.button_index not in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+		self.card_hand.click_anywhere()
+
+
+func _on_card_hand_wizard_clicked():
+	print("wizard")
+	self.card_hand.click_anywhere()

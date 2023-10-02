@@ -14,6 +14,8 @@ var preview_pos : Vector2i = Vector2i.ZERO
 var blocker : TBuilding = null
 
 signal building_placed(position:Vector2i, capacity:int)
+signal base_capacity(capacity:int)
+
 
 
 func _ready() -> void:
@@ -29,6 +31,9 @@ func _ready() -> void:
 	var base = TBuilding.from_building(b)
 	var position = get_possible_placement(base)
 	self.map.stamp(position[0], base)
+	base_capacity.emit(base.capacity)
+	
+	
 	
 #	var failed_count:int = 0
 #	for i in range(10):
@@ -54,6 +59,7 @@ func get_mouse_position():
 	
 
 func _process(delta):
+	print(height)
 	if self.preview_building == null:
 		return
 	var mouse_position = get_mouse_position()
