@@ -68,7 +68,6 @@ static func from_building(building: Building) -> TBuilding:
 					tbuilding.set_non_empty(Vector2i(x, y))
 			tbuilding.set_needs_suppot(Vector2i(x, y), building.grid[y][x].is_bottom)
 			tbuilding.set_supports(Vector2i(x, y), building.grid[y][x].is_top)
-			tbuilding.set_window_property(Vector2i(x, y), building.grid[y][x].is_window)
 			#tbuilding.set_door(Vector2i(x, y), building.grid[y][x].is_door)
 	
 	for y in range(building.size.y):
