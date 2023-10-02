@@ -14,9 +14,11 @@ var tile_info = []
 var offset : Vector2i
 var support_left : Vector2i
 var support_right : Vector2i
+var capacity: int
 
 
 func _init(size: Vector2i = Vector2i.ZERO, tile_map: TileMap = null, offset := Vector2i(0, 0)):
+	self.capacity = 0
 	self.size = size
 	self.offset = offset
 	self.support_left = Vector2i(size.x+1, -1)
@@ -76,6 +78,7 @@ static func from_building(building: Building) -> TBuilding:
 					tbuilding.support_left = here
 				if x > tbuilding.support_right.x:
 					tbuilding.support_right = here
+	tbuilding.capacity = 10# TODO int(building.raw_capacity)
 	return tbuilding
 
 func _get_flag(pos: Vector2i, flag: int) -> bool:
