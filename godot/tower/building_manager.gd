@@ -20,7 +20,7 @@ signal building_placed(position:Vector2i)
 func _ready() -> void:
 	self.blocker = TBuilding.new(Vector2i(1, 1))
 	self.blocker.set_non_empty(Vector2i(0, 0))
-#	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
+	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 3))
 	self.map = TBuilding.new(Vector2i(MAP_SIZE.x, MAP_SIZE.y+1), get_node("TowerMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y-1))
 	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
 #	print(self.preview_map)
@@ -74,6 +74,7 @@ func _process(delta):
 	var preview_center = self.map.graphical_tiles.map_to_local(map_position)-Vector2(8.0, 8.0)
 	self.preview_map.position = preview_center
 	var placement_pos = map_position + self.map.offset
+	
 	if map_position != self.preview_pos:
 		self.preview_pos = map_position
 #		print(placement_pos)
@@ -83,10 +84,8 @@ func _process(delta):
 			self.preview_map.modulate = Color(0.8, 0.8, 0.8)
 		else:
 			self.preview_map.modulate = Color(0.6, 0.0, 0.0)
-	if Input.is_action_just_released("primary_action"):
-		if self.place_building(placement_pos, self.preview_building):
-			self.preview_map.clear()
-			self.preview_building = null
+			#self.preview_map.clear()
+			#self.preview_building = null
 	#print(preview_center)
 	#var tilemap_local_coords = tilemap.to_local(global_coords);
 	#tilemap_starting_position = tilemap.local_to_map(tilemap_local_coords);
@@ -128,9 +127,10 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 	for y in range(building.size.y):
 		for x in range(building.size.x):
 			var here_in = Vector2i(x, y)
-			var here_tl = position + here_in - self.map.offset
-			if (self.map.graphical_tiles.get_cell_source_id(0, here_tl) != -1 and building.graphical_tiles.get_cell_source_id(0, here_in) != -1):# or  \
-				#(self.map.get_non_empty(here_tl) and building.get_non_empty(here_in)):
+			var map_pos = position + here_in
+			var here_tl = map_pos - self.map.offset
+			if (self.map.graphical_tiles.get_cell_source_id(0, here_tl) != -1 and building.graphical_tiles.get_cell_source_id(0, here_in) != -1):# or \
+				#(self.map.get_non_empty(map_pos) and building.get_non_empty(map_pos)):
 #				print("overlap with "+str(here_tl))
 				return false
 #			if building.get_window_property(here_in):
@@ -186,7 +186,9 @@ func tower_spam_block(position):
 #		print(pos)
 	#self.map.set_non_empty(pos)
 	#self.map.graphical_tiles.set_cell(1, position, 0, Vector2i(0, 0))
-	self.map.stamp(pos, self.blocker)
+	for y in range(3):
+		for x in range(3):
+			self.map.stamp(pos+Vector2i(x-1,y-1), self.blocker)
 
 func _on_side_building_right_tower_spam(position):
 	tower_spam_block(position)
@@ -195,8 +197,24 @@ func _on_side_building_right_tower_spam(position):
 func _on_side_building_left_tower_spam(position):
 	tower_spam_block(position)
 
-
-func _on_card_hand_card_selected(card):
+func deselect_preview_building():
 	self.preview_map.clear()
-	self.preview_building = TBuilding.new(card._building.size, self.preview_map)
-	self.preview_building.stamp(Vector2i.ZERO, card._building)
+	self.preview_building = null
+	print(self.preview_building)
+
+func select_preview_building(building):
+	print("selecting preview building")
+	self.preview_map.clear()
+	self.preview_building = TBuilding.new(building.size, self.preview_map)
+	self.preview_building.stamp(Vector2i.ZERO, building)
+
+func place_preview_building():
+	if preview_building == null:
+		return
+#	if Input.is_action_just_released("primary_action"):
+	var mouse_position = self.get_local_mouse_position()
+	var building_offset = Vector2i(self.preview_building.size.x/2, self.preview_building.size.y/2)
+	var map_position = self.map.graphical_tiles.local_to_map(mouse_position)-building_offset
+	var placement_pos = map_position + self.map.offset
+	if self.place_building(placement_pos, self.preview_building):
+		self.deselect_preview_building()

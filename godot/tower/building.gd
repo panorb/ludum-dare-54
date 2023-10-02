@@ -32,8 +32,10 @@ func _init(size: Vector2i = Vector2i.ZERO, tile_map: TileMap = null, offset := V
 			self.tile_info[y].append(0)
 
 # copy the building into my own map
-func stamp(pos: Vector2i, building: TBuilding) -> void:
+func stamp(pos: Vector2i, building: TBuilding) -> bool:
 #	print("stamp")
+	if pos.x < 0 or pos.x+building.size.x > self.size.x or pos.y < 0 or pos.y+building.size.y > self.size.y:
+		return false
 	for y in range(building.size.y):
 		for x in range(building.size.x):
 			var pos_in = Vector2i(x, y)
@@ -50,6 +52,7 @@ func stamp(pos: Vector2i, building: TBuilding) -> void:
 						self.support_left = pos_tl
 					if x > self.support_right.x:
 						self.support_right = pos_tl
+	return true
 
 static func from_building(building: Building) -> TBuilding:
 	var tbuilding = TBuilding.new(building.size)
