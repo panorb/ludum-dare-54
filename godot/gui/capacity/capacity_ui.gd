@@ -6,9 +6,9 @@ const VALUE_CHANGE_SECONDS := 0.02
 @onready var capacity_label = %CapacityLabel
 @onready var demand_label = %DemandLabel
 
-var population_tween : Tween = create_tween()
-var capacity_tween : Tween = create_tween()
-var demand_tween : Tween = create_tween()
+var population_tween : Tween
+var capacity_tween : Tween
+var demand_tween : Tween
 var _displayed_population: int = 0
 var _displayed_capacity: int = 0
 var _displayed_demand: int = 0
