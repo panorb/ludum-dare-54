@@ -1,9 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://0nqftvrsbxn2"]
+[gd_scene load_steps=18 format=3 uid="uid://0nqftvrsbxn2"]
 
 [ext_resource type="Texture2D" uid="uid://b16udl2quld11" path="res://game/bird_red1.png" id="1_ihfey"]
 [ext_resource type="Texture2D" uid="uid://deabati0ygx7l" path="res://game/bird_red2.png" id="2_cy27c"]
 [ext_resource type="Texture2D" uid="uid://2iflkjps7y1e" path="res://game/bird_red3.png" id="3_bnep2"]
+[ext_resource type="Texture2D" uid="uid://nkmh32qgn6lh" path="res://game/birds/turq_bird_1.png" id="4_4g32f"]
 [ext_resource type="Script" path="res://game/bird.gd" id="4_nuhnr"]
+[ext_resource type="Texture2D" uid="uid://bjh52evt838lp" path="res://game/birds/turq_bird_3.png" id="5_kj3c1"]
+[ext_resource type="Texture2D" uid="uid://c42ywehirn15c" path="res://game/birds/turq_bird_2.png" id="6_buoad"]
+[ext_resource type="Texture2D" uid="uid://cldhy58abepgp" path="res://game/birds/blue_bird_1.png" id="7_2kluf"]
+[ext_resource type="Texture2D" uid="uid://cp261ye3wiyoj" path="res://game/birds/blue_bird_3.png" id="8_15i4r"]
+[ext_resource type="Texture2D" uid="uid://cxp8ye76i5rdx" path="res://game/birds/blue_bird_2.png" id="9_uy7oy"]
+[ext_resource type="Texture2D" uid="uid://c8k0ax46kdjby" path="res://game/birds/white_bird_1.png" id="10_fpw7g"]
+[ext_resource type="Texture2D" uid="uid://n8sfe4k8e06n" path="res://game/birds/white_bird_3.png" id="11_2ecjn"]
+[ext_resource type="Texture2D" uid="uid://7khyljg3lc1l" path="res://game/birds/white_bird_2.png" id="12_shr84"]
+[ext_resource type="Texture2D" uid="uid://dwqbvob0yelg4" path="res://game/birds/yellow_bird_1.png" id="13_m1frr"]
+[ext_resource type="Texture2D" uid="uid://dbaxlteveipdr" path="res://game/birds/yellow_bird_3.png" id="14_a3ifs"]
+[ext_resource type="Texture2D" uid="uid://d011omx2d2fdh" path="res://game/birds/yellow_bird_2.png" id="15_7b887"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_35vv7"]
 animations = [{
@@ -21,16 +33,66 @@ animations = [{
 "name": &"bird1",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_4g32f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kj3c1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_buoad")
+}],
 "loop": true,
 "name": &"bird2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_2kluf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_15i4r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_uy7oy")
+}],
+"loop": true,
+"name": &"bird3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_fpw7g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_2ecjn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_shr84")
+}],
+"loop": true,
+"name": &"bird4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_m1frr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_a3ifs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_7b887")
+}],
+"loop": true,
+"name": &"bird5",
 "speed": 5.0
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_35vv7")
-animation = &"bird2"
-autoplay = "bird1"
+animation = &"bird5"
 script = ExtResource("4_nuhnr")
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
