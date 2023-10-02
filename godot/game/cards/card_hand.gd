@@ -19,7 +19,7 @@ func _ready() -> void:
 	initial_card_draw()
 
 func initial_card_draw() -> void:
-	for i in 3:
+	for i in 5:
 		draw_card()
 	
 	reorganize_hand()
