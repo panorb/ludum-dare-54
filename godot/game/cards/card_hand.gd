@@ -38,13 +38,14 @@ func draw_card(count:int) -> void:
 		card_instance.selected.connect(self._on_Card_selected)
 		card_instance.position.x = x
 		card_instance.position.y = y
-		card_instance.init_capacity(250)
-		
-		add_child(card_instance)
+		card_instance.init_capacity(0)
 		
 		var building := Building.new()
 		building.generate_building()
 		var t_building := TBuilding.from_building(building)
+		card_instance.init_capacity(t_building.capacity)
+		
+		add_child(card_instance)
 		var preview_building := TBuilding.new(CARD_PREVIEW_SIZE, card_instance.preview_tile_map)
 		preview_building.stamp(Vector2i(CARD_PREVIEW_SIZE.x/2-t_building.size.x/2, CARD_PREVIEW_SIZE.y/2-t_building.size.y/2), t_building)
 		card_instance.init_building(t_building, preview_building)
