@@ -22,7 +22,8 @@ stream = ExtResource("1_otubx")
 volume_db = 10.0
 autoplay = true
 
-[node name="background" parent="." instance=ExtResource("1_bmw85")]
+[node name="Background" parent="." instance=ExtResource("1_bmw85")]
+unique_name_in_owner = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -32,7 +32,7 @@ func _ready() -> void:
 
 	sound_slider.value = self.start_volume
 	
-	var background_scene = get_node("background")
+	var background_scene = get_node("Background")
 	#if background_scene:
 	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
 	color_rect.material.set_shader_parameter("u_startAnim", 0.)

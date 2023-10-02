@@ -31,7 +31,7 @@ func _process(delta: float) -> void:
 	camera.position.y += movement * camera_sensitivity * delta * 100
 	camera.position.y = min(0, camera.position.y)
 
-	var background_scene = get_parent().get_parent().get_node("background")
+	var background_scene = get_parent().get_parent().get_node("Background")
 	#if background_scene:
 	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
 	bgsTimer += delta

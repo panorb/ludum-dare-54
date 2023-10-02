@@ -16,7 +16,7 @@ shader_parameter/u_perspective = null
 shader_parameter/u_mouse = null
 shader_parameter/u_tower = ExtResource("3_2kno0")
 
-[node name="background" type="Node2D"]
+[node name="Background" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1

@@ -27,7 +27,7 @@ autoplay = true
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 0
 
-[node name="background" parent="." instance=ExtResource("2_d4r2e")]
+[node name="Background" parent="." instance=ExtResource("2_d4r2e")]
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
