@@ -19,6 +19,6 @@ func _process(delta):
 		node.direction = -1.0
 		node.scale.x = -1.0
 	node.position.x = -220 * node.direction
-	node.position.y = random.randf_range(-300, -10000)
+	node.position.y = random.randf_range(-300, -1000)
 	self.add_child(node)
-	next_spawn = Time.get_ticks_msec() + 1000
+	next_spawn = Time.get_ticks_msec() + 2000
