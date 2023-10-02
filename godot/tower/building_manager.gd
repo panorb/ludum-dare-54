@@ -29,7 +29,10 @@ func _ready() -> void:
 	var failed_count:int = 0
 	for i in range(0):
 		b = Building.new()
-		b.generate_building()
+		if randf() < 0.1:
+			b.generate_scaffold()
+		else:
+			b.generate_building()
 		var tb = TBuilding.from_building(b)
 		
 		var positions = get_possible_placement(tb, true)

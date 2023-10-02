@@ -18,12 +18,43 @@ class_name Building extends Node
 @export var hole_probability : float = 0.2
 @export var plant_probability : float = 0.25
 
+@export var balcony_probability : float = -1
+
 
 var grid = []
 var size = Vector2i.ZERO
 
 var is_left_border : bool = false
 var is_right_border : bool = false
+
+var raw_capacity : int = 0
+
+func generate_base() -> void:
+	size.y = floor_height
+	size.x = 12
+	initialize_grid()
+	
+	var color := randi_range(0, 2)
+	for i in size.y:
+		for j in size.x:
+			grid[i][j].set_brick(color)
+	
+	update_edges()
+	
+	generate_door()
+	generate_decorations()
+	update_raw_capacity()
+
+func generate_scaffold() -> void:
+	size.y = floor_height
+	size.x = 1
+	initialize_grid()
+
+	for i in size.y:
+		for j in size.x:
+			grid[i][j].set_scaffold()
+
+	update_edges()
 
 func generate_building() -> void:
 	var floor_number := randomize_floor_number()
@@ -48,13 +79,14 @@ func generate_building() -> void:
 	
 	initialize_grid()
 	
+	var color := randi_range(0, 2)
 	for i in floor_height * upper_height:
 		for j in upper_width:
-			grid[i][-offset+j].set_brick()
+			grid[i][-offset+j].set_brick(color)
 	
 	for i in floor_height * (floor_number - upper_height):
 		for j in lower_width:
-			grid[i+floor_height*upper_height][offset+j].set_brick()
+			grid[i+floor_height*upper_height][offset+j].set_brick(color)
 	
 	
 	var shrink_size: int = 0
@@ -89,8 +121,12 @@ func generate_building() -> void:
 	
 	update_edges()
 	
+	generate_balkony()
+	
 	generate_trap_doors()
 	generate_decorations()
+	
+	update_raw_capacity()
 
 func randomize_floor_number() -> int:
 	var random := randf()
@@ -188,15 +224,29 @@ func generate_decorations() -> void:
 				continue
 			if grid[i][j].is_empty:
 				continue
-			if allows_window(i) and randf() < window_probability:
+			if allows_window(i, j) and randf() < window_probability:
 				grid[i][j].set_window(randi_range(1, 9))
-			if randf() < hole_probability:
+			if allows_hole(i, j) and randf() < hole_probability:
 				grid[i][j].set_hole(randi_range(1,12))
-			if randf() < plant_probability:
+			if allows_plant(i, j) and randf() < plant_probability:
 				grid[i][j].set_plant(randi_range(1, 14))
 
-func allows_window(i) -> bool:
+func allows_window(i, j) -> bool:
+	if grid[i][j].balcony:
+		return false
 	if i%floor_height != 1:
+		return false
+	
+	return true
+
+func allows_hole(i, j) -> bool:
+	if grid[i][j].balcony:
+		return false
+	
+	return true
+
+func allows_plant(i, j) -> bool:
+	if grid[i][j].balcony:
 		return false
 	
 	return true
@@ -217,4 +267,54 @@ func generate_trap_doors() -> void:
 			continue
 		if randf() < trap_door_probability:
 			grid[size.y-1][j].set_trap_door()
+
+func generate_balkony() -> void:
+	if not is_left_border and not is_right_border:
+		return
+	if is_left_border and is_right_border:
+		return
+	var tmp_grid = []
+	for i in size.y:
+		tmp_grid.append([])
+		if is_left_border:
+			var tile_instance = Building_Tile.new()
+			tmp_grid[i].append(tile_instance)
+		for j in size.x:
+			tmp_grid[i].append(grid[i][j])
+		if is_right_border:
+			var tile_instance = Building_Tile.new()
+			tmp_grid[i].append(tile_instance)
 	
+	size.x += 1
+	
+	for i in size.y:
+		if i%floor_height != 0:
+			continue
+		if is_left_border:
+			if tmp_grid[i+1][1].slope or tmp_grid[i+2][1].slope:
+				continue
+			if randf() < balcony_probability:
+				tmp_grid[i+0][0].set_balcony(4)
+				tmp_grid[i+1][0].set_balcony(5)
+				tmp_grid[i+2][0].set_balcony(6)
+		else:
+			if tmp_grid[i+1][size.x-2].slope or tmp_grid[i+2][size.x-2].slope:
+				continue
+			if randf() < balcony_probability:
+				tmp_grid[i+0][size.x-1].set_balcony(1)
+				tmp_grid[i+1][size.x-1].set_balcony(2)
+				tmp_grid[i+2][size.x-1].set_balcony(3)
+	
+	grid = tmp_grid
+
+func update_raw_capacity() -> void:
+	raw_capacity = 0
+	for i in size.y:
+		for j in size.x:
+			raw_capacity += grid[i][j].tile_capacity
+
+func generate_door() -> void:
+	var x_position = randi_range(1,size.x-1)
+	var door = randi_range(1,3)
+	grid[1][x_position].set_door(door)
+	grid[2][x_position].set_door(3+door)
