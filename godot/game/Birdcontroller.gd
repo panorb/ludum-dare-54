@@ -14,6 +14,7 @@ func _process(delta):
 	if next_spawn > curr_time:
 		return
 	var node = scene.instantiate() as Bird
+	node.autoplay = "bird" + str(random.randi_range(1,5))
 	if random.randf() > 0.5:
 		node.direction = -1.0
 		node.scale.x = -1.0
