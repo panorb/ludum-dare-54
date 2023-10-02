@@ -17,7 +17,7 @@ var held_card : Card = null
 const CARD_PREVIEW_SIZE : Vector2i = Vector2i(14, 9)
 
 func _ready() -> void:
-	get_tree().get_root().size_changed.connect(reorganize_hand)
+	# get_tree().get_root().size_changed.connect(reorganize_hand)
 	initial_card_draw()
 
 func initial_card_draw() -> void:
@@ -105,7 +105,7 @@ func reorganize_hand() -> void:
 	var card_num : int = len(hand_cards)
 	if not card_num:
 		return
-		
+#
 	var tween : Tween = create_tween()
 	tween.set_parallel()
 	

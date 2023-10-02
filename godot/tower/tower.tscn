@@ -31,4 +31,13 @@ layer_1/tile_data = PackedInt32Array()
 [node name="PreviewMap" type="TileMap" parent="BuildingManager"]
 tile_set = ExtResource("4_7rioh")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 0, 0, -1, 0, 0)
+layer_0/name = "Building"
+layer_1/name = "Decoration"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
+
+[connection signal="building_placed" from="BuildingManager" to="." method="_on_building_manager_building_placed"]

@@ -13,7 +13,7 @@ func _process(delta):
 func _on_card_hand_card_selected(card):
 	self.tower.select_preview_building(card._building)
 
-func _on_building_manager_building_placed(position):
+func _on_tower_building_placed(position):
 	self.card_hand.drop_card()
 	self.card_hand.draw_card(1)
 

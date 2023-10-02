@@ -4,6 +4,8 @@ extends Node2D
 @export var tileMap: TileMap = null
 @onready var building_manager:BuildingManager = get_node("%BuildingManager")
 
+signal building_placed(position:Vector2i)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -28,3 +30,14 @@ func deselect_preview_building():
 
 func place_preview_building():
 	self.building_manager.place_preview_building()
+
+
+func _on_side_building_right_tower_spam(position):
+	self.building_manager.tower_spam_block(position)
+
+func _on_side_building_left_tower_spam(position):
+	self.building_manager.tower_spam_block(position)
+
+
+func _on_building_manager_building_placed(position):
+	building_placed.emit(position)

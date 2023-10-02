@@ -21,9 +21,7 @@ func _ready() -> void:
 	self.blocker.set_non_empty(Vector2i(0, 0))
 	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 3))
 	self.map = TBuilding.new(Vector2i(MAP_SIZE.x, MAP_SIZE.y+1), get_node("TowerMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y-1))
-	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
 	
-	self.preview_map.set_cell(0, Vector2i(1, 1), 0, Vector2i(1, 0))
 	self.init_foundation(FOUNDATION_WIDTH)
 	self.height = 1
 	var b = Building.new()
@@ -40,22 +38,16 @@ func _ready() -> void:
 			continue
 		self.place_building(positions[randi() % positions.size()], tb)
 
+func get_mouse_position():
+	var camera_position = get_local_mouse_position()
+	var mouse_position_global = get_tree().get_root().get_node("Game").get_global_mouse_position()
+	return mouse_position_global/3 + camera_position
+	
 
 func _process(delta):
 	if self.preview_building == null:
 		return
-	var camera_position = get_local_mouse_position()
-	var mouse_position_global = get_tree().get_root().get_node("Game").get_global_mouse_position()
-	#print(camera_position)
-	return
-	var mouse_position = null
-#	var mouse_position_global = get_tree().get_root().get_node("Game").get_global_mouse_position()
-#	var mouse_position = self.to_local(mouse_position_global)
-	#var camera_position_global = get_tree().get_root().get_node("Game/SubViewport/GameCamera")()
-	#var camera_position = get_tree().get_root().get_node("%GameCamera")
-	#print(camera_position)
-#	var mouse_position = mouse_position_global# = get_tree().get_root().get_node("GameCamera").#mouse_position_global
-	#var mouse_position = get_global_mouse_position()
+	var mouse_position = get_mouse_position()
 	var building_offset = Vector2i(self.preview_building.size.x/2, self.preview_building.size.y/2)
 	var map_position = self.map.graphical_tiles.local_to_map(mouse_position)-building_offset
 	var preview_center = self.map.graphical_tiles.map_to_local(map_position)-Vector2(8.0, 8.0)
@@ -163,13 +155,6 @@ func tower_spam_block(position):
 		for x in range(3):
 			self.map.stamp(pos+Vector2i(x-1,y-1), self.blocker)
 
-func _on_side_building_right_tower_spam(position):
-	tower_spam_block(position)
-
-
-func _on_side_building_left_tower_spam(position):
-	tower_spam_block(position)
-
 func deselect_preview_building():
 	self.preview_map.clear()
 	self.preview_building = null
@@ -185,7 +170,7 @@ func place_preview_building():
 	if preview_building == null:
 		return
 	
-	var mouse_position = self.get_local_mouse_position()
+	var mouse_position = get_mouse_position()
 	var building_offset = Vector2i(self.preview_building.size.x/2, self.preview_building.size.y/2)
 	var map_position = self.map.graphical_tiles.local_to_map(mouse_position)-building_offset
 	var placement_pos = map_position + self.map.offset
