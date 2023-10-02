@@ -19,7 +19,7 @@ signal building_placed(position:Vector2i, capacity:int)
 func _ready() -> void:
 	self.blocker = TBuilding.new(Vector2i(1, 1))
 	self.blocker.set_non_empty(Vector2i(0, 0))
-	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 3))
+	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(3, 2))
 	self.map = TBuilding.new(Vector2i(MAP_SIZE.x, MAP_SIZE.y+1), get_node("TowerMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y-1))
 	
 	self.init_foundation(FOUNDATION_WIDTH)
