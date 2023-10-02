@@ -128,6 +128,7 @@ func pre_round():
 		var building := Building.new()
 		building.generate_building()
 		capacities.append(int(building.raw_capacity/3*0.9))
+	capacities.sort()
 	self.round_capacity_demand = capacities[2]
 	self.capacity_gui.demand = self.round_capacity_demand
 	
