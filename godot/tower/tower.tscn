@@ -10,6 +10,7 @@ script = ExtResource("1_lgnhb")
 tileMap = NodePath("BuildingManager/TowerMap")
 
 [node name="BuildingManager" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("2_qc6mu")
 
 [node name="Building" type="Node" parent="BuildingManager"]
@@ -26,3 +27,17 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
+
+[node name="PreviewMap" type="TileMap" parent="BuildingManager"]
+tile_set = ExtResource("4_7rioh")
+format = 2
+layer_0/name = "Building"
+layer_1/name = "Decoration"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
+
+[connection signal="building_placed" from="BuildingManager" to="." method="_on_building_manager_building_placed"]
