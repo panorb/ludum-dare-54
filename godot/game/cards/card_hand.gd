@@ -3,6 +3,7 @@ extends Node2D
 signal card_hand_ready
 signal card_selected(card:Card)
 signal card_deselected
+signal wizard_clicked
 
 @export var card_scene : PackedScene = preload("res://game/cards/card.tscn")
 @export_range(1, 6) var card_num : int = 3 
@@ -28,7 +29,7 @@ func _ready() -> void:
 	initial_card_draw()
 
 func initial_card_draw() -> void:
-	draw_card(Card.CardType.CARD_TYPE_NORMAL, 5)
+	draw_card(Card.CardType.CARD_TYPE_NORMAL, 4)
 	draw_card(Card.CardType.CARD_TYPE_SCAFFOLD, 1)
 	
 	self.card_hand_ready.emit()
@@ -149,3 +150,18 @@ func play_select_sound():
 	select_sound.stream = playing_select_sound
 	select_sound.play()
 	playing_select_sound_index =+ 1
+
+func speek(text):
+	card_wizard.speek(text)
+
+func click_anywhere():
+#	pass
+	self.card_wizard.click_anywhere()
+
+#
+#func _on_button_pressed():
+#	self.card_wizard.click_anywhere()
+
+
+func _on_card_wizard_wizard_clicked():
+	wizard_clicked.emit()

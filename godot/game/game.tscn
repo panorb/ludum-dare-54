@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cuwq2brfpnxxb"]
+[gd_scene load_steps=19 format=3 uid="uid://dmoctt7p732ox"]
 
 [ext_resource type="PackedScene" uid="uid://cplf8w1sb71bg" path="res://background/background.tscn" id="1_bmw85"]
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
@@ -14,9 +14,14 @@
 [ext_resource type="Script" path="res://background/CanvasLayer.gd" id="4_rhn13"]
 [ext_resource type="AudioStream" uid="uid://btj8wvj1jqq4u" path="res://game/game_won.wav" id="4_wdgpr"]
 [ext_resource type="Script" path="res://game/InteractionManager.gd" id="5_xfojq"]
+[ext_resource type="PackedScene" uid="uid://dv2bq68so84wl" path="res://gui/capacity/capacity_ui.tscn" id="6_0vq82"]
 [ext_resource type="PackedScene" uid="uid://cf5v8hs4kc7x2" path="res://gui/letter/letter_view.tscn" id="8_ruha8"]
 [ext_resource type="PackedScene" uid="uid://nr04eptwcnd5" path="res://game/cards/card_hand.tscn" id="9_fvuws"]
 [ext_resource type="AudioStream" uid="uid://bqvcfds1opduu" path="res://game/windscroll.wav" id="13_p5gvq"]
+[ext_resource type="Script" path="res://game/Birdcontroller.gd" id="14_uywsb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o0dfp"]
+size = Vector2(1248, 431)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ga315"]
 viewport_path = NodePath("SubViewport")
@@ -50,19 +55,11 @@ stream = ExtResource("4_wdgpr")
 [node name="Background" parent="." instance=ExtResource("1_bmw85")]
 unique_name_in_owner = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="ClickDetector" type="Area2D" parent="."]
 
-[node name="CardHand" parent="CanvasLayer" instance=ExtResource("9_fvuws")]
-unique_name_in_owner = true
-
-[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
-unique_name_in_owner = true
-process_mode = 2
-
-[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_3pb4f")]
-unique_name_in_owner = true
-process_mode = 3
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickDetector"]
+position = Vector2(624, 215.5)
+shape = SubResource("RectangleShape2D_o0dfp")
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 layer = 0
@@ -86,6 +83,9 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("2_qbikm")
 
+[node name="Birdcontroller" type="Node2D" parent="SubViewport"]
+script = ExtResource("14_uywsb")
+
 [node name="Environment" type="Node2D" parent="SubViewport"]
 
 [node name="Gras" type="Sprite2D" parent="SubViewport/Environment"]
@@ -102,7 +102,7 @@ format = 2
 [node name="SideBuildingRight" parent="SubViewport/Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
 position = Vector2(177, 0)
 tilemap = NodePath("../SideBuildingTileMap")
-max_inside_size_variation = -5
+max_inside_size_variation = -3
 building_padding_on_outside = -5
 min_distance_between_patterns = 20
 min_template_height = 20
@@ -111,16 +111,17 @@ pattern_probability_per_row = 0.05
 [node name="SideBuildingLeft" parent="SubViewport/Environment" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_1affs")]
 position = Vector2(-177, 0)
 tilemap = NodePath("../SideBuildingTileMap")
-max_inside_size_variation = 5
+max_inside_size_variation = 3
 building_padding_on_outside = 5
 min_distance_between_patterns = 20
 min_template_height = 20
 pattern_probability_per_row = 0.05
 
-[node name="InteractionManager" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("camera")]
+[node name="InteractionManager" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("camera", "tower")]
 unique_name_in_owner = true
 script = ExtResource("5_xfojq")
 camera = NodePath("../GameCamera")
+tower = NodePath("../Tower")
 
 [node name="WindscrollSound" type="AudioStreamPlayer" parent="SubViewport/InteractionManager"]
 stream = ExtResource("13_p5gvq")
@@ -128,10 +129,31 @@ stream = ExtResource("13_p5gvq")
 [node name="Tower" parent="SubViewport" instance=ExtResource("2_mt16c")]
 unique_name_in_owner = true
 
-[connection signal="card_deselected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_deselected"]
-[connection signal="card_selected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_selected"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CardHand" parent="CanvasLayer" instance=ExtResource("9_fvuws")]
+unique_name_in_owner = true
+
+[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
+unique_name_in_owner = true
+process_mode = 2
+
+[node name="CapacityUI" parent="CanvasLayer" instance=ExtResource("6_0vq82")]
+unique_name_in_owner = true
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_3pb4f")]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+
+[connection signal="input_event" from="ClickDetector" to="." method="_on_click_detector_input_event"]
 [connection signal="tower_spam" from="SubViewport/Environment/SideBuildingRight" to="SubViewport/Tower" method="_on_side_building_right_tower_spam"]
 [connection signal="tower_spam" from="SubViewport/Environment/SideBuildingLeft" to="SubViewport/Tower" method="_on_side_building_left_tower_spam"]
 [connection signal="building_placed" from="SubViewport/Tower" to="." method="_on_tower_building_placed"]
+[connection signal="capacity_update" from="SubViewport/Tower" to="CanvasLayer/CapacityUI" method="_on_tower_capacity_update"]
+[connection signal="card_deselected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_deselected"]
+[connection signal="card_selected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_selected"]
+[connection signal="wizard_clicked" from="CanvasLayer/CardHand" to="." method="_on_card_hand_wizard_clicked"]
+[connection signal="wizard_clicked" from="CanvasLayer/CardHand/CardWizard" to="CanvasLayer/CardHand" method="_on_card_wizard_wizard_clicked"]
 
 [editable path="CanvasLayer/CardHand"]

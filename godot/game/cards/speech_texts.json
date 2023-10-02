@@ -1,0 +1,7 @@
+{
+	"left_support_missing": "this part isn't supported on the left side!",
+	"right_support_misssing": "this part isn't supported on the right side!",
+	"overlap": "this part needs more space - try somewhere else!",
+	"few_spaces": "with only %d places left, it's getting pretty crammed in there...",
+	"wizard_click": "yep, that's me! the woolly wizard!"
+}

@@ -16,6 +16,7 @@ var _card_type_color = {
 var _building: TBuilding = null
 var _preview_building: TBuilding = null
 var _capacity: int = 0
+var card_type: CardType = CardType.CARD_TYPE_NORMAL
 
 const CARD_PREVIEW_SIZE : Vector2i = Vector2i(14, 14)
 
@@ -27,11 +28,11 @@ func _ready():
 	self.click_zone.mouse_entered.connect(self._on_ClickZone_mouse_entered)
 	self.click_zone.mouse_exited.connect(self._on_ClickZone_mouse_exited)
 	self.click_zone.input_event.connect(self._on_ClickZone_input_event)
-	
 	capacity_label.text = str(_capacity)
 
 func init(card_type : CardType):
 	self.self_modulate = _card_type_color[card_type]
+	self.card_type = card_type
 	
 	var building := Building.new()
 	
@@ -45,6 +46,7 @@ func init(card_type : CardType):
 	
 	self.init_building(t_building)
 	self.init_capacity(t_building.capacity)
+	capacity_label.text = str(_capacity)
 
 func init_building(building: TBuilding):
 	_building = building
@@ -58,6 +60,7 @@ func init_capacity(capacity : int):
 func _on_ClickZone_input_event(viewport: Node, event: InputEvent, shape_idx: int):
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		self.selected.emit(self)
+		
 
 func _on_ClickZone_mouse_entered():
 	is_hovered = true

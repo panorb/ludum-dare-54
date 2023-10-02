@@ -6,6 +6,7 @@ class_name  InteractionManager
 @export var camera_sensitivity: float = 5.0
 @export var drag_start_time: int = 150
 @export var bgsTimer: float = 0.
+@export var tower: Tower
 @onready var _letter := get_node("%Letter")
 
 signal primary_interaction_just_pressed_sig
@@ -41,7 +42,10 @@ func _process(delta: float) -> void:
 		$WindscrollSound.play()
 
 	camera.position.y += movement * camera_sensitivity * delta * 100
-	camera.position.y = min(0, camera.position.y)
+	var height = tower.height * (-16)
+	if height == null:
+		height = 3 * (-16)
+	camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
 	self.player_height_changed.emit(camera.position.y)
 
 	var background_scene = get_parent().get_parent().get_node("Background")
@@ -49,7 +53,7 @@ func _process(delta: float) -> void:
 	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
 	bgsTimer += delta
 	color_rect.material.set_shader_parameter("u_startAnim", 1.)#minf(smoothstep(0.,1.,bgsTimer),1.))
-	var prog = maxf(-1.01,-.01-camera.get_screen_center_position().y/50000.) #TODO 50k seems reasonable
+	var prog = maxf(-1.01,-.01-camera.get_screen_center_position().y/5000.) #TODO 50k seems reasonable
 	color_rect.material.set_shader_parameter("u_progress", prog)
 	color_rect.material.set_shader_parameter("u_perspective", .2)
 
@@ -87,5 +91,8 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if current_state == MOUSE_STATE.DRAGGING:
 			camera.position.y -= event.relative.y * camera_sensitivity * 0.8
-			camera.position.y = min(0, camera.position.y)
-			self.player_height_changed.emit(camera.position.y)
+			var height = tower.height * (-16)
+			if height == null:
+				height = 3 * (-16)
+			camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
+      self.player_height_changed.emit(camera.position.y)
