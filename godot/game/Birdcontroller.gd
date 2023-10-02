@@ -13,8 +13,11 @@ func _process(delta):
 	var curr_time = Time.get_ticks_msec()
 	if next_spawn > curr_time:
 		return
-	var node = scene.instantiate() as Node2D
-	node.position.x = -220
+	var node = scene.instantiate() as Bird
+	if random.randf() > 0.5:
+		node.direction = -1.0
+		node.scale.x = -1.0
+	node.position.x = -220 * node.direction
 	node.position.y = random.randf_range(-100, -10000)
 	self.add_child(node)
 	print("spawned bird")

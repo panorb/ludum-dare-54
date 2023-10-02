@@ -4,6 +4,7 @@ extends Node2D
 @export var camera_sensitivity: float = 5.0
 @export var drag_start_time: int = 150
 @export var bgsTimer: float = 0.
+@export var tower: Tower
 @onready var _letter := get_node("%Letter")
 
 signal primary_interaction_just_pressed_sig

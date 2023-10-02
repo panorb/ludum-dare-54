@@ -7,11 +7,6 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_35vv7"]
 animations = [{
-"frames": [],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_ihfey")
@@ -23,14 +18,19 @@ animations = [{
 "texture": ExtResource("3_bnep2")
 }],
 "loop": true,
-"name": &"new_animation",
+"name": &"bird1",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"bird2",
 "speed": 5.0
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_35vv7")
-animation = &"new_animation"
-autoplay = "new_animation"
+animation = &"bird2"
+autoplay = "bird1"
 script = ExtResource("4_nuhnr")
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
