@@ -6,6 +6,7 @@ var is_bottom : bool = false
 var is_trap_door : bool = false
 var balcony : int = 0
 var window : int = 0
+var color : int = 0
 var roof : int = 0
 var hole : int = 0
 var plant : int = 0
@@ -16,8 +17,9 @@ var tile := Vector2i(-1, -1)
 var tile_decoration := Vector2i(-1, -1)
 var is_decorated : bool = false
 
-func set_brick() -> void:
+func set_brick(number) -> void:
 	is_empty = false
+	color = number
 	update_tile()
 
 func unset_brick() -> void:
@@ -80,27 +82,16 @@ func set_balcony(number) -> void:
 
 func update_tile() -> void:
 	if not self.is_empty:
+		tile = Vector2i(13, 8+3*color)
 		if self.left_right_edge == 1:
-			if self.is_top:
-				tile = Vector2i(12, 0)
-			elif self.is_bottom:
-				tile = Vector2i(12, 1)
-			else:
-				tile = Vector2i(0, 1)
-		elif self.left_right_edge == 2:
-			if self.is_top:
-				tile = Vector2i(14, 0)
-			elif self.is_bottom:
-				tile = Vector2i(14, 1)
-			else:
-				tile = Vector2i(2, 1)
-		else:
-			if self.is_top:
-				tile = Vector2i(13, 0)
-			elif self.is_bottom:
-				tile = Vector2i(13, 1)
-			else:
-				tile = Vector2i(1, 1)
+			tile.x -= 1
+		if self.left_right_edge == 2:
+			tile.x += 1
+		if self.is_top:
+			tile.y -= 1
+		if self.is_bottom:
+			tile.y += 1
+		
 	else:
 		tile = Vector2i(-1, -1)
 		if self.slope:
@@ -114,34 +105,11 @@ func update_tile() -> void:
 				tile = Vector2i(6, 3)
 	
 	if roof:
-		if roof == 1:
-			if not is_empty:
-				tile_decoration = Vector2i(1, 0)
-			elif slope == 1:
-				tile_decoration = Vector2i(0, 0)
-			else:
-				tile_decoration = Vector2i(2, 0)
-		if roof == 2:
-			if not is_empty:
-				tile_decoration = Vector2i(7, 4)
-			elif slope == 1:
-				tile_decoration = Vector2i(6, 4)
-			else:
-				tile_decoration = Vector2i(8, 4)
-		if roof == 3:
-			if not is_empty:
-				tile_decoration = Vector2i(7, 5)
-			elif slope == 1:
-				tile_decoration = Vector2i(6, 5)
-			else:
-				tile_decoration = Vector2i(8, 5)
-		if roof == 4:
-			if not is_empty:
-				tile_decoration = Vector2i(7, 6)
-			elif slope == 1:
-				tile_decoration = Vector2i(6, 6)
-			else:
-				tile_decoration = Vector2i(8, 6)
+		tile = Vector2i(13, 3+(roof-1))
+		if slope == 1:
+			tile.x -= 1
+		if slope == 2:
+			tile.x += 1
 	
 	if hole:
 		tile_decoration = Vector2i(6+(hole-1)/3, 7+(hole-1)%3)
@@ -155,14 +123,8 @@ func update_tile() -> void:
 	if is_trap_door:
 		if is_top:
 			if roof:
-				if roof == 1:
-					tile_decoration = Vector2i(3, 3)
-				if roof == 2:
-					tile_decoration = Vector2i(3, 3)
-				if roof == 3:
-					tile_decoration = Vector2i(3, 3)
-				if roof == 4:
-					tile_decoration = Vector2i(3, 3)
+				tile.x += 2
+				tile_decoration = Vector2i(-1, -1)
 			else:
 				tile_decoration = Vector2i(3, 8)
 		elif is_bottom:

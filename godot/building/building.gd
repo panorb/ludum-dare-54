@@ -50,13 +50,14 @@ func generate_building() -> void:
 	
 	initialize_grid()
 	
+	var color := randi_range(0, 1)
 	for i in floor_height * upper_height:
 		for j in upper_width:
-			grid[i][-offset+j].set_brick()
+			grid[i][-offset+j].set_brick(color)
 	
 	for i in floor_height * (floor_number - upper_height):
 		for j in lower_width:
-			grid[i+floor_height*upper_height][offset+j].set_brick()
+			grid[i+floor_height*upper_height][offset+j].set_brick(color)
 	
 	
 	var shrink_size: int = 0
