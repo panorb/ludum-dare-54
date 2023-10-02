@@ -4,6 +4,7 @@ var is_empty : bool = true
 var is_top : bool = false
 var is_bottom : bool = false
 var is_trap_door : bool = false
+var balcony : int = 0
 var window : int = 0
 var roof : int = 0
 var hole : int = 0
@@ -70,6 +71,11 @@ func set_hole(number) -> void:
 func set_plant(number) -> void:
 	plant = number
 	is_decorated = true
+	update_tile()
+
+func set_balcony(number) -> void:
+	balcony = number
+	is_empty = false
 	update_tile()
 
 func update_tile() -> void:
@@ -161,3 +167,9 @@ func update_tile() -> void:
 				tile_decoration = Vector2i(3, 8)
 		elif is_bottom:
 			tile_decoration = Vector2i(3, 7)
+	
+	if balcony:
+		if balcony == 1:
+			tile = Vector2i(0, 7)
+		if balcony == 4:
+			tile = Vector2i(2, 7)
