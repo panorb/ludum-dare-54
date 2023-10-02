@@ -109,19 +109,19 @@ func add_rows_if_needed(amount_to_draw: int):
 				# we're getting wider, add a angular tile
 				if max_inside_size_variation > 0:
 					fix_tile_position = Vector2i(floorf(current_row_width_delta) - 1, -row + 1);
-					tile_type = Vector2i(2,15)
+					tile_type = Vector2i(3,4)
 				else:
 					fix_tile_position = Vector2i(ceilf(current_row_width_delta), -row + 1);
-					tile_type = Vector2i(0,14)
+					tile_type = Vector2i(4,3)
 				
 			elif current_row_width_delta < previous_row_width_delta:
 				# we're getting narrower, add a angular tile
 				if max_inside_size_variation > 0:
 					fix_tile_position = Vector2i(floorf(current_row_width_delta), -row);
-					tile_type = Vector2i(2,14)
+					tile_type = Vector2i(3,3)
 				else:
-					fix_tile_position = Vector2i(ceilf(current_row_width_delta), -row);
-					tile_type = Vector2i(0,15)
+					fix_tile_position = Vector2i(ceilf(current_row_width_delta) + 1, -row + 1);
+					tile_type = Vector2i(4,4)
 			
 			if fix_tile_position != null:
 				tilemap.set_cell(tilemap_layer, tilemap_starting_position + fix_tile_position, tilemap_sourceid, tile_type);
