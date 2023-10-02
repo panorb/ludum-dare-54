@@ -3,14 +3,14 @@ class_name Building extends Node
 @export var floor_height = 3
 
 @export var min_width : int = 2
-@export var floor_width_distribution = [0, 0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 0.96, 1]
-@export var floor_number_distribution = [0, 0.3, 0.4, 1]
+@export var floor_width_distribution = [0, 0, 0.1, 0.35, 0.45, 0.6, 0.7, 0.8, 0.9, 0.96, 1]
+@export var floor_number_distribution = [0, 0.5, 0.8, 1]
 @export var border_probability : float = 0.8
 @export var border_skew_probability : float = 0.5
-@export var adjusted_expanding_distribution = [0.25, 0.6, 0.8, 0.98, 1]
+@export var adjusted_expanding_distribution = [0.3, 0.7, 0.9, 0.98, 1]
 @export var no_tshape_probability : float = 0.2
 
-@export var roof_probability : float = 0.4
+@export var roof_probability : float = 0.25
 @export var border_window_probability : float = 0.2
 @export var trap_door_probability : float = 0.25
 
@@ -20,7 +20,6 @@ class_name Building extends Node
 
 @export var balcony_probability : float = -1
 
-
 var grid = []
 var size = Vector2i.ZERO
 
@@ -28,6 +27,9 @@ var is_left_border : bool = false
 var is_right_border : bool = false
 
 var raw_capacity : int = 0
+
+var left_support := Vector2i.ZERO
+var right_support := Vector2i.ZERO
 
 func generate_base() -> void:
 	size.y = floor_height
@@ -55,6 +57,7 @@ func generate_scaffold() -> void:
 			grid[i][j].set_scaffold()
 
 	update_edges()
+	update_support()
 
 func generate_building() -> void:
 	var floor_number := randomize_floor_number()
@@ -120,6 +123,8 @@ func generate_building() -> void:
 							grid[floor_height*floor_number-1-i][min(abs(offset)+upper_width, max_width)-1-j].set_slope(4)
 	
 	update_edges()
+	
+	update_support()
 	
 	generate_balkony()
 	
@@ -318,3 +323,16 @@ func generate_door() -> void:
 	var door = randi_range(1,3)
 	grid[1][x_position].set_door(door)
 	grid[2][x_position].set_door(3+door)
+
+func update_support() -> void:
+	var left_support := Vector2i.ZERO
+	var right_support := Vector2i.ZERO
+	for j in size.x:
+		for i in size.y:
+			if grid[i][j].is_bottom:
+				right_support = Vector2i(i, j)
+				if left_support == Vector2i.ZERO:
+					left_support = Vector2i(i, j)
+	
+	grid[left_support.x][left_support.y].set_support()
+	grid[right_support.x][right_support.y].set_support()
