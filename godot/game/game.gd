@@ -9,7 +9,6 @@ extends Node2D
 const CITY_NOISE_MAX_HEIGHT = 666.0
 const TROPOSPHERE_MAX_HEIGHT = 1200.0
 
-
 @onready var capacity_gui = get_node("%CapacityUI")
 
 @onready var letter = %Letter

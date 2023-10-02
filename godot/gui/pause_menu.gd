@@ -11,12 +11,14 @@ var volume_full_image := preload("res://gui/volume_full.png")
 @onready var sound_image := %SoundImage
 @onready var sound_slider : HSlider = %SoundSlider
 @onready var sound_percent_label : Label = %SoundPercentLabel
+@onready var restart_button : BaseButton = %RestartButton
 @onready var quit_button : BaseButton = %QuitButton
 @onready var master_bus_index : int = AudioServer.get_bus_index('Master')
 
 
 func _ready() -> void:
 	continue_button.pressed.connect(self._on_ContinueButton_pressed)
+	restart_button.pressed.connect(self._on_RestartButton_pressed)
 	quit_button.pressed.connect(self._on_QuitButton_pressed)
 	sound_slider.value_changed.connect(self._on_SoundSlider_value_changed)
 
@@ -35,6 +37,8 @@ func _on_ContinueButton_pressed() -> void:
 	get_tree().paused = false
 	hide()
 
+func _on_RestartButton_pressed() -> void:
+	SceneManager.show_scene("game")
 
 func _on_QuitButton_pressed() -> void:
 	get_tree().quit()

@@ -16,7 +16,7 @@ func _ready() -> void:
 		show_scene(start_scene)
 
 func show_scene(scene_name: String) -> void:
-	if !_scenes.has(scene_name):
+	if !_scenes.has(scene_name) or scene_name == "game":
 		var packed_scene: PackedScene = packed_scenes[scene_name]
 		_scenes[scene_name] = packed_scene.instantiate()
 
