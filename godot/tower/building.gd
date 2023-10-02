@@ -33,20 +33,18 @@ func _init(size: Vector2i = Vector2i.ZERO, tile_map: TileMap = null, offset := V
 
 # copy the building into my own map
 func stamp(pos: Vector2i, building: TBuilding) -> bool:
-#	print("stamp")
 	if pos.x < 0 or pos.x+building.size.x > self.size.x or pos.y < 0 or pos.y+building.size.y > self.size.y:
 		return false
 	for y in range(building.size.y):
 		for x in range(building.size.x):
 			var pos_in = Vector2i(x, y)
 			var pos_tl = pos + pos_in
-#			print(pos_tl-offset)
+			
 			if self.graphical_tiles.get_cell_source_id(0, pos_tl-offset) == -1:
 				self.graphical_tiles.set_cell(0, pos_tl-offset, building.graphical_tiles.get_cell_source_id(0, pos_in), building.graphical_tiles.get_cell_atlas_coords(0, pos_in))
 				self.graphical_tiles.set_cell(1, pos_tl-offset, building.graphical_tiles.get_cell_source_id(1, pos_in), building.graphical_tiles.get_cell_atlas_coords(1, pos_in))
-#				if building.graphical_tiles.get_cell_atlas_coords(1, pos_in).x != -1:
-#					print("hey")
 				self.tile_info[pos_tl.y][pos_tl.x] = building.tile_info[y][x]
+				
 				if self.get_needs_suppot(pos_tl):
 					if x < self.support_left.x:
 						self.support_left = pos_tl
@@ -60,10 +58,7 @@ static func from_building(building: Building) -> TBuilding:
 		for x in range(tbuilding.size.x):
 			tbuilding.graphical_tiles.set_cell(0, Vector2i(x, y), 0, building.grid[y][x].tile)
 			tbuilding.graphical_tiles.set_cell(1, Vector2i(x, y), 0, building.grid[y][x].tile_decoration)
-#			if building.grid[y][x].tile_decoration.x != -1:
-#				print("hey "+str(building.grid[y][x].tile_decoration))
-#			if tbuilding.graphical_tiles.get_cell_atlas_coords(1, Vector2i(x, y)).x != -1:
-#				print("ho")
+			
 			if not building.grid[y][x].is_empty:
 				tbuilding.set_non_empty(Vector2i(x, y))
 			else:
@@ -71,7 +66,7 @@ static func from_building(building: Building) -> TBuilding:
 					tbuilding.set_non_empty(Vector2i(x, y))
 			tbuilding.set_needs_suppot(Vector2i(x, y), building.grid[y][x].is_bottom)
 			tbuilding.set_supports(Vector2i(x, y), building.grid[y][x].is_top)
-			#tbuilding.set_door(Vector2i(x, y), building.grid[y][x].is_door)
+			# tbuilding.set_door(Vector2i(x, y), building.grid[y][x].is_door)
 	
 	for y in range(building.size.y):
 		for x in range(building.size.x):
@@ -82,15 +77,6 @@ static func from_building(building: Building) -> TBuilding:
 				if x > tbuilding.support_right.x:
 					tbuilding.support_right = here
 	return tbuilding
-
-func set_tile(pos:Vector2i, tile) -> void:
-	# self.graphical_tiles.set_cell(0, pos, tile.graphic_source_id, tile.graphic_coords)
-	# self.set_supports(pos, tile.supports)
-	# self.set_needs_support(pos, tile.needs_support)
-	# self.set_window_property(pos, tile.window)
-	# self.set_door(pos, tile.door)
-	# self.set_slope(pos, tile.slope)
-	pass
 
 func _get_flag(pos: Vector2i, flag: int) -> bool:
 	return (self.tile_info[pos.y][pos.x] & flag) != 0
@@ -136,4 +122,4 @@ func get_non_empty(pos: Vector2i) -> bool:
 
 func set_non_empty(pos: Vector2i, value := true) -> void:
 	self._set_flag(pos, value, NON_EMPTY)
-#	self.graphical_tiles.set_cell(1, pos-self.offset, 0, Vector2i(2,2))
+
