@@ -26,7 +26,7 @@ func _ready():
 func init_capacity(capacity : int):
 	_capacity = capacity
 
-func init_building(building: TBuilding, preview_building):
+func init_building(building: TBuilding, preview_building: TBuilding):
 	_building = building
 	_preview_building = preview_building
 

@@ -17,6 +17,5 @@ func _on_building_manager_building_placed(position):
 	self.card_hand.drop_card()
 	self.card_hand.draw_card(1)
 
-
-func _on_card_hand_card_deselect():
+func _on_card_hand_card_deselected():
 	self.tower.deselect_preview_building()

@@ -2,7 +2,7 @@ extends Node2D
 
 signal card_hand_ready
 signal card_selected(card:Card)
-signal card_deselect
+signal card_deselected
 
 @export var card_scene : PackedScene = preload("res://game/cards/card.tscn")
 @export_range(1, 6) var card_num : int = 3 
@@ -13,7 +13,6 @@ signal card_deselect
 
 var hand_cards : Array[Card] = []
 var held_card : Card = null
-#var selected_card : Card = null
 
 const CARD_PREVIEW_SIZE : Vector2i = Vector2i(14, 9)
 
@@ -23,8 +22,6 @@ func _ready() -> void:
 
 func initial_card_draw() -> void:
 	draw_card(5)
-	
-	#reorganize_hand()
 	
 	self.card_hand_ready.emit()
 
@@ -87,7 +84,7 @@ func _on_Card_selected(card : Card) -> void:
 			card_wizard.deactivate()
 			held_card = null
 			hand_cards.append(card)
-			card_deselect.emit()
+			card_deselected.emit()
 		else:
 			card.select()
 			card_wizard.activate()
@@ -101,8 +98,7 @@ func _on_Card_selected(card : Card) -> void:
 		held_card = card
 	if held_card != null:
 		card_selected.emit(held_card)
-	#self.selected_card = card
-	# draw_card()
+	
 	reorganize_hand()
 
 func reorganize_hand() -> void:
@@ -124,9 +120,7 @@ func reorganize_hand() -> void:
 	var half_width: int = total_width / 2.0
 	
 	var start_x = (get_viewport_rect().size.x / 2.0) - half_width + (hand_cards[0].texture.get_width() / 2.0)
-	# $StartX.position = Vector2(start_x, 40)
 	
-	# var start_x = (get_viewport_rect().size.x / 2.0) - ((card_num / 2.0) * (hand_cards[0].texture.get_width() + card_spacing))
 	var y = get_viewport_rect().size.y + y_offset
 	if held_card:
 		y += 35
