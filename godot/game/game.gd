@@ -42,10 +42,10 @@ func change_game_state(state : GameState):
 	elif state == GameState.WARNED_TWICE:
 		letter.show_letter("second_warning")
 	elif state == GameState.GAME_OVER:
-    $GameLostSound.play()
+		$GameLostSound.play()
 		letter.show_letter("game_over", [int(tower.height / 3), tower.capacity_used])
-  elif state == GameState.GAME_WON:
-    $GameWonSound.play()
+	elif state == GameState.GAME_WON:
+		$GameWonSound.play()
 	
 	current_state += 1
 
@@ -76,6 +76,7 @@ func _on_tower_building_placed(position, capacity):
 
 func _on_player_height_changed(player_height: float):
 	# Errechnen der Prozente
+	return
 	var percent_city_noise = inverse_lerp(CITY_NOISE_MAX_HEIGHT, 0.0, player_height)
 	var percent_troposphere = 0.0
 	var percent_space = 0.0
@@ -87,14 +88,14 @@ func _on_player_height_changed(player_height: float):
 	if percent_city_noise <= 0.01:
 		city_noise_sound.stop()
 	else:
-		city_noise_sound.volume_db(linear_to_db(percent_city_noise))
+		city_noise_sound.volume_db = linear_to_db(percent_city_noise)
 		if !city_noise_sound.playing:
 			city_noise_sound.play()
 
 	if percent_troposphere <= 1.0:
 		troposphere_sound.stop()
 	else:
-		troposphere_sound.volume_db(linear_to_db(percent_troposphere))
+		troposphere_sound.volume_db = linear_to_db(percent_troposphere)
 		if troposphere_sound.playing:
 			troposphere_sound.play()
 

@@ -95,4 +95,4 @@ func _input(event: InputEvent) -> void:
 			if height == null:
 				height = 3 * (-16)
 			camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
-      self.player_height_changed.emit(camera.position.y)
+	self.player_height_changed.emit(camera.position.y)
