@@ -30,7 +30,10 @@ func _process(delta: float) -> void:
 		movement += MOUSE_SCROLL_SPEED
 
 	camera.position.y += movement * camera_sensitivity * delta * 100
-	camera.position.y = min(0, camera.position.y)
+	var height = tower.height * (-16)
+	if height == null:
+		height = 3 * (-16)
+	camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
 
 	var background_scene = get_parent().get_parent().get_node("Background")
 	#if background_scene:
@@ -75,4 +78,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if current_state == MOUSE_STATE.DRAGGING:
 			camera.position.y -= event.relative.y * camera_sensitivity * 0.8
-			camera.position.y = min(0, camera.position.y)
+			var height = tower.height * (-16)
+			if height == null:
+				height = 3 * (-16)
+			camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
