@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=22 format=3 uid="uid://dmoctt7p732ox"]
 
 [ext_resource type="PackedScene" uid="uid://cplf8w1sb71bg" path="res://background/background.tscn" id="1_bmw85"]
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
@@ -151,6 +151,7 @@ visible = false
 [connection signal="tower_spam" from="SubViewport/Environment/SideBuildingLeft" to="SubViewport/Tower" method="_on_side_building_left_tower_spam"]
 [connection signal="building_placed" from="SubViewport/Tower" to="." method="_on_tower_building_placed"]
 [connection signal="capacity_update" from="SubViewport/Tower" to="CanvasLayer/CapacityUI" method="_on_tower_capacity_update"]
+[connection signal="placement_failed" from="SubViewport/Tower" to="." method="_on_tower_placement_failed"]
 [connection signal="card_deselected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_deselected"]
 [connection signal="card_selected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_selected"]
 [connection signal="wizard_clicked" from="CanvasLayer/CardHand" to="." method="_on_card_hand_wizard_clicked"]

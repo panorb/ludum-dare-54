@@ -127,8 +127,6 @@ func add_rows_if_needed(amount_to_draw: int):
 				if tilemap.get_cell_source_id(tilemap_layer, tilemap_starting_position + fix_tile_position) == -1:
 					tilemap.set_cell(tilemap_layer, tilemap_starting_position + fix_tile_position, tilemap_sourceid, tile_type);
 					tower_spam.emit(tilemap_starting_position + Vector2i(fix_tile_position.x, -row))
-				else:
-					print("not adding tile at ", fix_tile_position, " because it already has a tile");
 			row += 1;
 			current_completed_row += 1;
 			

@@ -11,6 +11,7 @@ var place_sound2 := preload("res://tower/place2.wav")
 
 signal building_placed(position:Vector2i, capacity:int)
 signal capacity_update(capacity_used: int, capacity_total: int)
+signal placement_failed(error_code:int)
 
 var height:
 	get:
@@ -75,3 +76,7 @@ func _on_building_manager_building_placement_failed() -> void:
 func _on_building_manager_base_capacity(capacity):
 	capacity_total += capacity*2
 	capacity_update.emit(capacity_used, capacity_total)
+
+
+func _on_building_manager_placement_failed(error_code):
+	placement_failed.emit(error_code)
