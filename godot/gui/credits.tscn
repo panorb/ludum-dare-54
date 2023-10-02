@@ -165,6 +165,22 @@ text = "Collin"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ArtisWritingRichText2" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][b]Artist / Writing[/b][/center]"
+fit_content = true
+
+[node name="ArtisWritingHFlowContainer3" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="GumiBearLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/ArtisWritingHFlowContainer3"]
+layout_mode = 2
+text = "GumiBear"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CloseButton" type="Button" parent="CanvasLayer"]
 unique_name_in_owner = true
 anchors_preset = 1
