@@ -41,6 +41,9 @@ func generate_scaffold() -> void:
 	update_edges()
 
 func generate_building() -> void:
+	if randf() < 0.1:
+		generate_scaffold()
+		return
 	var floor_number := randomize_floor_number()
 	var upper_height := randomize_upper_height(floor_number)
 	
@@ -63,7 +66,7 @@ func generate_building() -> void:
 	
 	initialize_grid()
 	
-	var color := randi_range(0, 0)
+	var color := randi_range(0, 1)*2
 	for i in floor_height * upper_height:
 		for j in upper_width:
 			grid[i][-offset+j].set_brick(color)

@@ -114,17 +114,18 @@ func update_tile() -> void:
 		tile = Vector2i(-1, -1)
 		if self.slope:
 			tile_capacity += slope_capacity
-			if self.slope == 1:
-				tile = Vector2i(5, 2)
-			elif self.slope == 2:
-				tile = Vector2i(6, 2)
-			elif self.slope == 3:
-				tile = Vector2i(5, 3)
-			elif self.slope == 4:
-				tile = Vector2i(6, 3)
+			tile = Vector2i(10, 8+3*color)
+			if slope == 2 or slope == 4:
+				tile.x += 1
+			if slope == 3 or slope == 4:
+				tile.y += 1
 	
 	if self.is_scaffold:
-		tile = Vector2i(13, 11)
+		tile = Vector2i(15, 8)
+		if is_top:
+			tile.y -= 1
+		if is_bottom:
+			tile.y += 1
 	
 	if roof:
 		tile_capacity -= roof_deduction
