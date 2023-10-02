@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d3fdk1rhageac"]
+[gd_scene load_steps=10 format=3 uid="uid://d3fdk1rhageac"]
 
 [ext_resource type="Texture2D" uid="uid://c4qa0j2q16tsl" path="res://game/cards/card_wizard.png" id="1_bs2ym"]
 [ext_resource type="Script" path="res://game/cards/card_wizard.gd" id="2_epinh"]
@@ -140,6 +140,9 @@ _data = {
 "inactive": SubResource("Animation_y1nka")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_axqjq"]
+size = Vector2(23.3333, 37)
+
 [node name="CardWizard" type="Sprite2D"]
 texture_filter = 1
 scale = Vector2(3, 3)
@@ -183,6 +186,10 @@ texture = ExtResource("3_nyfrk")
 region_enabled = true
 region_rect = Rect2(48, 16, 16, 16)
 
+[node name="TutorialTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [node name="SpeechBubble" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(-57.6667, -26.6667)
@@ -203,3 +210,11 @@ autowrap_mode = 3
 [node name="Timer" type="Timer" parent="SpeechBubble"]
 wait_time = 5.0
 one_shot = true
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
+position = Vector2(7.33333, 5.5)
+shape = SubResource("RectangleShape2D_axqjq")
+
+[connection signal="input_event" from="Area" to="." method="_on_area_input_event"]
