@@ -7,6 +7,11 @@
 [ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="4_7rioh"]
 [ext_resource type="AudioStream" uid="uid://b27okww6spt54" path="res://tower/place.wav" id="6_ldwp5"]
 [ext_resource type="AudioStream" uid="uid://cjx5w3dnwssww" path="res://tower/placement_failed.wav" id="7_5ooqa"]
+[ext_resource type="Texture2D" uid="uid://dulfajv008h22" path="res://tower/place_anim.png" id="6_40vxl"]
+[ext_resource type="Script" path="res://tower/PlaceAnim.gd" id="7_c5f04"]
+[ext_resource type="Script" path="res://tower/AnimationPlayerPlace.gd" id="8_02prm"]
+[ext_resource type="Script" path="res://tower/PlaceAnimRight.gd" id="9_jbrgu"]
+[ext_resource type="Script" path="res://tower/PlaceAnimRightAnim.gd" id="10_sshgv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ubhxm"]
 texture = ExtResource("2_gtefy")
@@ -29,6 +34,154 @@ texture = ExtResource("2_gtefy")
 
 [sub_resource type="TileSet" id="TileSet_t7wdc"]
 sources/0 = SubResource("TileSetAtlasSource_ubhxm")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_spkyq"]
+load_path = "res://.godot/imported/place_anim.png-062d69ce06551ce6d821c0ec615ca48c.ctex"
+
+[sub_resource type="Animation" id="Animation_52lni"]
+length = 0.576
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaceAnimRight:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CompressedTexture2D_spkyq")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlaceAnimRight:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlaceAnimRight:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlaceAnimRight:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlaceAnimRight:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.048, 0.096, 0.144, 0.192, 0.24, 0.288, 0.336, 0.384, 0.432, 0.48, 0.528),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PlaceAnimLeft:texture")
+tracks/5/interp = 1
+tracks/5/loop_wrap = false
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_40vxl")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PlaceAnimLeft:hframes")
+tracks/6/interp = 1
+tracks/6/loop_wrap = false
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("PlaceAnimLeft:vframes")
+tracks/7/interp = 1
+tracks/7/loop_wrap = false
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("PlaceAnimLeft:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = false
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("PlaceAnimLeft:frame")
+tracks/9/interp = 1
+tracks/9/loop_wrap = false
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.048, 0.096, 0.144, 0.192, 0.24, 0.288, 0.336, 0.384, 0.432, 0.48, 0.528),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+
+[sub_resource type="Animation" id="Animation_va6q7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlaceAnimLeft:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7i4cq"]
+_data = {
+"RESET": SubResource("Animation_va6q7"),
+"default": SubResource("Animation_52lni")
+}
 
 [node name="tower" type="Node2D" node_paths=PackedStringArray("tileMap")]
 script = ExtResource("1_lgnhb")
@@ -69,6 +222,114 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
+
+[node name="PlaceAnimLeft" type="Sprite2D" parent="BuildingManager"]
+texture_filter = 1
+position = Vector2(-8, 0)
+texture = ExtResource("6_40vxl")
+hframes = 4
+vframes = 4
+script = ExtResource("7_c5f04")
+metadata/_aseprite_wizard_config_ = {
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "BuildingManager/PlaceAnimLeft/PlaceAnim",
+"source": "res://tower/place_anim.aseprite"
+}
+
+[node name="PlaceAnim" type="AnimationPlayer" parent="BuildingManager/PlaceAnimLeft"]
+root_node = NodePath("../..")
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_7i4cq")
+}
+script = ExtResource("8_02prm")
+
+[node name="PlaceAnimRight" type="Sprite2D" parent="BuildingManager"]
+texture_filter = 1
+position = Vector2(8, 0)
+texture = SubResource("CompressedTexture2D_spkyq")
+hframes = 4
+vframes = 4
+script = ExtResource("9_jbrgu")
+metadata/_aseprite_wizard_config_ = {
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "BuildingManager/PlaceAnimRight/PlaceAnim",
+"source": "res://tower/place_anim.aseprite"
+}
+
+[node name="PlaceAnim" type="AnimationPlayer" parent="BuildingManager/PlaceAnimRight"]
+root_node = NodePath("../..")
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_7i4cq")
+}
+script = ExtResource("10_sshgv")
+
+[node name="PlaceAnimLeft" type="Sprite2D" parent="BuildingManager"]
+texture_filter = 1
+position = Vector2(-8, 0)
+texture = ExtResource("6_40vxl")
+hframes = 4
+vframes = 4
+script = ExtResource("7_c5f04")
+metadata/_aseprite_wizard_config_ = {
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "BuildingManager/PlaceAnimLeft/PlaceAnim",
+"source": "res://tower/place_anim.aseprite"
+}
+
+[node name="PlaceAnim" type="AnimationPlayer" parent="BuildingManager/PlaceAnimLeft"]
+root_node = NodePath("../..")
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_7i4cq")
+}
+script = ExtResource("8_02prm")
+
+[node name="PlaceAnimRight" type="Sprite2D" parent="BuildingManager"]
+texture_filter = 1
+position = Vector2(8, 0)
+texture = SubResource("CompressedTexture2D_spkyq")
+hframes = 4
+vframes = 4
+script = ExtResource("9_jbrgu")
+metadata/_aseprite_wizard_config_ = {
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "BuildingManager/PlaceAnimRight/PlaceAnim",
+"source": "res://tower/place_anim.aseprite"
+}
+
+[node name="PlaceAnim" type="AnimationPlayer" parent="BuildingManager/PlaceAnimRight"]
+root_node = NodePath("../..")
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_7i4cq")
+}
+script = ExtResource("10_sshgv")
 
 [node name="PlaceSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ldwp5")
