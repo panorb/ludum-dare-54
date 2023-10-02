@@ -19,7 +19,7 @@ func _input(event: InputEvent) -> void:
 func show_letter(text_key: String, parameter := []) -> void:
 	show()
 	_set_text(text_key, parameter)
-	scroll_container.scroll_vertical = 0
+	%LetterText.scroll_to_line(0)
 	get_tree().paused = true
 
 func _on_close() -> void:
