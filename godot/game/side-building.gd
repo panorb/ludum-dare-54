@@ -111,7 +111,7 @@ func add_rows_if_needed(amount_to_draw: int):
 					fix_tile_position = Vector2i(floorf(current_row_width_delta) - 1, -row + 1);
 					tile_type = Vector2i(3,4)
 				else:
-					fix_tile_position = Vector2i(ceilf(current_row_width_delta), -row + 1);
+					fix_tile_position = Vector2i(ceilf(current_row_width_delta), -row);
 					tile_type = Vector2i(4,3)
 				
 			elif current_row_width_delta < previous_row_width_delta:
@@ -124,8 +124,11 @@ func add_rows_if_needed(amount_to_draw: int):
 					tile_type = Vector2i(4,4)
 			
 			if fix_tile_position != null:
-				tilemap.set_cell(tilemap_layer, tilemap_starting_position + fix_tile_position, tilemap_sourceid, tile_type);
-				tower_spam.emit(tilemap_starting_position + Vector2i(fix_tile_position.x, -row))
+				if tilemap.get_cell_source_id(tilemap_layer, tilemap_starting_position + fix_tile_position) == -1:
+					tilemap.set_cell(tilemap_layer, tilemap_starting_position + fix_tile_position, tilemap_sourceid, tile_type);
+					tower_spam.emit(tilemap_starting_position + Vector2i(fix_tile_position.x, -row))
+				else:
+					print("not adding tile at ", fix_tile_position, " because it already has a tile");
 			row += 1;
 			current_completed_row += 1;
 			
