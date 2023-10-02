@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3g8h1o5faaqa"]
+[gd_scene load_steps=6 format=3 uid="uid://cplf8w1sb71bg"]
 
 [ext_resource type="Script" path="res://background/CanvasLayer.gd" id="1_6l4bp"]
 [ext_resource type="Shader" path="res://background/background.gdshader" id="1_olpqs"]
@@ -30,8 +30,6 @@ texture = SubResource("ViewportTexture_k1lnm")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 size = Vector2i(416, 240)
-size_2d_override = Vector2i(832, 480)
-size_2d_override_stretch = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="SubViewport"]
 layer = 0
