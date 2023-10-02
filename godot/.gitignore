@@ -6,3 +6,4 @@
 # ignore all tmp files
 *.tmp
 *.TMP
+export/
