@@ -32,7 +32,7 @@ func post_round():
 		# TODO check game over (over capacity)
 
 func pre_round():
-	self.card_hand.draw_card(1)
+	self.card_hand.draw_card(Card.CardType.CARD_TYPE_NORMAL, 1)
 	self.round_capacity_demand = 5
 	var found = false
 	for card in self.card_hand.hand_cards:

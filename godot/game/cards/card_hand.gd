@@ -14,18 +14,17 @@ signal card_deselected
 var hand_cards : Array[Card] = []
 var held_card : Card = null
 
-const CARD_PREVIEW_SIZE : Vector2i = Vector2i(14, 9)
-
 func _ready() -> void:
 	# get_tree().get_root().size_changed.connect(reorganize_hand)
 	initial_card_draw()
 
 func initial_card_draw() -> void:
-	draw_card(5)
+	draw_card(Card.CardType.CARD_TYPE_NORMAL, 5)
+	draw_card(Card.CardType.CARD_TYPE_SCAFFOLD, 1)
 	
 	self.card_hand_ready.emit()
 
-func draw_card(count:int) -> void:
+func draw_card(card_type := Card.CardType.CARD_TYPE_NORMAL, count: int = 0) -> void:
 	for i in range(count):
 		var y = get_viewport_rect().size.y + 200
 		var x = get_viewport_rect().size.x / 2
@@ -38,18 +37,11 @@ func draw_card(count:int) -> void:
 		card_instance.selected.connect(self._on_Card_selected)
 		card_instance.position.x = x
 		card_instance.position.y = y
-		card_instance.init_capacity(0)
-		
-		var building := Building.new()
-		building.generate_building()
-		var t_building := TBuilding.from_building(building)
-		card_instance.init_capacity(t_building.capacity)
+		# card_instance.init_capacity(0)
 		
 		add_child(card_instance)
-		var preview_building := TBuilding.new(CARD_PREVIEW_SIZE, card_instance.preview_tile_map)
-		preview_building.stamp(Vector2i(CARD_PREVIEW_SIZE.x/2-t_building.size.x/2, CARD_PREVIEW_SIZE.y/2-t_building.size.y/2), t_building)
-		card_instance.init_building(t_building, preview_building)
 		
+		card_instance.init(card_type)
 		hand_cards.append(card_instance)
 	reorganize_hand()
 
@@ -136,17 +128,9 @@ func reorganize_hand() -> void:
 	
 	tween.play()
 
-
-
-
-func _on_building_manager_building_placed(position):
-	drop_card()
-	draw_card(1)
-	reorganize_hand()
-
 func redraw():
 	drop_card()
 	for card in hand_cards:
 		card.queue_free()
 	hand_cards.clear()
-	draw_card(5)
+	draw_card(Card.CardType.CARD_TYPE_NORMAL, 5)
