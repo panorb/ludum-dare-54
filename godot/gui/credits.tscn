@@ -123,6 +123,16 @@ text = "nSkade"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PipeLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/GraphicArtistsHFlowContainer"]
+layout_mode = 2
+text = "|"
+
+[node name="CollinLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/GraphicArtistsHFlowContainer"]
+layout_mode = 2
+text = "Collin"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MusicRichtText" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
 bbcode_enabled = true
@@ -136,6 +146,22 @@ alignment = 1
 [node name="RougebluemulansLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/MusicHFlowContainer"]
 layout_mode = 2
 text = "@rougebluemulan"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarketingRichText" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][b]Marketing[/b][/center]"
+fit_content = true
+
+[node name="MusicHFlowContainer2" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="RougebluemulansLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/MusicHFlowContainer2"]
+layout_mode = 2
+text = "Collin"
 horizontal_alignment = 1
 vertical_alignment = 1
 
