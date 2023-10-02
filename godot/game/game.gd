@@ -63,9 +63,6 @@ func _process(delta):
 		if not block_click:
 			tower.place_preview_building()
 		block_click = false
-	if Input.is_action_just_released("close_letter"):
-		self.tower.deselect_preview_building()
-		self.card_hand.redraw()
 
 func _on_card_hand_card_selected(card):
 	self.block_click = true
