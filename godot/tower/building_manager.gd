@@ -30,22 +30,22 @@ func _ready() -> void:
 	var position = get_possible_placement(base)
 	self.map.stamp(position[0], base)
 	
-	var failed_count:int = 0
-	for i in range(10):
-		b = Building.new()
-		if randf() < 0.1:
-			b.generate_scaffold()
-		else:
-			b.generate_building()
-		var tb = TBuilding.from_building(b)
-
-		var positions = get_possible_placement(tb, true)
-		if not positions:
-			failed_count += 1
-			continue
-		var number = randi() % positions.size()
-		self.map.stamp(positions[number], tb)
-		self.height = max(self.height, MAP_SIZE.y - positions[number].y)
+#	var failed_count:int = 0
+#	for i in range(10):
+#		b = Building.new()
+#		if randf() < 0.1:
+#			b.generate_scaffold()
+#		else:
+#			b.generate_building()
+#		var tb = TBuilding.from_building(b)
+#
+#		var positions = get_possible_placement(tb, true)
+#		if not positions:
+#			failed_count += 1
+#			continue
+#		var number = randi() % positions.size()
+#		self.map.stamp(positions[number], tb)
+#		self.height = max(self.height, MAP_SIZE.y - positions[number].y)
 
 func get_mouse_position():
 	var camera_position = get_local_mouse_position()
