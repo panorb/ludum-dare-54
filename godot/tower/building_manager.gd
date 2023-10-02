@@ -13,7 +13,7 @@ var preview_building : TBuilding = null
 var preview_pos : Vector2i = Vector2i.ZERO
 var blocker : TBuilding = null
 
-signal building_placed(position:Vector2i)
+signal building_placed(position:Vector2i, capacity:int)
 
 
 func _ready() -> void:
@@ -55,10 +55,6 @@ func _process(delta):
 	var map_position = self.map.graphical_tiles.local_to_map(mouse_position)-building_offset
 	var preview_center = self.map.graphical_tiles.map_to_local(map_position)-Vector2(8.0, 8.0)
 	self.preview_map.position = preview_center
-#	print()
-#	print(get_local_mouse_position())
-#	print(mouse_position)
-#	print(camera_position_global)
 	var placement_pos = map_position + self.map.offset
 	
 	if map_position != self.preview_pos:
@@ -145,7 +141,7 @@ func place_building(position:Vector2i, building:TBuilding) -> bool:
 	self.map.stamp(position, building)
 	self.height = max(self.height, MAP_SIZE.y - position.y)
 	
-	building_placed.emit(position)
+	building_placed.emit(position, building.capacity)
 	return true
 
 
@@ -161,12 +157,12 @@ func tower_spam_block(position):
 func deselect_preview_building():
 	self.preview_map.clear()
 	self.preview_building = null
-	print(self.preview_building)
 
 func select_preview_building(building):
 	print("selecting preview building")
 	self.preview_map.clear()
 	self.preview_building = TBuilding.new(building.size, self.preview_map)
+	self.preview_building.capacity = building.capacity
 	self.preview_building.stamp(Vector2i.ZERO, building)
 
 func place_preview_building():

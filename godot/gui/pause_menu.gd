@@ -26,8 +26,14 @@ func _ready() -> void:
 	sound_slider.value = db_to_linear(AudioServer.get_bus_volume_db(master_bus_index)) * 100
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_pause_menu"):
+		visible = !visible
+		get_tree().paused = !get_tree().paused
+
 func _on_ContinueButton_pressed() -> void:
-	SceneManager.show_scene("game")
+	get_tree().paused = false
+	hide()
 
 
 func _on_QuitButton_pressed() -> void:

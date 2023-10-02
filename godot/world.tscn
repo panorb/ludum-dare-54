@@ -1,7 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmmrurvofvint"]
-
-[ext_resource type="PackedScene" uid="uid://dmoctt7p732ox" path="res://game/game.tscn" id="2_ln6u2"]
-[ext_resource type="PackedScene" uid="uid://d23t5lxls5bxt" path="res://gui/main_menu.tscn" id="3_2l1vb"]
+[gd_scene format=3 uid="uid://bmmrurvofvint"]
 
 [node name="World" type="Control"]
 layout_mode = 3
@@ -10,10 +7,3 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Game" parent="." instance=ExtResource("2_ln6u2")]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 0
-
-[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("3_2l1vb")]
