@@ -32,7 +32,7 @@ func _ready() -> void:
 	var background_scene = get_node("Background")
 	#if background_scene:
 	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
-	color_rect.material.set_shader_parameter("u_startAnim", 0.)
+	color_rect.material.set_shader_parameter("u_startAnim", 1.)
 	var prog = -.01
 	color_rect.material.set_shader_parameter("u_progress", prog)
 	color_rect.material.set_shader_parameter("u_perspective", .2)

@@ -9,4 +9,11 @@ func activate():
 	animation_player.play("active")
 
 func deactivate():
-	animation_player.play("inactive") 
+	animation_player.play("inactive")
+
+func speek(text):
+	$SpeechBubble/Label.set_text(text)
+	$SpeechBubble.show()
+	$SpeechBubble/Timer.start()
+	await $SpeechBubble/Timer.timeout
+	$SpeechBubble.hide()
