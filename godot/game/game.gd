@@ -6,6 +6,7 @@ extends Node2D
 
 var round_capacity_demand:int
 var selected_card_type: Card.CardType = Card.CardType.CARD_TYPE_NORMAL
+var block_click:bool = false
 
 func _ready():
 	self.round_capacity_demand = 0
@@ -14,12 +15,15 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_just_released("primary_action"):
-		tower.place_preview_building()
+		if not block_click:
+			tower.place_preview_building()
+		block_click = false
 	if Input.is_action_just_released("close_letter"):
 		self.tower.deselect_preview_building()
 		self.card_hand.redraw()
 
 func _on_card_hand_card_selected(card):
+	self.block_click = true
 	self.tower.select_preview_building(card._building)
 	self.selected_card_type = card.card_type
 
@@ -31,6 +35,7 @@ func _on_tower_building_placed(position, capacity):
 
 func post_round():
 	self.card_hand.drop_card()
+#	self.card_hand.speek("Foo")
 		# TODO check game over (over capacity)
 
 func pre_round():
@@ -61,3 +66,13 @@ func pre_round():
 
 func _on_card_hand_card_deselected():
 	self.tower.deselect_preview_building()
+
+
+func _on_click_detector_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.is_released() and event.button_index not in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+		self.card_hand.click_anywhere()
+
+
+func _on_card_hand_wizard_clicked():
+	print("wizard")
+	self.card_hand.click_anywhere()
