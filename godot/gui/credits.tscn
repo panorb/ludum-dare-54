@@ -155,11 +155,11 @@ bbcode_enabled = true
 text = "[center][b]Marketing[/b][/center]"
 fit_content = true
 
-[node name="MusicHFlowContainer2" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
+[node name="MarketingHFlowContainer2" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VSplitContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="RougebluemulansLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/MusicHFlowContainer2"]
+[node name="CollinLabel" type="Label" parent="CanvasLayer/MarginContainer/VSplitContainer/MarketingHFlowContainer2"]
 layout_mode = 2
 text = "Collin"
 horizontal_alignment = 1
