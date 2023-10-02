@@ -7,6 +7,8 @@ signal card_hand_ready
 @export_range(5, 75) var card_spacing : int = 5
 @export_range(-150, 75) var y_offset : int = -120
 
+@onready var card_wizard = $CardWizard
+
 var hand_cards : Array[Card] = []
 var held_card : Card = null
 
@@ -71,14 +73,18 @@ func _on_Card_selected(card : Card) -> void:
 	if held_card:
 		held_card.deselect()
 		if held_card == card:
+			card_wizard.deactivate()
 			held_card = null
 			hand_cards.append(card)
 		else:
+			card.select()
+			card_wizard.activate()
 			hand_cards = hand_cards.filter(func(elem : Card): return elem.name != card.name)
 			hand_cards.append(held_card)
 			held_card = card
 	else:
 		card.select()
+		card_wizard.activate()
 		hand_cards = hand_cards.filter(func(elem : Card): return elem.name != card.name)
 		held_card = card
 	

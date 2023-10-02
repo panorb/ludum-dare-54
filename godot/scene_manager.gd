@@ -4,6 +4,7 @@ var packed_scenes := {
 	"main_menu": preload("res://gui/main_menu.tscn"),
 	"game": preload("res://game/game.tscn"),
 	"credits": preload("res://gui/credits.tscn"),
+	"pause_menu": preload("res://gui/pause_menu.tscn"),
 };
 var start_scene := "main_menu";
 
