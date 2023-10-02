@@ -17,9 +17,11 @@ func _input(event: InputEvent) -> void:
 func show_letter(text_key: String) -> void:
 	show()
 	_set_text(text_key)
+	get_tree().paused = true
 
 func _on_close() -> void:
 	hide()
+	get_tree().paused = false
 	emit_signal("close")
 
 func _set_text(text_name: String) -> void:

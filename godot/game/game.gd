@@ -7,6 +7,7 @@ var round_capacity_demand:int
 
 func _ready():
 	self.round_capacity_demand = 0
+	$CanvasLayer/Letter.show_letter("start")
 
 func _process(delta):
 	if Input.is_action_just_released("primary_action"):
@@ -21,7 +22,7 @@ func _on_card_hand_card_selected(card):
 func _on_tower_building_placed(position, capacity):
 	post_round()
 	pre_round()
-	
+
 
 func post_round():
 	self.card_hand.drop_card()
