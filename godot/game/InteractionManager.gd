@@ -9,6 +9,8 @@ class_name  InteractionManager
 @export var tower: Tower
 @onready var _letter := get_node("%Letter")
 
+var limit = false
+
 signal primary_interaction_just_pressed_sig
 signal player_height_changed(player_height: float)
 
@@ -16,6 +18,9 @@ signal player_height_changed(player_height: float)
 const MOUSE_SCROLL_SPEED: int = 10
 var _windscrolling := false
 var _duration := 0.0
+
+func sigmoid(x: float) -> float:
+	return 1. / (1. + exp(-x))
 
 func _process(delta: float) -> void:
 	if _letter.visible:
@@ -45,7 +50,10 @@ func _process(delta: float) -> void:
 	var height = tower.height * (-16)
 	if height == null:
 		height = 3 * (-16)
-	camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
+	if limit:
+		camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
+	else:
+		camera.position.y = min(camera.position.y, 0)
 	self.player_height_changed.emit(camera.position.y)
 
 	var background_scene = get_parent().get_parent().get_node("Background")
@@ -53,7 +61,10 @@ func _process(delta: float) -> void:
 	var color_rect = background_scene.get_node("SubViewport").get_child(0).get_child(0)
 	bgsTimer += delta
 	color_rect.material.set_shader_parameter("u_startAnim", 1.)#minf(smoothstep(0.,1.,bgsTimer),1.))
-	var prog = maxf(-1.01,-.01-camera.get_screen_center_position().y/5000.) #TODO 50k seems reasonable
+	var prog = -.01-camera.get_screen_center_position().y/5000. #TODO 50k seems reasonable
+	if prog > 1.5:
+		prog = 1 + sigmoid(prog-1.5)
+	print(prog)
 	color_rect.material.set_shader_parameter("u_progress", prog)
 	color_rect.material.set_shader_parameter("u_perspective", .2)
 
@@ -94,5 +105,8 @@ func _input(event: InputEvent) -> void:
 			var height = tower.height * (-16)
 			if height == null:
 				height = 3 * (-16)
-			camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
+			if limit:
+				camera.position.y = clamp(camera.position.y, height + (3 * -16), 0)
+			else:
+				camera.position.y = min(camera.position.y, 0)
 	self.player_height_changed.emit(camera.position.y)
