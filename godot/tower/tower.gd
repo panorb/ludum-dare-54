@@ -8,10 +8,11 @@ var capacity_total: int
 var capacity_used: int
 
 signal building_placed(position:Vector2i, capacity:int)
+signal capacity_update(capacity_used: int, capacity_total: int)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.capacity_total = 0
+	self.capacity_total = 12
 	self.capacity_used = 0
 
 
@@ -46,10 +47,12 @@ func _on_side_building_left_tower_spam(position):
 func _on_building_manager_building_placed(position: Vector2i, capacity: int):
 	building_placed.emit(position, capacity)
 	capacity_total += capacity
+	capacity_update.emit(capacity_used, capacity_total)
 
 func add_sheep(amount:int) -> int:
 	var amount_actual = min(amount, self.capacity_total - self.capacity_used)
 	self.capacity_used += amount_actual
+	capacity_update.emit(capacity_used, capacity_total)
 	return amount - amount_actual
 
 func possible_to_place(building:TBuilding) -> bool:

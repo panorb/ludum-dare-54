@@ -24,28 +24,43 @@ grow_horizontal = 0
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 6
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("1_posxg")
 expand_mode = 2
 
-[node name="PopulationLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="PopulationLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "16"
 vertical_alignment = 1
 
-[node name="SpacerLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="SpacerLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "/"
 
-[node name="CapacityLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="CapacityLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "1200"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlusLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "         +"
+
+[node name="DemandLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "20"
