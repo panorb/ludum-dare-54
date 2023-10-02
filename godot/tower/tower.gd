@@ -9,6 +9,7 @@ var capacity_used: int = 0
 
 signal building_placed(position:Vector2i, capacity:int)
 signal capacity_update(capacity_used: int, capacity_total: int)
+signal placement_failed(error_code:int)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -64,3 +65,7 @@ func possible_to_place(building:TBuilding) -> bool:
 func _on_building_manager_base_capacity(capacity):
 	capacity_total += capacity*2
 	capacity_update.emit(capacity_used, capacity_total)
+
+
+func _on_building_manager_placement_failed(error_code):
+	placement_failed.emit(error_code)

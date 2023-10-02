@@ -122,6 +122,7 @@ visible = false
 [connection signal="tower_spam" from="SubViewport/Environment/SideBuildingLeft" to="SubViewport/Tower" method="_on_side_building_left_tower_spam"]
 [connection signal="building_placed" from="SubViewport/Tower" to="." method="_on_tower_building_placed"]
 [connection signal="capacity_update" from="SubViewport/Tower" to="CanvasLayer/CapacityUI" method="_on_tower_capacity_update"]
+[connection signal="placement_failed" from="SubViewport/Tower" to="." method="_on_tower_placement_failed"]
 [connection signal="card_deselected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_deselected"]
 [connection signal="card_selected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_selected"]
 [connection signal="wizard_clicked" from="CanvasLayer/CardHand" to="." method="_on_card_hand_wizard_clicked"]

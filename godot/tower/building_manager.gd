@@ -15,6 +15,7 @@ var blocker : TBuilding = null
 
 signal building_placed(position:Vector2i, capacity:int)
 signal base_capacity(capacity:int)
+signal placement_failed(error_code:int)
 
 
 func _ready() -> void:
@@ -69,9 +70,9 @@ func _process(delta):
 	
 	if map_position != self.preview_pos:
 		self.preview_pos = map_position
-		var valid = self.test_placement(placement_pos, self.preview_building)
+		var invalid = self.test_placement(placement_pos, self.preview_building)
 		
-		if valid:
+		if not invalid:
 			self.preview_map.modulate = Color(0.8, 0.8, 0.8)
 		else:
 			self.preview_map.modulate = Color(0.6, 0.0, 0.0)
@@ -91,22 +92,25 @@ func get_possible_placement(building:TBuilding, find_all:bool = false) -> Array[
 	for y in range(MAP_SIZE.y - self.height - building.size.y - 10, min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)):
 		for x in range(0, MAP_SIZE.x-building.size.x):
 			var pos = Vector2i(x, y)
-			if test_placement(pos, building):
+			print(test_placement(pos, building))
+			if not test_placement(pos, building):
 				if not find_all:
 					return [pos]
 				positions.append(pos)
+	if not positions:
+		print("error")
 	return positions
 
 # Test if building could be placed
-func test_placement(position:Vector2i, building:TBuilding) -> bool:
+func test_placement(position:Vector2i, building:TBuilding) -> int:
 	var size = building.size
 	if position.x < 0 or position.x + size.x > MAP_SIZE.x or position.y + size.y > MAP_SIZE.y-1:
 		# Size issue
-		return false
+		return 1
 	
 	if building.support_left.x > size.x or building.support_right.x < 0:
 		# Building needs no support
-		return true
+		return 0
 	
 	for y in range(building.size.y):
 		for x in range(building.size.x):
@@ -115,16 +119,20 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 			var here_tl = map_pos - self.map.offset
 			if (self.map.graphical_tiles.get_cell_source_id(0, here_tl) != -1 and building.graphical_tiles.get_cell_source_id(0, here_in) != -1):# or \
 				# Overlap
-				return false
+				return 2
 	
 	if not self.map.get_supports(position+building.support_left+Vector2i(0, 1)) or not self.map.get_supports(position+building.support_right+Vector2i(0, 1)):
 		# Not enough support
-		return false
-	return true
+		if not not self.map.get_supports(position+building.support_left+Vector2i(0, 1)):
+			return 3
+		return 4
+	return 0
 
 
 func place_building(position:Vector2i, building:TBuilding) -> bool:
-	if not test_placement(position, building):
+	var invalid = test_placement(position, building)
+	if invalid:
+		placement_failed.emit(invalid)
 		return false
 	self.map.stamp(position, building)
 	self.height = max(self.height, MAP_SIZE.y - position.y)

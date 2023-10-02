@@ -70,3 +70,4 @@ layer_1/tile_data = PackedInt32Array()
 
 [connection signal="base_capacity" from="BuildingManager" to="." method="_on_building_manager_base_capacity"]
 [connection signal="building_placed" from="BuildingManager" to="." method="_on_building_manager_building_placed"]
+[connection signal="placement_failed" from="BuildingManager" to="." method="_on_building_manager_placement_failed"]

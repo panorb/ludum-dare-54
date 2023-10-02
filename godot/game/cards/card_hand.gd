@@ -150,3 +150,6 @@ func click_anywhere():
 
 func _on_card_wizard_wizard_clicked():
 	wizard_clicked.emit()
+
+func say_error(error_msg):
+	self.card_wizard.say_error(error_msg)

@@ -74,5 +74,19 @@ func _on_click_detector_input_event(viewport, event, shape_idx):
 
 
 func _on_card_hand_wizard_clicked():
-	print("wizard")
 	self.card_hand.click_anywhere()
+
+
+func _on_tower_placement_failed(error_code):
+	if error_code == 1:
+		print("outside")
+		self.card_hand.say_error("overlap")
+	elif error_code == 2:
+		print("overlap")
+		self.card_hand.say_error("overlap")
+	elif error_code == 3:
+		print("right")
+		self.card_hand.say_error("right_support_misssing")
+	elif error_code == 4:
+		print("left")
+		self.card_hand.say_error("left_support_missing")
