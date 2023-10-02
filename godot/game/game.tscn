@@ -33,11 +33,12 @@ unique_name_in_owner = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
-unique_name_in_owner = true
-
 [node name="CardHand" parent="CanvasLayer" instance=ExtResource("9_fvuws")]
 unique_name_in_owner = true
+
+[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
+unique_name_in_owner = true
+process_mode = 2
 
 [node name="CapacityUI" parent="CanvasLayer" instance=ExtResource("6_0vq82")]
 unique_name_in_owner = true

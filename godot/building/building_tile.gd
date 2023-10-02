@@ -24,8 +24,14 @@ var tile := Vector2i(-1, -1)
 var tile_decoration := Vector2i(-1, -1)
 var is_decorated : bool = false
 var door : int = 0
+var is_support : bool = false
 
 var tile_capacity : float = 0
+
+func set_support() -> void:
+	is_support = true
+	is_decorated = true
+	update_tile()
 
 func set_brick(number) -> void:
 	is_empty = false
@@ -115,6 +121,8 @@ func update_tile() -> void:
 			tile.y -= 1
 		if self.is_bottom:
 			tile.y += 1
+			if self.is_support and not self.is_scaffold:
+				tile.y += 1
 		
 	else:
 		tile = Vector2i(-1, -1)

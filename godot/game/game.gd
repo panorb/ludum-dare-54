@@ -9,6 +9,7 @@ var round_capacity_demand:int
 func _ready():
 	self.round_capacity_demand = 0
 	self.capacity_gui.demand = self.round_capacity_demand
+	$CanvasLayer/Letter.show_letter("start")
 
 func _process(delta):
 	if Input.is_action_just_released("primary_action"):
@@ -25,6 +26,7 @@ func _on_tower_building_placed(position, capacity):
 	await get_tree().process_frame
 	pre_round()
 
+
 func post_round():
 	self.card_hand.drop_card()
 		# TODO check game over (over capacity)
@@ -33,7 +35,7 @@ func pre_round():
 	var left_over = self.tower.add_sheep(self.round_capacity_demand)
 	if left_over:
 		print("not enough capacity, "+str(left_over)+" sheep couldn't move in")
-	self.card_hand.draw_card(1)
+	self.card_hand.draw_card(Card.CardType.CARD_TYPE_NORMAL, 1)
 	
 	var capacities = []
 	for i in range(5):
