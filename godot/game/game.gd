@@ -112,6 +112,8 @@ func pre_round():
 		elif current_state == GameState.WARNED_ONCE:
 			change_game_state(GameState.WARNED_TWICE)
 		elif current_state == GameState.WARNED_TWICE:
+			change_game_state(GameState.WARNED_THRICE)
+		elif current_state == GameState.WARNED_THRICE:
 			change_game_state(GameState.GAME_OVER)
 	
 	if current_state >= GameState.GAME_WON and self.tower.capacity_total >= 400:
