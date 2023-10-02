@@ -44,7 +44,6 @@ func _process(delta: float) -> void:
 	if (movement == 0 && _windscrolling || movement != 0 && !_windscrolling) && _duration > 1.:
 		_windscrolling = !_windscrolling
 		_duration = 0.0
-		$WindscrollSound.play()
 
 	camera.position.y += movement * camera_sensitivity * delta * 100
 	var height = tower.height * (-16)
