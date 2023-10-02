@@ -78,7 +78,7 @@ static func from_building(building: Building) -> TBuilding:
 					tbuilding.support_left = here
 				if x > tbuilding.support_right.x:
 					tbuilding.support_right = here
-	tbuilding.capacity = 10# TODO int(building.raw_capacity)
+	tbuilding.capacity = ceil(building.raw_capacity/3)
 	return tbuilding
 
 func _get_flag(pos: Vector2i, flag: int) -> bool:

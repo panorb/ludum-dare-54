@@ -4,15 +4,24 @@ extends Node2D
 @export var tileMap: TileMap = null
 @onready var building_manager:BuildingManager = get_node("%BuildingManager")
 
-var capacity_total: int
-var capacity_used: int
+var capacity_total: int = 0
+var capacity_used: int = 0
+var place_sound1 := preload("res://tower/place.wav")
+var place_sound2 := preload("res://tower/place2.wav")
 
 signal building_placed(position:Vector2i, capacity:int)
+signal capacity_update(capacity_used: int, capacity_total: int)
+signal placement_failed(error_code:int)
+
+var height:
+	get:
+		return building_manager.height
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.capacity_total = 0
-	self.capacity_used = 0
+#	self.capacity_total
+#	self.capacity_used
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,12 +55,28 @@ func _on_side_building_left_tower_spam(position):
 func _on_building_manager_building_placed(position: Vector2i, capacity: int):
 	building_placed.emit(position, capacity)
 	capacity_total += capacity
+	$PlaceSound.stream = place_sound1 if randi_range(0, 1) else place_sound2
+	$PlaceSound.play()
+	capacity_update.emit(capacity_used, capacity_total)
 
 func add_sheep(amount:int) -> int:
 	var amount_actual = min(amount, self.capacity_total - self.capacity_used)
 	self.capacity_used += amount_actual
+	capacity_update.emit(capacity_used, capacity_total)
 	return amount - amount_actual
 
 func possible_to_place(building:TBuilding) -> bool:
 	var positions = self.building_manager.get_possible_placement(building)
 	return bool(0 < len(positions))
+
+
+func _on_building_manager_building_placement_failed() -> void:
+	$PlacementFailedSound.play()
+
+func _on_building_manager_base_capacity(capacity):
+	capacity_total += capacity*2
+	capacity_update.emit(capacity_used, capacity_total)
+
+
+func _on_building_manager_placement_failed(error_code):
+	placement_failed.emit(error_code)

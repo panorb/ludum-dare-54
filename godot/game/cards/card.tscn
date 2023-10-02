@@ -18,20 +18,20 @@ texture = ExtResource("1_y1phy")
 script = ExtResource("2_y4vfv")
 
 [node name="CapacityAnchor" type="Node2D" parent="."]
-position = Vector2(-37, 34)
+position = Vector2(-32, 62)
 
 [node name="CapacityLabel" type="Label" parent="CapacityAnchor"]
 unique_name_in_owner = true
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -11.5
+offset_top = -10.0
 offset_right = 40.0
-offset_bottom = 11.5
+offset_bottom = 13.0
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_0kxmm")
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 14
 text = "122"
 vertical_alignment = 1
 
@@ -42,8 +42,8 @@ unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_jwf2e")
 
 [node name="PreviewRenderer" type="MeshInstance2D" parent="."]
-position = Vector2(-1.90735e-06, -31.5)
-scale = Vector2(118, -99)
+position = Vector2(8.34465e-07, -19.5)
+scale = Vector2(116, -117)
 mesh = SubResource("QuadMesh_21hl2")
 texture = SubResource("ViewportTexture_q1p8d")
 
@@ -51,7 +51,7 @@ texture = SubResource("ViewportTexture_q1p8d")
 unique_name_in_owner = true
 disable_3d = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(224, 144)
+size = Vector2i(224, 224)
 
 [node name="ColorRect" type="ColorRect" parent="PreviewViewport"]
 anchors_preset = 15

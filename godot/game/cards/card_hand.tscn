@@ -9,3 +9,6 @@ script = ExtResource("1_dttvm")
 [node name="CardWizard" parent="." instance=ExtResource("2_7nlfp")]
 position = Vector2(1167, 581)
 scale = Vector2(4, 4)
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true

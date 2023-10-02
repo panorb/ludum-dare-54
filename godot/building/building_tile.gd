@@ -17,6 +17,7 @@ var color : int = 0
 var roof : int = 0
 var hole : int = 0
 var plant : int = 0
+var is_golden : bool = false
 var is_door : bool = false
 var slope : int = 0
 var left_right_edge : int = 0
@@ -24,8 +25,19 @@ var tile := Vector2i(-1, -1)
 var tile_decoration := Vector2i(-1, -1)
 var is_decorated : bool = false
 var door : int = 0
+var is_support : bool = false
 
 var tile_capacity : float = 0
+
+func set_golden() -> void:
+	is_golden = true
+	is_decorated = true
+	update_tile()
+
+func set_support() -> void:
+	is_support = true
+	is_decorated = true
+	update_tile()
 
 func set_brick(number) -> void:
 	is_empty = false
@@ -115,6 +127,8 @@ func update_tile() -> void:
 			tile.y -= 1
 		if self.is_bottom:
 			tile.y += 1
+			if self.is_support and not self.is_scaffold:
+				tile.y += 1
 		
 	else:
 		tile = Vector2i(-1, -1)
@@ -161,6 +175,9 @@ func update_tile() -> void:
 				tile_decoration = Vector2i(3, 8)
 		elif is_bottom:
 			tile_decoration = Vector2i(3, 7)
+	
+	if is_golden:
+		tile_decoration = Vector2i(9, 12)
 	
 	if balcony:
 		tile = Vector2i(15, 9 + balcony)

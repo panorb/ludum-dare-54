@@ -3,23 +3,23 @@ class_name Building extends Node
 @export var floor_height = 3
 
 @export var min_width : int = 2
-@export var floor_width_distribution = [0, 0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 0.96, 1]
-@export var floor_number_distribution = [0, 0.3, 0.4, 1]
+@export var floor_width_distribution = [0, 0, 0.15, 0.4, 0.5, 0.65, 0.75, 0.85, 0.92, 0.96, 1]
+@export var floor_number_distribution = [0, 0.5, 0.9, 1]
 @export var border_probability : float = 0.8
 @export var border_skew_probability : float = 0.5
-@export var adjusted_expanding_distribution = [0.25, 0.6, 0.8, 0.98, 1]
-@export var no_tshape_probability : float = 0.2
+@export var adjusted_expanding_distribution = [0.3, 0.71, 0.92, 0.98, 1]
+@export var no_tshape_probability : float = 0.4
 
-@export var roof_probability : float = 0.4
+@export var roof_probability : float = 0.15
 @export var border_window_probability : float = 0.2
 @export var trap_door_probability : float = 0.25
 
 @export var window_probability : float = 0.4
 @export var hole_probability : float = 0.2
 @export var plant_probability : float = 0.25
+@export var golden_probability : float = 0.02
 
 @export var balcony_probability : float = -1
-
 
 var grid = []
 var size = Vector2i.ZERO
@@ -28,6 +28,9 @@ var is_left_border : bool = false
 var is_right_border : bool = false
 
 var raw_capacity : int = 0
+
+var left_support := Vector2i.ZERO
+var right_support := Vector2i.ZERO
 
 func generate_base() -> void:
 	size.y = floor_height
@@ -55,6 +58,7 @@ func generate_scaffold() -> void:
 			grid[i][j].set_scaffold()
 
 	update_edges()
+	update_support()
 
 func generate_building() -> void:
 	var floor_number := randomize_floor_number()
@@ -121,6 +125,8 @@ func generate_building() -> void:
 	
 	update_edges()
 	
+	update_support()
+	
 	generate_balkony()
 	
 	generate_trap_doors()
@@ -186,8 +192,8 @@ func randomize_shrink_size(lower_width, upper_width) -> int:
 		adjusted_shrink_size += 1
 	var shrink_size: int = adjusted_shrink_size - 2
 	
-	shrink_size = max(shrink_size, min_width - lower_width, min_width - upper_width)
-	shrink_size = min(shrink_size, lower_width - min_width, upper_width - min_width)
+	shrink_size = max(shrink_size, min_width - lower_width)
+	shrink_size = min(shrink_size, upper_width - min_width)
 	
 	return shrink_size
 
@@ -230,6 +236,8 @@ func generate_decorations() -> void:
 				grid[i][j].set_hole(randi_range(1,12))
 			if allows_plant(i, j) and randf() < plant_probability:
 				grid[i][j].set_plant(randi_range(1, 14))
+			if allows_golden(i, j) and randf() < golden_probability:
+				grid[i][j].set_golden()
 
 func allows_window(i, j) -> bool:
 	if grid[i][j].balcony:
@@ -242,11 +250,19 @@ func allows_window(i, j) -> bool:
 func allows_hole(i, j) -> bool:
 	if grid[i][j].balcony:
 		return false
-	
+		
 	return true
 
 func allows_plant(i, j) -> bool:
 	if grid[i][j].balcony:
+		return false
+		
+	return true
+
+func allows_golden(i, j) -> bool:
+	if grid[i][j].balcony:
+		return false
+	if grid[i][j].color == 2:
 		return false
 	
 	return true
@@ -318,3 +334,16 @@ func generate_door() -> void:
 	var door = randi_range(1,3)
 	grid[1][x_position].set_door(door)
 	grid[2][x_position].set_door(3+door)
+
+func update_support() -> void:
+	var left_support := Vector2i.ZERO
+	var right_support := Vector2i.ZERO
+	for j in size.x:
+		for i in size.y:
+			if grid[i][j].is_bottom:
+				right_support = Vector2i(i, j)
+				if left_support == Vector2i.ZERO:
+					left_support = Vector2i(i, j)
+	
+	grid[left_support.x][left_support.y].set_support()
+	grid[right_support.x][right_support.y].set_support()

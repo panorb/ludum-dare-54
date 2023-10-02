@@ -17,32 +17,44 @@ var blocker : TBuilding = null
 @onready var place_anim_right = $PlaceAnimRight
 
 signal building_placed(position:Vector2i, capacity:int)
+signal building_placement_failed
+signal base_capacity(capacity:int)
+signal placement_failed(error_code:int)
 
 
 func _ready() -> void:
 	self.blocker = TBuilding.new(Vector2i(1, 1))
 	self.blocker.set_non_empty(Vector2i(0, 0))
-	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 3))
+	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(3, 2))
 	self.map = TBuilding.new(Vector2i(MAP_SIZE.x, MAP_SIZE.y+1), get_node("TowerMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y-1))
 	
 	self.init_foundation(FOUNDATION_WIDTH)
 	self.height = 1
 	var b = Building.new()
+	b.generate_base()
+	var base = TBuilding.from_building(b)
+	var position = get_possible_placement(base)
+	self.map.stamp(position[0], base)
+	base_capacity.emit(base.capacity)
 	
-	var failed_count:int = 0
-	for i in range(0):
-		b = Building.new()
-		if randf() < 0.1:
-			b.generate_scaffold()
-		else:
-			b.generate_building()
-		var tb = TBuilding.from_building(b)
-		
-		var positions = get_possible_placement(tb, true)
-		if not positions:
-			failed_count += 1
-			continue
-		self.place_building(positions[randi() % positions.size()], tb)
+	
+	
+#	var failed_count:int = 0
+#	for i in range(10):
+#		b = Building.new()
+#		if randf() < 0.1:
+#			b.generate_scaffold()
+#		else:
+#			b.generate_building()
+#		var tb = TBuilding.from_building(b)
+#
+#		var positions = get_possible_placement(tb, true)
+#		if not positions:
+#			failed_count += 1
+#			continue
+#		var number = randi() % positions.size()
+#		self.map.stamp(positions[number], tb)
+#		self.height = max(self.height, MAP_SIZE.y - positions[number].y)
 		
 	place_anim_right.scale.x = -1 # flip right place anim
 	place_anim_right.position.x = 1
@@ -65,9 +77,9 @@ func _process(delta):
 	
 	if map_position != self.preview_pos:
 		self.preview_pos = map_position
-		var valid = self.test_placement(placement_pos, self.preview_building)
+		var invalid = self.test_placement(placement_pos, self.preview_building)
 		
-		if valid:
+		if not invalid:
 			self.preview_map.modulate = Color(0.8, 0.8, 0.8)
 		else:
 			self.preview_map.modulate = Color(0.6, 0.0, 0.0)
@@ -87,18 +99,22 @@ func get_possible_placement(building:TBuilding, find_all:bool = false) -> Array[
 	for y in range(MAP_SIZE.y - self.height - building.size.y - 10, min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)):
 		for x in range(0, MAP_SIZE.x-building.size.x):
 			var pos = Vector2i(x, y)
-			if test_placement(pos, building):
+			if not test_placement(pos, building):
 				if not find_all:
 					return [pos]
 				positions.append(pos)
 	return positions
 
 # Test if building could be placed
-func test_placement(position:Vector2i, building:TBuilding) -> bool:
+func test_placement(position:Vector2i, building:TBuilding) -> int:
 	var size = building.size
 	if position.x < 0 or position.x + size.x > MAP_SIZE.x or position.y + size.y > MAP_SIZE.y-1:
 		# Size issue
-		return false
+		return 1
+	
+	if building.support_left.x > size.x or building.support_right.x < 0:
+		# Building needs no support
+		return 0
 	
 	for y in range(building.size.y):
 		for x in range(building.size.x):
@@ -107,46 +123,25 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 			var here_tl = map_pos - self.map.offset
 			if (self.map.graphical_tiles.get_cell_source_id(0, here_tl) != -1 and building.graphical_tiles.get_cell_source_id(0, here_in) != -1):# or \
 				# Overlap
-				return false
-#			if building.get_window_property(here_in):
-#				if here_in.x == 0:
-#					var outside = here_tl+Vector2i(-1, 0)
-#					if (not outside.x < 0) and self.map.get_non_empty(outside):
-#						print("window issue")
-#						return false
-#				if here_in.x == building.size.x-1:
-#					var outside = here_tl+Vector2i(1, 0)
-#					if (not outside.x > MAP_SIZE.x-1) and self.map.get_non_empty(outside):
-#						print("window issue")
-#						return false
-#	for y in range(building.size.y):
-#		# check if collides with existing windows
-#		var left_in = Vector2i(0, y)
-#		var left_out = position + left_in - self.map.offset + Vector2i(-1, 0)
-#		var right_in = Vector2i(building.size.x-1, y)
-#		var right_out = position + right_in - self.map.offset + Vector2i(1, 0)
-#		if (not left_out.x < 0) and self.map.get_window_property(left_out) and building.get_non_empty(left_in):
-#			print("internal window left")
-#			return false
-#		if (not right_out.x > MAP_SIZE.x-1) and self.map.get_window_property(right_out) and building.get_non_empty(right_in):
-#			print("internal window right")
-#			return false
+				return 2
 	
-	if building.support_left.x > size.x or building.support_right.x < 0:
-		# Building needs no support
-		return true
 	if not self.map.get_supports(position+building.support_left+Vector2i(0, 1)) or not self.map.get_supports(position+building.support_right+Vector2i(0, 1)):
 		# Not enough support
-		return false
-	return true
+		if not not self.map.get_supports(position+building.support_left+Vector2i(0, 1)):
+			return 3
+		return 4
+	return 0
 
 
 func place_building(position:Vector2i, building:TBuilding) -> bool:
-	if not test_placement(position, building):
+	var invalid = test_placement(position, building)
+	if invalid:
+		placement_failed.emit(invalid)
+		building_placement_failed.emit()
 		return false
 	self.map.stamp(position, building)
 	self.height = max(self.height, MAP_SIZE.y - position.y)
-	
+
 	building_placed.emit(position, building.capacity)
 	place_anim_left.position = Vector2(-16,-16)+self.map.graphical_tiles.map_to_local(position-self.map.offset+Vector2i(0,building.size.y))
 	place_anim_left.activate()
@@ -160,9 +155,9 @@ func tower_spam_block(position):
 	if pos.x < 0 or pos.x > MAP_SIZE.x-1 or pos.y < 0 or pos.y > MAP_SIZE.y-1:
 		return
 	
-	for y in range(3):
-		for x in range(3):
-			self.map.stamp(pos+Vector2i(x-1,y-1), self.blocker)
+	for y in range(1):
+		for x in range(1):
+			self.map.stamp(pos+Vector2i(x,y), self.blocker)
 
 func deselect_preview_building():
 	self.preview_map.clear()
