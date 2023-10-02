@@ -146,10 +146,10 @@ func redraw():
 	draw_card(Card.CardType.CARD_TYPE_NORMAL, 5)
 	
 func play_select_sound():
-	var playing_select_sound = select_sounds[playing_select_sound_index % select_sounds.size()]
-	select_sound.stream = playing_select_sound
-	select_sound.play()
-	playing_select_sound_index =+ 1
+	var current_playing_select_sound_index = self.playing_select_sound_index % self.select_sounds.size()
+	self.select_sound.stream = self.select_sounds[current_playing_select_sound_index]
+	self.select_sound.play()
+	self.playing_select_sound_index += 1
 
 func speek(text):
 	card_wizard.speek(text)
