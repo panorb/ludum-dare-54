@@ -44,11 +44,26 @@ func _ready() -> void:
 func _process(delta):
 	if self.preview_building == null:
 		return
-	var mouse_position = self.get_local_mouse_position()
+	var camera_position = get_local_mouse_position()
+	var mouse_position_global = get_tree().get_root().get_node("Game").get_global_mouse_position()
+	#print(camera_position)
+	return
+	var mouse_position = null
+#	var mouse_position_global = get_tree().get_root().get_node("Game").get_global_mouse_position()
+#	var mouse_position = self.to_local(mouse_position_global)
+	#var camera_position_global = get_tree().get_root().get_node("Game/SubViewport/GameCamera")()
+	#var camera_position = get_tree().get_root().get_node("%GameCamera")
+	#print(camera_position)
+#	var mouse_position = mouse_position_global# = get_tree().get_root().get_node("GameCamera").#mouse_position_global
+	#var mouse_position = get_global_mouse_position()
 	var building_offset = Vector2i(self.preview_building.size.x/2, self.preview_building.size.y/2)
 	var map_position = self.map.graphical_tiles.local_to_map(mouse_position)-building_offset
 	var preview_center = self.map.graphical_tiles.map_to_local(map_position)-Vector2(8.0, 8.0)
 	self.preview_map.position = preview_center
+#	print()
+#	print(get_local_mouse_position())
+#	print(mouse_position)
+#	print(camera_position_global)
 	var placement_pos = map_position + self.map.offset
 	
 	if map_position != self.preview_pos:

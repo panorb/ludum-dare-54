@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://cplf8w1sb71bg"]
+
+[ext_resource type="Script" path="res://background/CanvasLayer.gd" id="1_6l4bp"]
+[ext_resource type="Shader" path="res://background/background.gdshader" id="1_olpqs"]
+[ext_resource type="Texture2D" uid="uid://xl5xmcvf2t3g" path="res://background/towerbg.png" id="3_2kno0"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_k1lnm"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4yi3t"]
+shader = ExtResource("1_olpqs")
+shader_parameter/u_resolution = Vector2(416, 240)
+shader_parameter/u_progress = null
+shader_parameter/u_startAnim = null
+shader_parameter/u_perspective = null
+shader_parameter/u_mouse = null
+shader_parameter/u_tower = ExtResource("3_2kno0")
+
+[node name="Background" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(624, 360)
+scale = Vector2(3, 3)
+transform = Transform2D(3, 0, 0, 3, 624, 360)
+script = ExtResource("1_6l4bp")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+texture = SubResource("ViewportTexture_k1lnm")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(416, 240)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewport"]
+layer = 0
+script = ExtResource("1_6l4bp")
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport/CanvasLayer"]
+material = SubResource("ShaderMaterial_4yi3t")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
