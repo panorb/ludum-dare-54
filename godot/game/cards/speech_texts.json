@@ -1,0 +1,12 @@
+{
+	"tutorial_1": "click on any card to pick a part to place!",
+	"tutorial_2": "pick a point where the part is properly supported on both sides.",
+	"tutorial_3": "place down plenty parts to accomodate all the city's sheep!",
+	"tutorial_4": "notice the steady stream of newcomers, close to the counter of current inhabitants",
+	"tutorial_5": "try and stay ahead of the game, and happy building!",
+	"left_support_missing": "this part isn't supported on the left side!",
+	"right_support_misssing": "this part isn't supported on the right side!",
+	"overlap": "this part needs more space - try somewhere else!",
+	"few_spaces": "with only %d places left, it's getting pretty crammed in there...",
+	"wizard_click": "yep, that's me! the woolly wizard!"
+}
