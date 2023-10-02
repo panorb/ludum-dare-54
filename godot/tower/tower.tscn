@@ -5,7 +5,6 @@
 [ext_resource type="Script" path="res://tower/building_manager.gd" id="2_qc6mu"]
 [ext_resource type="Script" path="res://tower/building.gd" id="3_51hqr"]
 [ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="4_7rioh"]
-[ext_resource type="Texture2D" uid="uid://b8tbbb5ghnrdc" path="res://tower/env.png" id="5_d4aqq"]
 [ext_resource type="AudioStream" uid="uid://b27okww6spt54" path="res://tower/place.wav" id="6_ldwp5"]
 [ext_resource type="AudioStream" uid="uid://cjx5w3dnwssww" path="res://tower/placement_failed.wav" id="7_5ooqa"]
 
@@ -82,3 +81,4 @@ volume_db = -20.0
 [connection signal="base_capacity" from="BuildingManager" to="." method="_on_building_manager_base_capacity"]
 [connection signal="building_placed" from="BuildingManager" to="." method="_on_building_manager_building_placed"]
 [connection signal="building_placement_failed" from="BuildingManager" to="." method="_on_building_manager_building_placement_failed"]
+[connection signal="placement_failed" from="BuildingManager" to="." method="_on_building_manager_placement_failed"]

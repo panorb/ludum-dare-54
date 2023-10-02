@@ -20,5 +20,4 @@ func _process(delta):
 	node.position.x = -220 * node.direction
 	node.position.y = random.randf_range(-300, -1000)
 	self.add_child(node)
-	print("spawned bird")
 	next_spawn = Time.get_ticks_msec() + 2000
