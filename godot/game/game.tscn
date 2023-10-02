@@ -145,6 +145,8 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 process_mode = 3
 visible = false
+z_index = 110
+z_as_relative = false
 
 [connection signal="input_event" from="ClickDetector" to="." method="_on_click_detector_input_event"]
 [connection signal="tower_spam" from="SubViewport/Environment/SideBuildingRight" to="SubViewport/Tower" method="_on_side_building_right_tower_spam"]
