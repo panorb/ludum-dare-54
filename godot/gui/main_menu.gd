@@ -31,7 +31,7 @@ func _ready() -> void:
 
 
 func _on_StartButton_pressed() -> void:
-	SceneManager.show_scene("pause_menu")
+	SceneManager.show_scene("game")
 
 
 func _on_CreditsButton_pressed() -> void:
