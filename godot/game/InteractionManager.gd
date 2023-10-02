@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name  InteractionManager
+
 @export var camera: Camera2D
 @export var camera_sensitivity: float = 5.0
 @export var drag_start_time: int = 150
@@ -7,6 +9,8 @@ extends Node2D
 @onready var _letter := get_node("%Letter")
 
 signal primary_interaction_just_pressed_sig
+signal player_height_changed(player_height: float)
+
 
 const MOUSE_SCROLL_SPEED: int = 10
 
@@ -30,6 +34,7 @@ func _process(delta: float) -> void:
 
 	camera.position.y += movement * camera_sensitivity * delta * 100
 	camera.position.y = min(0, camera.position.y)
+	self.player_height_changed.emit(camera.position.y)
 
 	var background_scene = get_parent().get_parent().get_node("Background")
 	#if background_scene:
@@ -75,3 +80,4 @@ func _input(event: InputEvent) -> void:
 		if current_state == MOUSE_STATE.DRAGGING:
 			camera.position.y -= event.relative.y * camera_sensitivity * 0.8
 			camera.position.y = min(0, camera.position.y)
+			self.player_height_changed.emit(camera.position.y)
