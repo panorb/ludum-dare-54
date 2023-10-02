@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://dmoctt7p732ox"]
 
-[ext_resource type="PackedScene" path="res://background/background.tscn" id="1_bmw85"]
+[ext_resource type="PackedScene" uid="uid://cplf8w1sb71bg" path="res://background/background.tscn" id="1_bmw85"]
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
 [ext_resource type="Script" path="res://game/game.gd" id="1_ouloa"]
 [ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
