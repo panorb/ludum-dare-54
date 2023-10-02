@@ -12,8 +12,17 @@ signal wizard_clicked
 
 @onready var card_wizard = $CardWizard
 
+@onready var select_sound := %SelectSound
+
 var hand_cards : Array[Card] = []
-var held_card : Card = null
+var held_card : Card = null:
+	set(value):
+		if held_card != value:
+			play_select_sound()
+		held_card = value
+
+var select_sounds := [preload("res://game/cards/sparkle_1.wav"), preload("res://game/cards/sparkle_2.wav")]
+var playing_select_sound_index := 0
 
 func _ready() -> void:
 	# get_tree().get_root().size_changed.connect(reorganize_hand)
@@ -135,6 +144,12 @@ func redraw():
 		card.queue_free()
 	hand_cards.clear()
 	draw_card(Card.CardType.CARD_TYPE_NORMAL, 5)
+	
+func play_select_sound():
+	var playing_select_sound = select_sounds[playing_select_sound_index % select_sounds.size()]
+	select_sound.stream = playing_select_sound
+	select_sound.play()
+	playing_select_sound_index =+ 1
 
 func speek(text):
 	card_wizard.speek(text)

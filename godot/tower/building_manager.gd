@@ -14,9 +14,9 @@ var preview_pos : Vector2i = Vector2i.ZERO
 var blocker : TBuilding = null
 
 signal building_placed(position:Vector2i, capacity:int)
+signal building_placement_failed
 signal base_capacity(capacity:int)
 signal placement_failed(error_code:int)
-
 
 
 func _ready() -> void:
@@ -131,10 +131,11 @@ func place_building(position:Vector2i, building:TBuilding) -> bool:
 	var invalid = test_placement(position, building)
 	if invalid:
 		placement_failed.emit(invalid)
+		building_placement_failed.emit()
 		return false
 	self.map.stamp(position, building)
 	self.height = max(self.height, MAP_SIZE.y - position.y)
-	
+
 	building_placed.emit(position, building.capacity)
 	return true
 
