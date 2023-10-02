@@ -17,6 +17,7 @@ class_name Building extends Node
 @export var window_probability : float = 0.4
 @export var hole_probability : float = 0.2
 @export var plant_probability : float = 0.25
+@export var golden_probability : float = 0.02
 
 @export var balcony_probability : float = -1
 
@@ -235,6 +236,8 @@ func generate_decorations() -> void:
 				grid[i][j].set_hole(randi_range(1,12))
 			if allows_plant(i, j) and randf() < plant_probability:
 				grid[i][j].set_plant(randi_range(1, 14))
+			if allows_golden(i, j) and randf() < golden_probability:
+				grid[i][j].set_golden()
 
 func allows_window(i, j) -> bool:
 	if grid[i][j].balcony:
@@ -247,11 +250,19 @@ func allows_window(i, j) -> bool:
 func allows_hole(i, j) -> bool:
 	if grid[i][j].balcony:
 		return false
-	
+		
 	return true
 
 func allows_plant(i, j) -> bool:
 	if grid[i][j].balcony:
+		return false
+		
+	return true
+
+func allows_golden(i, j) -> bool:
+	if grid[i][j].balcony:
+		return false
+	if grid[i][j].color == 2:
 		return false
 	
 	return true
