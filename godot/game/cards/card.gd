@@ -8,7 +8,6 @@ extends Sprite2D
 @onready var preview_tile_map = %PreviewTileMap
 
 var _building: TBuilding = null
-var _preview_building: TBuilding = null
 var _capacity: int = 0
 
 signal hover_begin(card : Card)
@@ -26,9 +25,8 @@ func _ready():
 func init_capacity(capacity : int):
 	_capacity = capacity
 
-func init_building(building: TBuilding, preview_building: TBuilding):
+func init_building(building: TBuilding):
 	_building = building
-	_preview_building = preview_building
 
 func _on_ClickZone_input_event(viewport: Node, event: InputEvent, shape_idx: int):
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
@@ -80,6 +78,7 @@ func blur():
 func select():
 	is_selected = true
 	z_index = 50
+	print("")
 
 func deselect():
 	is_selected = false
