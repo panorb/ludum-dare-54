@@ -11,6 +11,10 @@ signal building_placed(position:Vector2i, capacity:int)
 signal capacity_update(capacity_used: int, capacity_total: int)
 signal placement_failed(error_code:int)
 
+var height:
+	get:
+		return building_manager.height
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	self.capacity_total
