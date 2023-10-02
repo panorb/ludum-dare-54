@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3fdk1rhageac"]
+[gd_scene load_steps=9 format=3 uid="uid://d3fdk1rhageac"]
 
 [ext_resource type="Texture2D" uid="uid://c4qa0j2q16tsl" path="res://game/cards/card_wizard.png" id="1_bs2ym"]
 [ext_resource type="Script" path="res://game/cards/card_wizard.gd" id="2_epinh"]
 [ext_resource type="Texture2D" uid="uid://d2kkwimpiek7x" path="res://tower/tower.png" id="3_nyfrk"]
+[ext_resource type="Texture2D" uid="uid://cdjfru0y2f3uu" path="res://game/cards/speech-bubble.png" id="4_n85fv"]
+[ext_resource type="FontFile" uid="uid://bvxa4kms88wda" path="res://gui/centurion.ttf" id="5_rxwtu"]
 
 [sub_resource type="Animation" id="Animation_70f8q"]
 length = 0.4
@@ -179,3 +181,24 @@ position = Vector2(-8.66667, 32)
 texture = ExtResource("3_nyfrk")
 region_enabled = true
 region_rect = Rect2(48, 16, 16, 16)
+
+[node name="SpeechBubble" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-57.6667, -26.6667)
+texture = ExtResource("4_n85fv")
+
+[node name="Label" type="Label" parent="SpeechBubble"]
+offset_left = -48.0
+offset_top = -10.0
+offset_right = 855.0
+offset_bottom = 147.0
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_rxwtu")
+theme_override_font_sizes/font_size = 40
+text = "aaafb"
+autowrap_mode = 3
+
+[node name="Timer" type="Timer" parent="SpeechBubble"]
+wait_time = 5.0
+one_shot = true
