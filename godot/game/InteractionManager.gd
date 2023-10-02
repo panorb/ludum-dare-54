@@ -9,7 +9,7 @@ class_name  InteractionManager
 @export var tower: Tower
 @onready var _letter := get_node("%Letter")
 
-var limit = false
+var limit = true
 
 signal primary_interaction_just_pressed_sig
 signal player_height_changed(player_height: float)
@@ -64,7 +64,6 @@ func _process(delta: float) -> void:
 	var prog = -.01-camera.get_screen_center_position().y/5000. #TODO 50k seems reasonable
 	if prog > 1.5:
 		prog = 1 + sigmoid(prog-1.5)
-	print(prog)
 	color_rect.material.set_shader_parameter("u_progress", prog)
 	color_rect.material.set_shader_parameter("u_perspective", .2)
 
