@@ -6,6 +6,8 @@ extends Node2D
 
 var capacity_total: int
 var capacity_used: int
+var place_sound1 := preload("res://tower/place.wav")
+var place_sound2 := preload("res://tower/place2.wav")
 
 signal building_placed(position:Vector2i, capacity:int)
 
@@ -46,6 +48,8 @@ func _on_side_building_left_tower_spam(position):
 func _on_building_manager_building_placed(position: Vector2i, capacity: int):
 	building_placed.emit(position, capacity)
 	capacity_total += capacity
+	$PlaceSound.stream = place_sound1 if randi_range(0, 1) else place_sound2
+	$PlaceSound.play()
 
 func add_sheep(amount:int) -> int:
 	var amount_actual = min(amount, self.capacity_total - self.capacity_used)
@@ -55,3 +59,7 @@ func add_sheep(amount:int) -> int:
 func possible_to_place(building:TBuilding) -> bool:
 	var positions = self.building_manager.get_possible_placement(building)
 	return bool(0 < len(positions))
+
+
+func _on_building_manager_building_placement_failed() -> void:
+	$PlacementFailedSound.play()

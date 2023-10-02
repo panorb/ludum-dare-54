@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=17 format=3 uid="uid://cuwq2brfpnxxb"]
 
 [ext_resource type="PackedScene" uid="uid://cplf8w1sb71bg" path="res://background/background.tscn" id="1_bmw85"]
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
@@ -7,13 +7,16 @@
 [ext_resource type="Script" path="res://game/game_camera.gd" id="2_qbikm"]
 [ext_resource type="AudioStream" uid="uid://wf5c8vbnjln4" path="res://game/city_traffic_2.ogg" id="2_xk1f3"]
 [ext_resource type="PackedScene" uid="uid://dssasdju3qnqc" path="res://gui/pause_menu.tscn" id="3_3pb4f"]
+[ext_resource type="AudioStream" uid="uid://h6mfqr7hdlwr" path="res://game/game_lost.wav" id="3_mb78g"]
 [ext_resource type="Texture2D" uid="uid://xa2g7s7ia4eb" path="res://placeholders/white.png" id="3_w6yv1"]
 [ext_resource type="TileSet" uid="uid://drgq806ewpsqf" path="res://tower/tower-tileset.tres" id="3_xn6el"]
 [ext_resource type="PackedScene" uid="uid://xpjdv0n1b32j" path="res://game/side-building.tscn" id="4_1affs"]
 [ext_resource type="Script" path="res://background/CanvasLayer.gd" id="4_rhn13"]
+[ext_resource type="AudioStream" uid="uid://btj8wvj1jqq4u" path="res://game/game_won.wav" id="4_wdgpr"]
 [ext_resource type="Script" path="res://game/InteractionManager.gd" id="5_xfojq"]
 [ext_resource type="PackedScene" uid="uid://cf5v8hs4kc7x2" path="res://gui/letter/letter_view.tscn" id="8_ruha8"]
 [ext_resource type="PackedScene" uid="uid://nr04eptwcnd5" path="res://game/cards/card_hand.tscn" id="9_fvuws"]
+[ext_resource type="AudioStream" uid="uid://bqvcfds1opduu" path="res://game/windscroll.wav" id="13_p5gvq"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ga315"]
 viewport_path = NodePath("SubViewport")
@@ -37,6 +40,12 @@ process_mode = 3
 stream = ExtResource("1_otubx")
 volume_db = 10.0
 autoplay = true
+
+[node name="GameLostSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_mb78g")
+
+[node name="GameWonSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wdgpr")
 
 [node name="Background" parent="." instance=ExtResource("1_bmw85")]
 unique_name_in_owner = true
@@ -112,6 +121,9 @@ pattern_probability_per_row = 0.05
 unique_name_in_owner = true
 script = ExtResource("5_xfojq")
 camera = NodePath("../GameCamera")
+
+[node name="WindscrollSound" type="AudioStreamPlayer" parent="SubViewport/InteractionManager"]
+stream = ExtResource("13_p5gvq")
 
 [node name="Tower" parent="SubViewport" instance=ExtResource("2_mt16c")]
 unique_name_in_owner = true

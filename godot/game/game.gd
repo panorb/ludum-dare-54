@@ -60,12 +60,19 @@ func _on_player_height_changed(player_height: float):
 	if percent_space <= 1.0:
 		space_sound.stop()
 
+func game_over():
+	$GameLostSound.play()
+
+func game_won():
+	$GameWonSound.play()
+
 func post_round():
 	self.card_hand.drop_card()
 	var left_over = self.tower.add_sheep(self.round_capacity_demand)
 	if left_over:
 		print("not enough capacity, "+str(left_over)+" sheep couldn't move in")
 		# TODO check game over (over capacity)
+		game_over()
 
 func pre_round():
 	self.card_hand.draw_card(Card.CardType.CARD_TYPE_NORMAL, 1)
