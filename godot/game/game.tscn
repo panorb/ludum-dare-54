@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dmoctt7p732ox"]
+[gd_scene load_steps=14 format=3 uid="uid://dmoctt7p732ox"]
 
-[ext_resource type="PackedScene" uid="uid://cplf8w1sb71bg" path="res://background/background.tscn" id="1_bmw85"]
+[ext_resource type="PackedScene" path="res://background/background.tscn" id="1_bmw85"]
 [ext_resource type="AudioStream" uid="uid://bhjwitxjrd71f" path="res://music/game_theme.mp3" id="1_otubx"]
+[ext_resource type="Script" path="res://game/game.gd" id="1_ouloa"]
 [ext_resource type="PackedScene" uid="uid://btl27tf157rs5" path="res://tower/tower.tscn" id="2_mt16c"]
 [ext_resource type="Script" path="res://game/game_camera.gd" id="2_qbikm"]
 [ext_resource type="Texture2D" uid="uid://xa2g7s7ia4eb" path="res://placeholders/white.png" id="3_w6yv1"]
@@ -10,11 +11,13 @@
 [ext_resource type="Script" path="res://background/CanvasLayer.gd" id="4_rhn13"]
 [ext_resource type="Script" path="res://game/InteractionManager.gd" id="5_xfojq"]
 [ext_resource type="PackedScene" uid="uid://cf5v8hs4kc7x2" path="res://gui/letter/letter_view.tscn" id="8_ruha8"]
+[ext_resource type="PackedScene" uid="uid://nr04eptwcnd5" path="res://game/cards/card_hand.tscn" id="9_fvuws"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ga315"]
 viewport_path = NodePath("SubViewport")
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_ouloa")
 metadata/_edit_horizontal_guides_ = []
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
@@ -28,6 +31,9 @@ unique_name_in_owner = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
+unique_name_in_owner = true
+
+[node name="CardHand" parent="CanvasLayer" instance=ExtResource("9_fvuws")]
 unique_name_in_owner = true
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
@@ -46,8 +52,6 @@ transparent_bg = true
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 size = Vector2i(416, 240)
-
-[node name="Tower" parent="SubViewport" instance=ExtResource("2_mt16c")]
 
 [node name="GameCamera" type="Camera2D" parent="SubViewport"]
 position_smoothing_enabled = true
@@ -90,3 +94,11 @@ pattern_probability_per_row = 0.05
 [node name="InteractionManager" type="Node2D" parent="SubViewport" node_paths=PackedStringArray("camera")]
 script = ExtResource("5_xfojq")
 camera = NodePath("../GameCamera")
+
+[node name="Tower" parent="SubViewport" instance=ExtResource("2_mt16c")]
+unique_name_in_owner = true
+
+[connection signal="card_deselected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_deselected"]
+[connection signal="card_selected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_selected"]
+
+[editable path="CanvasLayer/CardHand"]
