@@ -4,8 +4,8 @@ extends Node2D
 @export var tileMap: TileMap = null
 @onready var building_manager:BuildingManager = get_node("%BuildingManager")
 
-var capacity_total: int = 0
-var capacity_used: int = 0
+var capacity_total: int = 370
+var capacity_used: int = 360
 var place_sound1 := preload("res://tower/place.wav")
 var place_sound2 := preload("res://tower/place2.wav")
 

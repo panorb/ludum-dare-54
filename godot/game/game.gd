@@ -19,7 +19,7 @@ var round_capacity_demand: int
 var selected_card_type: Card.CardType = Card.CardType.CARD_TYPE_NORMAL
 var block_click:bool = false
 
-enum GameState { PRE_GAME, INITIAL, WARNED_ONCE, WARNED_TWICE, GAME_OVER, GAME_WON }
+enum GameState { PRE_GAME, INITIAL, WARNED_ONCE, WARNED_TWICE, WARNED_THRICE, GAME_OVER, GAME_WON, GAME_WON_END }
 var current_state : GameState
 
 func _ready():
@@ -41,10 +41,13 @@ func change_game_state(state : GameState):
 		letter.show_letter("first_warning")
 	elif state == GameState.WARNED_TWICE:
 		letter.show_letter("second_warning")
+	elif state == GameState.WARNED_THRICE:
+		letter.show_letter("third_warning")
 	elif state == GameState.GAME_OVER:
 		$GameLostSound.play()
 		letter.show_letter("game_over", [int(tower.height / 3), tower.capacity_used])
 	elif state == GameState.GAME_WON:
+		letter.show_letter("win")
 		$GameWonSound.play()
 	
 	current_state += 1
@@ -112,13 +115,16 @@ func pre_round():
 	var left_over = self.tower.add_sheep(self.round_capacity_demand)
 	if left_over:
 		print("not enough capacity, "+str(left_over)+" sheep couldn't move in")
-
+		
 		if current_state == GameState.INITIAL:
 			change_game_state(GameState.WARNED_ONCE)
 		elif current_state == GameState.WARNED_ONCE:
 			change_game_state(GameState.WARNED_TWICE)
 		elif current_state == GameState.WARNED_TWICE:
 			change_game_state(GameState.GAME_OVER)
+	
+	if current_state >= GameState.GAME_WON and self.tower.capacity_total >= 400:
+		change_game_state(GameState.GAME_WON)
 	
 	self.card_hand.draw_card(self.selected_card_type, 1)
 	self.selected_card_type = Card.CardType.CARD_TYPE_NORMAL
@@ -128,18 +134,31 @@ func pre_round():
 		var building := Building.new()
 		building.generate_building()
 		capacities.append(int(building.raw_capacity/3*0.9))
+	capacities.sort()
 	self.round_capacity_demand = capacities[2]
+	if self.tower.capacity_total >= 400:
+		var distance_to_goal = 400 - self.tower.capacity_used
+		
+		if distance_to_goal > 0:
+			self.round_capacity_demand = distance_to_goal
+		else:
+			self.round_capacity_demand = 0
+		
 	self.capacity_gui.demand = self.round_capacity_demand
 	
 	var found = false
 	for card in self.card_hand.hand_cards:
+		if card.card_type == Card.CardType.CARD_TYPE_SCAFFOLD:
+			continue
+		
 		var possible_to_place = self.tower.possible_to_place(card._building)
 		print(possible_to_place)
 		if possible_to_place:
 			found = true
 			break
-	if not found:
-		print("no cards can be placed any more")
+	if not found and current_state in [GameState.GAME_WON, GameState.GAME_WON_END]:
+		letter.show_letter("good_ending")
+		# print("no cards can be placed any more")
 		# TODO check game over (building placement)
 
 func _on_card_hand_card_deselected():
