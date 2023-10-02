@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dssasdju3qnqc"]
+[gd_scene load_steps=7 format=3 uid="uid://dssasdju3qnqc"]
 
 [ext_resource type="Theme" uid="uid://bmbd2indv7vih" path="res://gui/menu.tres" id="1_njcsx"]
 [ext_resource type="Script" path="res://gui/pause_menu.gd" id="2_x4igw"]
 [ext_resource type="AudioStream" uid="uid://xst1ekamh3cv" path="res://music/main_menu_theme.mp3" id="2_xd5ik"]
 [ext_resource type="Texture2D" uid="uid://lwfjxln88rc7" path="res://gui/volume_mute.png" id="3_trcf7"]
+[ext_resource type="Texture2D" uid="uid://bal4ebkb1rm3d" path="res://gui/title.png" id="4_3qnsw"]
 [ext_resource type="Texture2D" uid="uid://c23u7darl2va3" path="res://gui/volume_slider.png" id="4_qlsq1"]
 
 [node name="PauseMenu" type="Control"]
@@ -23,21 +24,17 @@ stream = ExtResource("2_xd5ik")
 volume_db = 10.0
 autoplay = true
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="Title" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -340.0
-offset_top = 20.0
-offset_right = 340.0
-offset_bottom = 73.0
+offset_left = -345.0
+offset_top = 25.0
+offset_right = 345.0
+offset_bottom = 109.0
 grow_horizontal = 2
-size_flags_vertical = 6
-theme_override_font_sizes/font_size = 50
-text = "A Living Place in Limited Space"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("4_3qnsw")
 
 [node name="CenterContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 1
