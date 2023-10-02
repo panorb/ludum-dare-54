@@ -5,11 +5,10 @@ extends Node2D
 @onready var interaction_manager = %InteractionManager
 @onready var city_noise_sound := %CityNoiseSound
 @onready var troposphere_sound := %TroposphereSound
-@onready var space_sound := %SpaceSound
 
-const CITY_NOISE_MAX_HEIGHT = 200.0
-const TROPOSPHERE_MAX_HEIGHT = 400.0
-const SPACE_MAX_HEIGHT = 600.0
+const CITY_NOISE_MAX_HEIGHT = 666.0
+const TROPOSPHERE_MAX_HEIGHT = 1200.0
+
 
 @onready var capacity_gui = get_node("%CapacityUI")
 
@@ -76,21 +75,23 @@ func _on_tower_building_placed(position, capacity):
 
 func _on_player_height_changed(player_height: float):
 	# Errechnen der Prozente
-	return
-	var percent_city_noise = inverse_lerp(CITY_NOISE_MAX_HEIGHT, 0.0, player_height)
-	var percent_troposphere = 0.0
-	var percent_space = 0.0
-	
-	if 0.0 > percent_city_noise and percent_city_noise < 1.0:
-		percent_city_noise =  player_height / CITY_NOISE_MAX_HEIGHT
-		percent_troposphere = 1.0 - percent_city_noise
 
-	if percent_city_noise <= 0.01:
-		city_noise_sound.stop()
-	else:
+	var percent_city_noise = inverse_lerp(CITY_NOISE_MAX_HEIGHT, 0.0, player_height)
+	var percent_troposphere = inverse_lerp(TROPOSPHERE_MAX_HEIGHT, CITY_NOISE_MAX_HEIGHT, player_height)
+
+	
+	print(player_height)
+	print(percent_city_noise)
+	
+	if percent_city_noise > 0.0 and percent_city_noise <= 1.0:
 		city_noise_sound.volume_db = linear_to_db(percent_city_noise)
 		if !city_noise_sound.playing:
+			print("play_city_noise: "+str(percent_city_noise))
 			city_noise_sound.play()
+	else:
+		city_noise_sound.stop()
+		city_noise_sound.volume_db = linear_to_db(percent_city_noise)
+
 
 	if percent_troposphere <= 1.0:
 		troposphere_sound.stop()
@@ -98,9 +99,6 @@ func _on_player_height_changed(player_height: float):
 		troposphere_sound.volume_db = linear_to_db(percent_troposphere)
 		if troposphere_sound.playing:
 			troposphere_sound.play()
-
-	if percent_space <= 1.0:
-		space_sound.stop()
 
 func game_won():
 	$GameWonSound.play()
