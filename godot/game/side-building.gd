@@ -28,7 +28,6 @@ signal tower_spam(position:Vector2i)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if tilemap == null:
-		printerr("tilemap is null @ ", get_stack());
 		return;
 		
 	var global_coords = self.position;
@@ -58,7 +57,6 @@ var current_row_width_delta = 0.0
 func find_baseplate_start(pattern: TileMapPattern):
 	var start = null
 
-#	print(pattern.get_size())
 	for y in range(pattern.get_size().y-1, -1, -1):
 		for x in range(pattern.get_size().x):
 			if pattern.has_cell(Vector2i(x,y)):
@@ -139,7 +137,6 @@ func add_rows_if_needed(amount_to_draw: int):
 				var pattern_position = self.tilemap_starting_position + Vector2i(0, -row);
 				var offset = calculate_pattern_baseplate_middle_offset(pattern_to_place);
 				if offset == null:
-					print("could not find offset for pattern");
 					return;
 				self.tilemap.set_pattern(0, pattern_position - offset, pattern_to_place);
 				for y in range(pattern_to_place.get_size().y):
@@ -151,7 +148,6 @@ func add_rows_if_needed(amount_to_draw: int):
 				current_completed_row += pattern_height;
 
 		if current_completed_row >= 10000:
-			print("done creating secondary buildings");
 			return;
 
 

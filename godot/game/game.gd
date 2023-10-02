@@ -81,7 +81,6 @@ func _on_player_height_changed(player_height: float):
 	if percent_city_noise > 0.0 and percent_city_noise <= 1.0:
 		city_noise_sound.volume_db = linear_to_db(percent_city_noise)
 		if !city_noise_sound.playing:
-			print("play_city_noise: "+str(percent_city_noise))
 			city_noise_sound.play()
 	else:
 		city_noise_sound.stop()
@@ -104,7 +103,6 @@ func post_round():
 func pre_round():
 	var left_over = self.tower.add_sheep(self.round_capacity_demand)
 	if left_over:
-		print("not enough capacity, "+str(left_over)+" sheep couldn't move in")
 		
 		if current_state == GameState.INITIAL:
 			change_game_state(GameState.WARNED_ONCE)
@@ -144,14 +142,11 @@ func pre_round():
 			continue
 		
 		var possible_to_place = self.tower.possible_to_place(card._building)
-		print(possible_to_place)
 		if possible_to_place:
 			found = true
 			break
 	if not found and current_state in [GameState.GAME_WON, GameState.GAME_WON_END]:
 		letter.show_letter("good_ending")
-		# print("no cards can be placed any more")
-		# TODO check game over (building placement)
 
 func _on_card_hand_card_deselected():
 	self.tower.deselect_preview_building()
@@ -168,14 +163,10 @@ func _on_card_hand_wizard_clicked():
 
 func _on_tower_placement_failed(error_code):
 	if error_code == 1:
-		print("outside")
 		self.card_hand.say_error("overlap")
 	elif error_code == 2:
-		print("overlap")
 		self.card_hand.say_error("overlap")
 	elif error_code == 3:
-		print("right")
 		self.card_hand.say_error("right_support_misssing")
 	elif error_code == 4:
-		print("left")
 		self.card_hand.say_error("left_support_missing")
