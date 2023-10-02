@@ -36,6 +36,19 @@ unique_name_in_owner = true
 
 [node name="ClickDetector" type="Area2D" parent="."]
 
+[node name="Letter" parent="CanvasLayer" instance=ExtResource("8_ruha8")]
+unique_name_in_owner = true
+process_mode = 2
+
+[node name="CapacityUI" parent="CanvasLayer" instance=ExtResource("6_0vq82")]
+unique_name_in_owner = true
+process_mode = 3
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_3pb4f")]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickDetector"]
 position = Vector2(624, 215.5)
 shape = SubResource("RectangleShape2D_o0dfp")
