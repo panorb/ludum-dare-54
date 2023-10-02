@@ -3,14 +3,14 @@ class_name Building extends Node
 @export var floor_height = 3
 
 @export var min_width : int = 2
-@export var floor_width_distribution = [0, 0, 0.1, 0.35, 0.45, 0.6, 0.7, 0.8, 0.9, 0.96, 1]
-@export var floor_number_distribution = [0, 0.5, 0.8, 1]
+@export var floor_width_distribution = [0, 0, 0.15, 0.4, 0.5, 0.65, 0.75, 0.85, 0.92, 0.96, 1]
+@export var floor_number_distribution = [0, 0.5, 0.9, 1]
 @export var border_probability : float = 0.8
 @export var border_skew_probability : float = 0.5
-@export var adjusted_expanding_distribution = [0.3, 0.7, 0.9, 0.98, 1]
-@export var no_tshape_probability : float = 0.2
+@export var adjusted_expanding_distribution = [0.3, 0.71, 0.92, 0.98, 1]
+@export var no_tshape_probability : float = 0.4
 
-@export var roof_probability : float = 0.25
+@export var roof_probability : float = 0.15
 @export var border_window_probability : float = 0.2
 @export var trap_door_probability : float = 0.25
 
@@ -191,8 +191,8 @@ func randomize_shrink_size(lower_width, upper_width) -> int:
 		adjusted_shrink_size += 1
 	var shrink_size: int = adjusted_shrink_size - 2
 	
-	shrink_size = max(shrink_size, min_width - lower_width, min_width - upper_width)
-	shrink_size = min(shrink_size, lower_width - min_width, upper_width - min_width)
+	shrink_size = max(shrink_size, min_width - lower_width)
+	shrink_size = min(shrink_size, upper_width - min_width)
 	
 	return shrink_size
 
