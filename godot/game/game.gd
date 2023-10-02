@@ -23,6 +23,11 @@ func _on_tower_building_placed(position, capacity):
 	post_round()
 	pre_round()
 
+func game_over():
+	$GameLostSound.play()
+
+func game_won():
+	$GameWonSound.play()
 
 func post_round():
 	self.card_hand.drop_card()
@@ -30,6 +35,7 @@ func post_round():
 	if left_over:
 		print("not enough capacity, "+str(left_over)+" sheep couldn't move in")
 		# TODO check game over (over capacity)
+		game_over()
 
 func pre_round():
 	self.card_hand.draw_card(Card.CardType.CARD_TYPE_NORMAL, 1)

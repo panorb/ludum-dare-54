@@ -9,12 +9,14 @@ extends Node2D
 signal primary_interaction_just_pressed_sig
 
 const MOUSE_SCROLL_SPEED: int = 10
+var _windscrolling := false
+var _duration := 0.0
 
 func _process(delta: float) -> void:
 	if _letter.visible:
 		return
 
-	var movement = 0;
+	var movement: int = 0;
 
 	if Input.is_action_pressed("camera_up"):
 		movement -= 1
@@ -27,6 +29,12 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_released("camera_wheel_down"):
 		movement += MOUSE_SCROLL_SPEED
+
+	_duration += delta
+	if (movement == 0 && _windscrolling || movement != 0 && !_windscrolling) && _duration > 1.:
+		_windscrolling = !_windscrolling
+		_duration = 0.0
+		$WindscrollSound.play()
 
 	camera.position.y += movement * camera_sensitivity * delta * 100
 	camera.position.y = min(0, camera.position.y)
