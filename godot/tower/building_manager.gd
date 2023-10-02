@@ -6,7 +6,6 @@ const BUILDING_LAYER : int = 1
 const MAP_SIZE : Vector2i = Vector2i(26, 10000)
 const FOUNDATION_WIDTH : int = 12
 
-#@onready var tilemap : TileMap = get_node("./MainBuilding")
 var map : TBuilding
 var height : int
 var preview_building : TBuilding = null
@@ -16,54 +15,31 @@ var blocker : TBuilding = null
 
 signal building_placed(position:Vector2i)
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	self.blocker = TBuilding.new(Vector2i(1, 1))
 	self.blocker.set_non_empty(Vector2i(0, 0))
 	self.blocker.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 3))
 	self.map = TBuilding.new(Vector2i(MAP_SIZE.x, MAP_SIZE.y+1), get_node("TowerMap"), Vector2i(MAP_SIZE.x/2, MAP_SIZE.y-1))
 	self.map.graphical_tiles.set_cell(1, Vector2i(1, 1), 1)
-#	print(self.preview_map)
+	
 	self.preview_map.set_cell(0, Vector2i(1, 1), 0, Vector2i(1, 0))
 	self.init_foundation(FOUNDATION_WIDTH)
 	self.height = 1
 	var b = Building.new()
-#	b.generate_building()
-#	print("here")
-#	print(b)
-#	var tb = TBuilding.from_building(b)
-#	print("Placing building of size"+str(tb.size)+" at "+str(Vector2i(13-(tb.size.x/2), MAP_SIZE.y-(tb.size.y+1))))
-#	var res = self.place_building(Vector2i(13-(tb.size.x/2), MAP_SIZE.y-(tb.size.y+1)), tb)
-#	print(get_possible_placement(tb, true))
+	
 	var failed_count:int = 0
 	for i in range(0):
 		b = Building.new()
 		b.generate_building()
 		var tb = TBuilding.from_building(b)
-#		while tb.support_left.y < tb.size.y-1 or tb.support_right.y < tb.size.y-1:
-#			b.generate_building()
-#			tb = TBuilding.from_building(b)
+		
 		var positions = get_possible_placement(tb, true)
 		if not positions:
-#			print("failed")
 			failed_count += 1
 			continue
 		self.place_building(positions[randi() % positions.size()], tb)
-#	print("Total failed: "+str(failed_count))
-	
-#	var b = TBuilding.new(Vector2i(3, 5))
-#	b.graphical_tiles.set_cell(0, Vector2i(0, 0), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(0, 1), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(1, 0), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(2, 0), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(2, 4), 0, Vector2i(0, 0))
-#	b.graphical_tiles.set_cell(0, Vector2i(0, 4), 0, Vector2i(0, 0))
-#	var res = self.place_building(Vector2i(10, MAP_SIZE.y-9), b)
-#	b.set_needs_suppot(Vector2i(2, 4))
-#	b.set_needs_suppot(Vector2i(0, 4))
-#	print(res)
-#	res = self.place_building(Vector2i(10, MAP_SIZE.y-6), b)
-#	print(res)
+
 
 func _process(delta):
 	if self.preview_building == null:
@@ -77,24 +53,17 @@ func _process(delta):
 	
 	if map_position != self.preview_pos:
 		self.preview_pos = map_position
-#		print(placement_pos)
 		var valid = self.test_placement(placement_pos, self.preview_building)
-#		print("valid: "+str(valid))
+		
 		if valid:
 			self.preview_map.modulate = Color(0.8, 0.8, 0.8)
 		else:
 			self.preview_map.modulate = Color(0.6, 0.0, 0.0)
-			#self.preview_map.clear()
-			#self.preview_building = null
-	#print(preview_center)
-	#var tilemap_local_coords = tilemap.to_local(global_coords);
-	#tilemap_starting_position = tilemap.local_to_map(tilemap_local_coords);
+
 
 func init_foundation(width: int) -> void:
 	var foundation = TBuilding.new(Vector2i(FOUNDATION_WIDTH, 1))
-	for i in range(FOUNDATION_WIDTH):
-		foundation.set_supports(Vector2i(i, 0), true)
-		#foundation.graphical_tiles.set_cell(0, Vector2i(i, 0), 0, Vector2i(0, 0))
+	
 	var offset = int(MAP_SIZE.x / 2) - int(width / 2)
 	for i in range(width):
 		foundation.set_supports(Vector2i(i, 0))
@@ -102,36 +71,30 @@ func init_foundation(width: int) -> void:
 
 func get_possible_placement(building:TBuilding, find_all:bool = false) -> Array[Vector2i]:
 	var positions : Array[Vector2i] = []
-#	print("testing building of size "+str(building.size)+" from "+str(MAP_SIZE.y - self.height - building.size.y - 10)+" to "+str(min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)))
-#	for y in range(MAP_SIZE.y - self.height - building.size.y - 10, min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)):
-#		for x in range(0, MAP_SIZE.x-building.size.x):
-#			var pos = Vector2i(x, y)
+	
 	for y in range(MAP_SIZE.y - self.height - building.size.y - 10, min(MAP_SIZE.y-1, MAP_SIZE.y - self.height + 50)):
-#		print(y)
 		for x in range(0, MAP_SIZE.x-building.size.x):
 			var pos = Vector2i(x, y)
 			if test_placement(pos, building):
-#				print(pos)
 				if not find_all:
 					return [pos]
 				positions.append(pos)
 	return positions
 
-# test if building could be placed
+# Test if building could be placed
 func test_placement(position:Vector2i, building:TBuilding) -> bool:
 	var size = building.size
 	if position.x < 0 or position.x + size.x > MAP_SIZE.x or position.y + size.y > MAP_SIZE.y-1:
-#		print("size issue")
+		# Size issue
 		return false
-#	print("testing")
+	
 	for y in range(building.size.y):
 		for x in range(building.size.x):
 			var here_in = Vector2i(x, y)
 			var map_pos = position + here_in
 			var here_tl = map_pos - self.map.offset
 			if (self.map.graphical_tiles.get_cell_source_id(0, here_tl) != -1 and building.graphical_tiles.get_cell_source_id(0, here_in) != -1):# or \
-				#(self.map.get_non_empty(map_pos) and building.get_non_empty(map_pos)):
-#				print("overlap with "+str(here_tl))
+				# Overlap
 				return false
 #			if building.get_window_property(here_in):
 #				if here_in.x == 0:
@@ -158,34 +121,29 @@ func test_placement(position:Vector2i, building:TBuilding) -> bool:
 #			return false
 	
 	if building.support_left.x > size.x or building.support_right.x < 0:
-		# building needs no support
-#		print("no support needed")
+		# Building needs no support
 		return true
 	if not self.map.get_supports(position+building.support_left+Vector2i(0, 1)) or not self.map.get_supports(position+building.support_right+Vector2i(0, 1)):
-		# not enough support
-#		print("not enough support")
+		# Not enough support
 		return false
 	return true
 
-# place building
+
 func place_building(position:Vector2i, building:TBuilding) -> bool:
 	if not test_placement(position, building):
 		return false
 	self.map.stamp(position, building)
 	self.height = max(self.height, MAP_SIZE.y - position.y)
-#	print(height)
+	
 	building_placed.emit(position)
 	return true
 
+
 func tower_spam_block(position):
-#	print("tower spam at: "+str(position+self.map.offset))
 	var pos = position+self.map.offset
 	if pos.x < 0 or pos.x > MAP_SIZE.x-1 or pos.y < 0 or pos.y > MAP_SIZE.y-1:
 		return
-#	if pos.y > 9990:
-#		print(pos)
-	#self.map.set_non_empty(pos)
-	#self.map.graphical_tiles.set_cell(1, position, 0, Vector2i(0, 0))
+	
 	for y in range(3):
 		for x in range(3):
 			self.map.stamp(pos+Vector2i(x-1,y-1), self.blocker)
@@ -211,7 +169,7 @@ func select_preview_building(building):
 func place_preview_building():
 	if preview_building == null:
 		return
-#	if Input.is_action_just_released("primary_action"):
+	
 	var mouse_position = self.get_local_mouse_position()
 	var building_offset = Vector2i(self.preview_building.size.x/2, self.preview_building.size.y/2)
 	var map_position = self.map.graphical_tiles.local_to_map(mouse_position)-building_offset
