@@ -5,6 +5,7 @@ extends Node2D
 @onready var capacity_gui = get_node("%CapacityUI")
 
 var round_capacity_demand:int
+var selected_card_type: Card.CardType = Card.CardType.CARD_TYPE_NORMAL
 
 func _ready():
 	self.round_capacity_demand = 0
@@ -20,6 +21,7 @@ func _process(delta):
 
 func _on_card_hand_card_selected(card):
 	self.tower.select_preview_building(card._building)
+	self.selected_card_type = card.card_type
 
 func _on_tower_building_placed(position, capacity):
 	post_round()
@@ -35,7 +37,8 @@ func pre_round():
 	var left_over = self.tower.add_sheep(self.round_capacity_demand)
 	if left_over:
 		print("not enough capacity, "+str(left_over)+" sheep couldn't move in")
-	self.card_hand.draw_card(Card.CardType.CARD_TYPE_NORMAL, 1)
+	self.card_hand.draw_card(self.selected_card_type, 1)
+	self.selected_card_type = Card.CardType.CARD_TYPE_NORMAL
 	
 	var capacities = []
 	for i in range(5):
