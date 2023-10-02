@@ -12,7 +12,7 @@ signal capacity_update(capacity_used: int, capacity_total: int)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.capacity_total = 12
+	self.capacity_total = 0
 	self.capacity_used = 0
 
 
@@ -58,3 +58,8 @@ func add_sheep(amount:int) -> int:
 func possible_to_place(building:TBuilding) -> bool:
 	var positions = self.building_manager.get_possible_placement(building)
 	return bool(0 < len(positions))
+
+
+func _on_building_manager_base_capacity(capacity):
+	capacity_total += capacity*2
+	capacity_update.emit(capacity_used, capacity_total)
