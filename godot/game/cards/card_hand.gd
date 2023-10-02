@@ -145,8 +145,7 @@ func redraw():
 	draw_card(Card.CardType.CARD_TYPE_NORMAL, 5)
 	
 func play_select_sound():
-	if !select_sound.playing:
-		var playing_select_sound = select_sounds[playing_select_sound_index % select_sounds.size()]
-		select_sound.stream = playing_select_sound
-		select_sound.play()
-		playing_select_sound_index =+ 1
+	var playing_select_sound = select_sounds[playing_select_sound_index % select_sounds.size()]
+	select_sound.stream = playing_select_sound
+	select_sound.play()
+	playing_select_sound_index =+ 1
