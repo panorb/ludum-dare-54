@@ -116,9 +116,6 @@ func pre_round():
 		elif current_state == GameState.WARNED_THRICE:
 			change_game_state(GameState.GAME_OVER)
 	
-	if current_state >= GameState.GAME_WON and self.tower.capacity_total >= 400:
-		change_game_state(GameState.GAME_WON)
-	
 	self.card_hand.draw_card(self.selected_card_type, 1)
 	self.selected_card_type = Card.CardType.CARD_TYPE_NORMAL
 	
@@ -136,6 +133,9 @@ func pre_round():
 			self.round_capacity_demand = distance_to_goal
 		else:
 			self.round_capacity_demand = 0
+			if current_state < GameState.GAME_WON:
+				current_state = GameState.GAME_WON
+				change_game_state(GameState.GAME_WON)
 		
 	self.capacity_gui.demand = self.round_capacity_demand
 	
@@ -148,8 +148,6 @@ func pre_round():
 		if possible_to_place:
 			found = true
 			break
-	if not found and current_state in [GameState.GAME_WON, GameState.GAME_WON_END]:
-		letter.show_letter("good_ending")
 
 func _on_card_hand_card_deselected():
 	self.tower.deselect_preview_building()

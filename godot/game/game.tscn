@@ -158,6 +158,3 @@ z_as_relative = false
 [connection signal="card_deselected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_deselected"]
 [connection signal="card_selected" from="CanvasLayer/CardHand" to="." method="_on_card_hand_card_selected"]
 [connection signal="wizard_clicked" from="CanvasLayer/CardHand" to="." method="_on_card_hand_wizard_clicked"]
-[connection signal="wizard_clicked" from="CanvasLayer/CardHand/CardWizard" to="CanvasLayer/CardHand" method="_on_card_wizard_wizard_clicked"]
-
-[editable path="CanvasLayer/CardHand"]
